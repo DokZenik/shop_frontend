@@ -25,11 +25,11 @@ const ShopSection = () => {
                                         </Link>
 
                                         <div className="shoptext">
-                                            <p>
-                                                <Link to={`/products/${product._id}`}>
+                                            <Link to={`/products/${product._id}`}>
+                                                <p>
                                                     {product.name}
-                                                </Link>
-                                            </p>
+                                                </p>
+                                            </Link>
                                         </div>
 
                                         <div className="item__rating">

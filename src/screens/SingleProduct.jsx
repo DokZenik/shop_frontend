@@ -4,13 +4,25 @@ import Rating from '../components/homeComponents/Rating';
 import { Link } from 'react-router-dom';
 import Message from './../components/LoadingError/Error';
 import axios from 'axios';
+import {addItem} from '../data/Cart.js';
 
 const SingleProduct = ({ match }) => {
   const [product, setProduct] = useState({});
 
   useEffect(() => {
     const fetchproduct = async () => {
-      const { data } = await axios.get(`/api/products/${match.params.id}`);
+      // const { data } = await axios.get(`/api/products/${match.params.id}`);
+      let data = {
+        _id: '1',
+        name: 'Velcro Ballerinas For Girls  (Pink)',
+        image: '/images/6.png',
+        description:
+            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
+        price: 89,
+        countInStock: 3,
+        rating: 4,
+        numReviews: 4,
+      }
       setProduct(data);
     };
     fetchproduct();
@@ -65,9 +77,14 @@ const SingleProduct = ({ match }) => {
                         ))}
                       </select>
                     </div>
-                    <button className="round-black-btn">Add To Cart</button>
+                    <button className="round-black-btn" onClick={() => addItem(product._id)}>Add To Cart</button>
                   </>
-                ) : null}
+                ) :
+                <div className="unavailable__item">
+                  <p className="text">
+                    No one in stock
+                  </p>
+                </div>}
               </div>
             </div>
           </div>

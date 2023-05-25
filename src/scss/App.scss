@@ -41,6 +41,7 @@ textarea:focus {
   column-gap: 30px;
   row-gap: 50px;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  margin-bottom: 50px;
 }
 .row,
 .col-6,
@@ -561,7 +562,9 @@ textarea:focus {
   height: 50px;
   object-fit: contain;
 }
-
+.unavailable__item p{
+  text-align: center;
+}
 /* Payment */
 .payment-container {
   margin-top: 20px;
@@ -628,33 +631,86 @@ textarea:focus {
   padding: 10px 30px;
   color: black;
 }
+@media (max-width: 425px) {
+  .pagination .page-link {
+    padding: 5px 15px;
+    color: black;
+  }
+}
 .page-item.active .page-link {
   background-color: black;
   border: 1px solid black;
 }
 
-.cart__item {
+//.cart__item {
+//  display: flex;
+//  justify-content: space-between;
+//  align-items: center;
+//  width: 60%;
+//
+//  &-count {
+//    display: flex;
+//    justify-content: space-between;
+//    width: 13%;
+//  }
+//
+//  &-price {
+//    display: flex;
+//  }
+//
+//  .cart-image img {
+//    width: 100%;
+//    height: 150px;
+//    object-fit: contain;
+//  }
+//  &-number {
+//    margin-left: 20px;
+//  }
+//}
+.cart__items{
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  row-gap: 10px;
+}
+.cart__item{
+  display: flex;
+  justify-content: space-around;
   align-items: center;
-  width: 60%;
+  padding: 10px;
+  border: 2px solid #f3f3f3;
+  flex: 1 1 auto;
+}
+.cart__item-image{
+  position: relative;
+  padding: 0 15% 15% 0;
+}
+.cart__item-image img{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  object-fit: cover;
+}
+.counter__wrapper{
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.5rem;
+}
+.counter__wrapper button{
+  border: none;
+  background: transparent;
+  color: #ff3232;
+  font-weight: 700;
+}
 
-  &-count {
-    display: flex;
-    justify-content: space-between;
-    width: 13%;
+@media (max-width: 356px) {
+  .cart__item{
+    flex-direction: column;
   }
-
-  &-price {
-    display: flex;
-  }
-
-  .cart-image img {
-    width: 100%;
-    height: 150px;
-    object-fit: contain;
-  }
-  &-number {
-    margin-left: 20px;
+  .cart__item-image{
+    padding: 0 90% 90% 0;
   }
 }
