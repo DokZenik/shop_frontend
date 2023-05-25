@@ -33,7 +33,9 @@ select:focus,
 textarea:focus {
   outline: 0px;
 }
-
+.wrapper{
+  max-width: 1200px;
+}
 .shopcontainer{
   display: grid;
   column-gap: 30px;
@@ -52,12 +54,13 @@ textarea:focus {
 }
 .Announcement .col-md-6 p {
   color: white;
-  margin-right: 6rem;
   font-size: 15px;
+}
+.icons{
+  gap: 2rem;
 }
 .Announcement .col-12 a {
   color: white;
-  margin-right: 2rem;
   font-size: 15px;
 }
 /* Header */
