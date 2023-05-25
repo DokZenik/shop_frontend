@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Header from './../components/Header';
 import {Link} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
@@ -12,8 +12,7 @@ const CartScreen = () => {
 
     const [totalCount, setTotalCount] = useState(cart.length)
     const [totalPrice, setTotalPrice] = useState([])
-    const [sum, setSum] = useState(0);
-
+    let [sum, setSum] = useState(0);
     const dispatch = useDispatch();
     window.scrollTo(0, 0);
 
@@ -76,7 +75,8 @@ const CartScreen = () => {
                         let buff = 0;
                         totalPrice.forEach(elem => buff += elem.value)
                         console.log(buff)
-
+                        if(sum === 0)
+                            sum = sum + buff
                         // setSum(buff)
 
                         return (
@@ -99,6 +99,7 @@ const CartScreen = () => {
                                 </div>
 
                                 <div className="delete" onClick={() => {
+                                    sum = sum - totalPrice.find(elem => elem.key === idNumberItem.key)
                                     let buff = cart.filter(elem => elem.key !== idNumberItem.key)
                                     setCart(buff)
                                     localStorage.setItem("storage", JSON.stringify(buff))
