@@ -5,24 +5,16 @@ import { Link } from 'react-router-dom';
 import Message from './../components/LoadingError/Error';
 import axios from 'axios';
 import {addItem} from '../data/Cart.js';
+import products from "../data/Products";
 
 const SingleProduct = ({ match }) => {
   const [product, setProduct] = useState({});
-
+  let count = 1
   useEffect(() => {
     const fetchproduct = async () => {
       // const { data } = await axios.get(`/api/products/${match.params.id}`);
-      let data = {
-        _id: '1',
-        name: 'Velcro Ballerinas For Girls  (Pink)',
-        image: '/images/6.png',
-        description:
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
-        price: 89,
-        countInStock: 3,
-        rating: 4,
-        numReviews: 4,
-      }
+
+      let data = products.find(elem => elem._id === match.params.id)
       setProduct(data);
     };
     fetchproduct();
@@ -67,7 +59,7 @@ const SingleProduct = ({ match }) => {
                   <>
                     <div className="flex-box d-flex justify-content-between align-items-center">
                       <h6>Quantity</h6>
-                      <select>
+                      <select onChange={(e) => count = e.target.value}>
                         {[...Array(product.countInStock).keys()].map((x) => (
                           <option
                             key={x + 1}
@@ -77,7 +69,7 @@ const SingleProduct = ({ match }) => {
                         ))}
                       </select>
                     </div>
-                    <button className="round-black-btn" onClick={() => addItem(product._id)}>Add To Cart</button>
+                    <button className="round-black-btn" onClick={() => addItem(product._id, count)}>Add To Cart</button>
                   </>
                 ) :
                 <div className="unavailable__item">

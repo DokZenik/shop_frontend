@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import Header from './../components/Header';
 import {Link} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
@@ -12,58 +12,94 @@ const CartScreen = () => {
 
     const [totalCount, setTotalCount] = useState(cart.length)
     const [totalPrice, setTotalPrice] = useState([])
-    let [sum, setSum] = useState(0);
+    const [sum, setSum] = useState(0);
+
+    const findSum = (arr) => {
+        let s = 0
+        arr.forEach(elem => s += elem.fullPrice)
+        console.log("s: " + s)
+        return s
+    }
+    useMemo(() => {
+        const foo = () => {
+            let buff = []
+
+            cart.forEach(idNumberItem => {
+                let prod = products.find(elem => elem._id === idNumberItem.key)
+                buff.push({key: idNumberItem.key, fullPrice: idNumberItem.value * prod.price})
+            })
+            console.log(buff)
+            setTotalPrice(buff)
+
+
+            setSum(findSum(buff))
+        }
+        foo()
+    }, [])
+
+    const incrementItemPrice = (itemId) => {
+        let buff = totalPrice
+        let prod = products.find(elem => elem._id === itemId)
+        buff = buff.map(elem => {
+            if(elem.key === itemId) {
+                console.log({key: elem.key, fullPrice: elem.fullPrice + prod.price})
+                return {key: elem.key, fullPrice: elem.fullPrice + prod.price}
+            }
+            else
+                return elem
+        })
+
+        console.log(buff)
+
+        setTotalPrice(buff)
+        setSum(findSum(buff))
+
+    }
+
+    const decrementItemPrice = (itemId) => {
+        let buff = totalPrice
+        let prod = products.find(elem => elem._id === itemId)
+        buff = buff.map(elem => {
+            if(elem.key === itemId) {
+                console.log({key: elem.key, fullPrice: elem.fullPrice - prod.price})
+                return {key: elem.key, fullPrice: elem.fullPrice - prod.price}
+            }
+            else
+                return elem
+        })
+
+        console.log(buff)
+
+        setTotalPrice(buff)
+        setSum(findSum(buff))
+
+    }
+
+    const deleteItem = (itemId) => {
+        let buffPrice = totalPrice
+        buffPrice = buffPrice.filter(elem => elem.key !== itemId)
+
+        let buffItems = cart
+        buffItems = buffItems.filter(elem => elem.key !== itemId)
+
+        console.log(buffPrice)
+        console.log(buffItems)
+
+        setTotalPrice(buffPrice)
+        setSum(findSum(buffPrice))
+        setCart(buffItems)
+        setTotalCount(buffItems.length)
+        localStorage.setItem("storage", JSON.stringify(buffItems))
+    }
 
     window.scrollTo(0, 0);
 
-    const formStartTotal = () => {
-        let buff = 0
-        if(buff === 0) {
-            totalPrice.forEach(elem => buff += elem.value)
-        }
-        // console.log(buff)
-        if(sum === 0)
-            sum = sum + buff
-
-    }
-    const incrementPrice = (id) => {
-        let prod = products.find(elem => elem._id === id)
-
-        setTotalPrice(totalPrice.map(elem => {
-            if (elem.key === id) {
-                setSum(sum + prod.price)
-                return {
-                    key: id,
-                    value: elem.value = elem.value + prod.price
-                }
-            }else
-                return {
-                    key: id,
-                    value: elem.value
-                }
-        }))
-    }
-
-    const decrementPrice = (id) => {
-        let prod = products.find(elem => elem._id === id)
-
-        setTotalPrice(totalPrice.map(elem => {
-            if (elem.key === id) {
-                setSum(sum - prod.price)
-                return {
-                    key: id,
-                    value: elem.value = elem.value - prod.price
-                }
-            }else
-                return {
-                    key: id,
-                    value: elem.value
-                }
-        }))
-    }
 
     return (
         <>
+            {/*{console.log("start")}*/}
+            {/*{console.log(totalPrice)}*/}
+            {/*{console.log(sum)}*/}
             <Header/>
             <div className="container">
                 <div className=" alert alert-info text-center mt-3">
@@ -80,12 +116,8 @@ const CartScreen = () => {
                     {cart.map(idNumberItem => {
                         let prod = products.find(elem => elem._id === idNumberItem.key)
 
-                        if(totalPrice.find(elem => elem.key === idNumberItem.key) === undefined)
-                            totalPrice.push({key: idNumberItem.key, value: prod.price * idNumberItem.value})
-
-                        formStartTotal()
                         return (
-                            <div className="cart__item">
+                            <div className="cart__item" key={idNumberItem.key}>
                                 <div className="cart__item-image">
                                     <img src={prod.image} alt=""/>
                                 </div>
@@ -96,39 +128,27 @@ const CartScreen = () => {
                                 <CartItemCounter
                                     counter={idNumberItem.value}
                                     elemId={idNumberItem.key}
-                                    increment={incrementPrice}
-                                    decrement={decrementPrice}/>
+                                    increment={incrementItemPrice}
+                                    decrement={decrementItemPrice}
+                                />
 
-                                <div className="total__price">
-                                    {totalPrice.find(elem => elem.key === idNumberItem.key).value} $
-                                </div>
 
-                                <div className="delete" onClick={() => {
-                                    console.log(totalPrice.find(elem => elem.key === idNumberItem.key))
-
-                                    setSum(sum - totalPrice.find(elem => elem.key === idNumberItem.key).value)
-                                    console.log(sum)
-                                    let buff = cart.filter(elem => elem.key !== idNumberItem.key)
-                                    setCart(buff)
-                                    localStorage.setItem("storage", JSON.stringify(buff))
-                                    setTotalCount(totalCount - 1)
+                                {
+                                    totalPrice.find(elem => elem.key === idNumberItem.key) ?
+                                    <div className="total__price">
+                                        {totalPrice.find(elem => elem.key === idNumberItem.key).value} $
+                                    </div> : "ERROR"
                                 }
-                                }>
-                                    {/*<svg fill="#000000" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">*/}
-                                    {/*    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>*/}
-                                    {/*    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>*/}
-                                    {/*    <g id="SVGRepo_iconCarrier">*/}
-                                    {/*        <path*/}
-                                    {/*            d="M7.004 23.087l7.08-7.081-7.07-7.071L8.929 7.02l7.067 7.069L23.084 7l1.912 1.913-7.089 7.093 7.075 7.077-1.912 1.913-7.074-7.073L8.917 25z"></path>*/}
-                                    {/*    </g>*/}
-                                    {/*</svg>*/}
+                                {/*{totalPrice.find(elem => elem.key === idNumberItem.key).value}*/}
+
+
+                                <div className="delete" onClick={() => deleteItem(idNumberItem.key)}>
                                     del
                                 </div>
                             </div>
                         )
                     })}
                 </div>
-
 
                 <div className="total">
                     <span className="sub">total:</span>
@@ -152,6 +172,7 @@ const CartScreen = () => {
                     </div>
                 </div>
             </div>
+            {/*{console.log("end")}*/}
         </>
     );
 };

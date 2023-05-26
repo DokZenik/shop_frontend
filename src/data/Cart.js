@@ -3,11 +3,11 @@ export let cart = [{}]
 if(!JSON.parse(localStorage.getItem("storage")))
     localStorage.setItem("storage", JSON.stringify([]))
 
-export const addItem = (id) => {
+export const addItem = (id, count) => {
     cart = JSON.parse(localStorage.getItem("storage"))
     let flag = false
-
-    cart.map(elem => {
+    console.log(count)
+    cart.forEach(elem => {
         if (elem.key === id) {
             elem.value = elem.value + 1
             flag = true
@@ -16,7 +16,7 @@ export const addItem = (id) => {
     if(!flag)
         cart.push({
             key: id,
-            value: 1
+            value: count
         });
 
     localStorage.setItem("storage", JSON.stringify(cart))
@@ -25,7 +25,7 @@ export const addItem = (id) => {
 export const removeItem = (id) => {
     cart = JSON.parse(localStorage.getItem("storage"))
 
-    cart.map(elem => {
+    cart.forEach(elem => {
         if (elem.key === id) {
             elem.value = elem.value - 1
         }

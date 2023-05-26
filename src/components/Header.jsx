@@ -1,9 +1,8 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {useSelector} from 'react-redux';
 
 const Header = () => {
-    const items = useSelector((state) => state.cart.items);
+
     return (
             <div>
                 {/* Top Header */}

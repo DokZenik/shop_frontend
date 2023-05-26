@@ -672,6 +672,11 @@ textarea:focus {
   flex-direction: column;
   row-gap: 10px;
 }
+@media (max-width: 360px) {
+  .cart__items {
+    gap: 0;
+  }
+}
 .cart__item{
   display: flex;
   justify-content: space-around;
@@ -679,7 +684,9 @@ textarea:focus {
   padding: 10px;
   border: 2px solid #f3f3f3;
   flex: 1 1 auto;
+  gap: 2rem;
 }
+
 .cart__item-image{
   position: relative;
   padding: 0 15% 15% 0;
@@ -691,6 +698,23 @@ textarea:focus {
   top: 0;
   left: 0;
   object-fit: cover;
+}
+.cart__item-name{
+  flex: 1 1 auto;
+}
+@media (max-width: 425px) {
+  .cart__item{
+    flex-direction: column;
+    gap: 0;
+  }
+  .cart__item-image{
+    padding: 0 35% 35% 0;
+  }
+}
+@media (max-width: 360px) {
+  .cart__item {
+    gap: 0;
+  }
 }
 .counter__wrapper{
   display: flex;

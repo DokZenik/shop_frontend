@@ -15,8 +15,8 @@ const CartItem = () => {
           <h4>Nike Girls Shoe</h4>
         </Link>
       </div>
-      <div class="cart__item-count">
-        <div class="cart__item-count-minus">
+      <div className="cart__item-count">
+        <div className="cart__item-count-minus">
           <svg
             width="10"
             height="10"
