@@ -13,10 +13,19 @@ const CartScreen = () => {
     const [totalCount, setTotalCount] = useState(cart.length)
     const [totalPrice, setTotalPrice] = useState([])
     let [sum, setSum] = useState(0);
-    const dispatch = useDispatch();
+
     window.scrollTo(0, 0);
 
+    const formStartTotal = () => {
+        let buff = 0
+        if(buff === 0) {
+            totalPrice.forEach(elem => buff += elem.value)
+        }
+        // console.log(buff)
+        if(sum === 0)
+            sum = sum + buff
 
+    }
     const incrementPrice = (id) => {
         let prod = products.find(elem => elem._id === id)
 
@@ -70,15 +79,11 @@ const CartScreen = () => {
                 <div className="cart__items">
                     {cart.map(idNumberItem => {
                         let prod = products.find(elem => elem._id === idNumberItem.key)
-                        totalPrice.push({key: idNumberItem.key, value: prod.price * idNumberItem.value})
 
-                        let buff = 0;
-                        totalPrice.forEach(elem => buff += elem.value)
-                        console.log(buff)
-                        if(sum === 0)
-                            sum = sum + buff
-                        // setSum(buff)
+                        if(totalPrice.find(elem => elem.key === idNumberItem.key) === undefined)
+                            totalPrice.push({key: idNumberItem.key, value: prod.price * idNumberItem.value})
 
+                        formStartTotal()
                         return (
                             <div className="cart__item">
                                 <div className="cart__item-image">
@@ -99,7 +104,10 @@ const CartScreen = () => {
                                 </div>
 
                                 <div className="delete" onClick={() => {
-                                    sum = sum - totalPrice.find(elem => elem.key === idNumberItem.key)
+                                    console.log(totalPrice.find(elem => elem.key === idNumberItem.key))
+
+                                    setSum(sum - totalPrice.find(elem => elem.key === idNumberItem.key).value)
+                                    console.log(sum)
                                     let buff = cart.filter(elem => elem.key !== idNumberItem.key)
                                     setCart(buff)
                                     localStorage.setItem("storage", JSON.stringify(buff))
