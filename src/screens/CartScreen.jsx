@@ -125,6 +125,13 @@ const CartScreen = () => {
                                     <p>{prod.name}</p>
                                 </div>
 
+                                {
+                                    totalPrice.find(elem => elem.key === idNumberItem.key) ?
+                                        <div className="total__price">
+                                            {totalPrice.find(elem => elem.key === idNumberItem.key).fullPrice} $
+                                        </div> : "ERROR"
+                                }
+
                                 <CartItemCounter
                                     counter={idNumberItem.value}
                                     elemId={idNumberItem.key}
@@ -132,14 +139,6 @@ const CartScreen = () => {
                                     decrement={decrementItemPrice}
                                 />
 
-
-                                {
-                                    totalPrice.find(elem => elem.key === idNumberItem.key) ?
-                                    <div className="total__price">
-                                        {totalPrice.find(elem => elem.key === idNumberItem.key).value} $
-                                    </div> : "ERROR"
-                                }
-                                {/*{totalPrice.find(elem => elem.key === idNumberItem.key).value}*/}
 
 
                                 <div className="delete" onClick={() => deleteItem(idNumberItem.key)}>
