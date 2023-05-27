@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import Message from './../components/LoadingError/Error';
 import axios from 'axios';
 import {addItem} from '../data/Cart.js';
-import products from "../data/Products";
+import {getAllItems} from "../data/Products";
 
 const SingleProduct = ({ match }) => {
   const [product, setProduct] = useState({});
@@ -14,7 +14,7 @@ const SingleProduct = ({ match }) => {
     const fetchproduct = async () => {
       // const { data } = await axios.get(`/api/products/${match.params.id}`);
 
-      let data = products.find(elem => elem._id === match.params.id)
+      let data = getAllItems().find(elem => elem._id === match.params.id)
       setProduct(data);
     };
     fetchproduct();

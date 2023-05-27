@@ -364,6 +364,7 @@ textarea:focus {
   font-weight: bold;
   font-size: 15px;
   transition: all 0.5s ease-in-out 0s;
+  position: relative;
 }
 .round-black-btn:hover,
 .round-black-btn:focus {
@@ -701,6 +702,14 @@ textarea:focus {
 }
 .cart__item-name{
   flex: 1 1 auto;
+}
+.delete{
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.2rem;
+}
+.delete:hover{
+  cursor: pointer;
 }
 @media (max-width: 425px) {
   .cart__item{

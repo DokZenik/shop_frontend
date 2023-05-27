@@ -3,7 +3,7 @@ import Header from './../components/Header';
 import {Link} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 
-import products from "../data/Products";
+import {getAllItems} from "../data/Products";
 import CartItemCounter from "../components/utils/CartItemCounter";
 import {addItem, removeItem} from "../data/Cart";
 
@@ -25,10 +25,10 @@ const CartScreen = () => {
             let buff = []
 
             cart.forEach(idNumberItem => {
-                let prod = products.find(elem => elem._id === idNumberItem.key)
+                let prod = getAllItems().find(elem => elem._id === idNumberItem.key)
                 buff.push({key: idNumberItem.key, fullPrice: idNumberItem.value * prod.price})
             })
-            console.log(buff)
+            // console.log(buff)
             setTotalPrice(buff)
 
 
@@ -39,7 +39,7 @@ const CartScreen = () => {
 
     const incrementItemPrice = (itemId) => {
         let buff = totalPrice
-        let prod = products.find(elem => elem._id === itemId)
+        let prod = getAllItems().find(elem => elem._id === itemId)
         buff = buff.map(elem => {
             if(elem.key === itemId) {
                 console.log({key: elem.key, fullPrice: elem.fullPrice + prod.price})
@@ -58,7 +58,7 @@ const CartScreen = () => {
 
     const decrementItemPrice = (itemId) => {
         let buff = totalPrice
-        let prod = products.find(elem => elem._id === itemId)
+        let prod = getAllItems().find(elem => elem._id === itemId)
         buff = buff.map(elem => {
             if(elem.key === itemId) {
                 console.log({key: elem.key, fullPrice: elem.fullPrice - prod.price})
@@ -114,7 +114,7 @@ const CartScreen = () => {
 
                 <div className="cart__items">
                     {cart.map(idNumberItem => {
-                        let prod = products.find(elem => elem._id === idNumberItem.key)
+                        let prod = getAllItems().find(elem => elem._id === idNumberItem.key)
 
                         return (
                             <div className="cart__item" key={idNumberItem.key}>

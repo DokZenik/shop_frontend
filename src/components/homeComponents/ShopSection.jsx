@@ -1,10 +1,34 @@
-import React from "react";
+import React, {useMemo, useState} from "react";
 import {Link} from "react-router-dom";
 import Rating from "./Rating";
 import Pagination from "./pagination";
-import products from "../../data/Products";
+import {getPagesCount, getPageData} from "../../data/Products";
 
 const ShopSection = () => {
+
+    const [currentPageNumber, setCurrentPageNumber] = useState(0);
+    const [pagesCount, setPagesCount] = useState(1)
+    const [currentPageItems, setCurrentPageItems] = useState([])
+    const [maxItemsPerPage, setMaxItemsPerPage] = useState(8)
+
+    useMemo(() =>{
+
+        setPagesCount(getPagesCount(maxItemsPerPage))
+
+        setCurrentPageItems(getPageData(currentPageNumber, maxItemsPerPage))
+
+    }, [])
+
+    const changePage = (pageNumber) => {
+        setCurrentPageNumber(pageNumber)
+        updateDataOnPage(pageNumber)
+    }
+    const updateDataOnPage = (pageNumber) => {
+        let buff = getPageData(pageNumber, maxItemsPerPage)
+        console.log(buff)
+        setCurrentPageItems(buff)
+    }
+
     return (
         <>
             <div className="container">
@@ -12,7 +36,7 @@ const ShopSection = () => {
                     <div className="row">
                         <div className="col-lg-12 col-md-12 article">
                             <div className="shopcontainer">
-                                {products.map((product) => (
+                                {currentPageItems.map((product) => (
                                     <div
                                         className="shop"
                                         key={product._id}
@@ -46,7 +70,7 @@ const ShopSection = () => {
                                     </div>
                                 ))}
                             </div>
-                            <Pagination/>
+                            <Pagination maxPagesCount={pagesCount} changePage={changePage} currentPage={currentPageNumber}/>
                         </div>
                     </div>
                 </div>
