@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import Rating from "./Rating";
 import Pagination from "./pagination";
 import {getPagesCount, getPageData} from "../../data/Products";
+import SavePage from "../utils/SavePage";
 
 const ShopSection = () => {
 
@@ -11,7 +12,7 @@ const ShopSection = () => {
     const [currentPageItems, setCurrentPageItems] = useState([])
     const [maxItemsPerPage, setMaxItemsPerPage] = useState(8)
 
-    useMemo(() =>{
+    useMemo(() => {
 
         setPagesCount(getPagesCount(maxItemsPerPage))
 
@@ -20,6 +21,7 @@ const ShopSection = () => {
     }, [])
 
     const changePage = (pageNumber) => {
+        console.log(pageNumber)
         setCurrentPageNumber(pageNumber)
         updateDataOnPage(pageNumber)
     }
@@ -70,7 +72,8 @@ const ShopSection = () => {
                                     </div>
                                 ))}
                             </div>
-                            <Pagination maxPagesCount={pagesCount} changePage={changePage} currentPage={currentPageNumber}/>
+                            <Pagination maxPagesCount={pagesCount} changePage={changePage}
+                                        currentPage={currentPageNumber}/>
                         </div>
                     </div>
                 </div>
