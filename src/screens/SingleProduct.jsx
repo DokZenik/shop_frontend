@@ -10,15 +10,19 @@ import {getAllItems} from "../data/Products";
 const SingleProduct = ({ match }) => {
   const [product, setProduct] = useState({});
   let count = 1
-  useEffect(() => {
-    const fetchproduct = async () => {
-      // const { data } = await axios.get(`/api/products/${match.params.id}`);
 
-      let data = getAllItems().find(elem => elem._id === match.params.id)
+  useEffect(() => {
+
+    const fetchProduct = async () => {
+      const { data } = await axios.get(`/api/products/${match.params.id}`);
+      // let data = getAllItems().find(elem => elem._id === match.params.id)
+      console.log(data)
       setProduct(data);
     };
-    fetchproduct();
+    fetchProduct();
+
   }, [match]);
+
   return (
     <>
       <Header />
@@ -69,7 +73,10 @@ const SingleProduct = ({ match }) => {
                         ))}
                       </select>
                     </div>
-                    <button className="round-black-btn" onClick={() => addItem(product._id, count)}>Add To Cart</button>
+                    <button className="round-black-btn" onClick={() => {
+                      addItem(product._id, parseInt(count))
+                      // window.location.reload(false);
+                    }}>Add To Cart</button>
                   </>
                 ) :
                 <div className="unavailable__item">

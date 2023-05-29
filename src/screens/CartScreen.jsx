@@ -25,13 +25,12 @@ const CartScreen = () => {
             let buff = []
 
             cart.forEach(idNumberItem => {
+                console.log(idNumberItem.key)
                 let prod = getAllItems().find(elem => elem._id === idNumberItem.key)
                 buff.push({key: idNumberItem.key, fullPrice: idNumberItem.value * prod.price})
             })
             // console.log(buff)
             setTotalPrice(buff)
-
-
             setSum(findSum(buff))
         }
         foo()
@@ -97,9 +96,6 @@ const CartScreen = () => {
 
     return (
         <>
-            {/*{console.log("start")}*/}
-            {/*{console.log(totalPrice)}*/}
-            {/*{console.log(sum)}*/}
             <Header/>
             <div className="container">
                 <div className=" alert alert-info text-center mt-3">

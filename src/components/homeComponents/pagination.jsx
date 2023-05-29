@@ -26,15 +26,13 @@ const Pagination = ({maxPagesCount, changePage, currentPage}) => {
                 }
 
 
-
-
                 {currentPage - 2 > 0
-                ? <li className={`page-item dots`}>
-                        <div className="page-link" >
+                    ? <li className={`page-item dots`}>
+                        <div className="page-link">
                             ...
                         </div>
                     </li>
-                : null
+                    : null
                 }
 
 
@@ -68,7 +66,7 @@ const Pagination = ({maxPagesCount, changePage, currentPage}) => {
 
                 {currentPage + 2 < pages.length - 1
                     ? <li className={`page-item dots`}>
-                        <div className="page-link" >
+                        <div className="page-link">
                             ...
                         </div>
                     </li>
@@ -76,23 +74,20 @@ const Pagination = ({maxPagesCount, changePage, currentPage}) => {
                 }
 
 
-
-
-
-
-
-                {currentPage === pages.length - 1
-                    ?
-                    <li className={`page-item active`} onClick={() => changePage(pages[pages.length - 1] - 1)}>
-                        <Link className="page-link" to={"#"}>
-                            {pages[pages.length - 1]}
-                        </Link>
-                    </li>
-                    : <li className={`page-item`} onClick={() => changePage(pages[pages.length - 1] - 1)}>
-                        <Link className="page-link" to={"#"}>
-                            {pages[pages.length - 1]}
-                        </Link>
-                    </li>
+                {pages.length !== 1
+                    ? currentPage === pages.length - 1
+                        ?
+                        <li className={`page-item active`} onClick={() => changePage(pages[pages.length - 1] - 1)}>
+                            <Link className="page-link" to={"#"}>
+                                {pages[pages.length - 1]}
+                            </Link>
+                        </li>
+                        : <li className={`page-item`} onClick={() => changePage(pages[pages.length - 1] - 1)}>
+                            <Link className="page-link" to={"#"}>
+                                {pages[pages.length - 1]}
+                            </Link>
+                        </li>
+                    : null
                 }
 
             </ul>
