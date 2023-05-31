@@ -1,14 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import Header from './../components/Header';
 import Rating from '../components/homeComponents/Rating';
 import { Link } from 'react-router-dom';
 import Message from './../components/LoadingError/Error';
 import axios from 'axios';
 import {addItem} from '../data/Cart.js';
-import {getAllItems} from "../data/Products";
+import {getAllItems, setProd} from "../data/Products";
 
 const SingleProduct = ({ match }) => {
   const [product, setProduct] = useState({});
+  const [products, setProducts] = useState([
+    {
+      _id: '72',
+      name: 'TEST5TESTWomen Red Heels Sandal',
+      image: '/images/1.png',
+      description:
+          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
+      price: 29,
+      countInStock: 0,
+      rating: 0,
+      numReviews: 0,
+    }
+  ]);
+
   let count = 1
 
   useEffect(() => {
@@ -22,6 +36,21 @@ const SingleProduct = ({ match }) => {
     fetchProduct();
 
   }, [match]);
+
+  const fetchData = () => {
+
+    axios.get(`http://localhost:5000/api/products/`)
+        .then(res => {
+          setProd(res.data)
+        })
+        .catch(e => console.log(e))
+
+  }
+
+  useMemo(() => {
+    fetchData()
+
+  }, [products])
 
   return (
     <>

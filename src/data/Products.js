@@ -789,6 +789,7 @@ import {useState} from "react";
 //     numReviews: 0,
 //   }
 // ];
+
 let products = []
 
 export const setProd = (arr) => {

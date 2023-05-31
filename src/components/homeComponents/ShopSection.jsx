@@ -4,8 +4,6 @@ import Rating from "./Rating";
 import Pagination from "./pagination";
 import axios from "axios";
 import {setProd} from "../../data/Products";
-// import {getPagesCount, getPageData, fetchData} from "../../data/Products";
-// import SavePage from "../utils/SavePage";
 
 const ShopSection = () => {
 

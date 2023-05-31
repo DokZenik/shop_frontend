@@ -167,7 +167,6 @@ const CartScreen = () => {
                     </div>
                 </div>
             </div>
-            {/*{console.log("end")}*/}
         </>
     );
 };
