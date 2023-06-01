@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 
-const Header = () => {
+const Header = ({setVisible}) => {
     const [cartCount, setCartCount] = useState(JSON.parse(localStorage.getItem("storage")).length);
 
     useEffect(() => {
@@ -83,7 +83,7 @@ const Header = () => {
                                         </div>
                                     </div>
                                     <Link
-                                        to="/cart"
+                                        // to="/cart"
                                         className="cart-mobile-icon">
                                         <i className="fas fa-shopping-bag"></i>
                                         {cartCount !== 0
@@ -162,14 +162,14 @@ const Header = () => {
                                     </div>
                                 </div>
 
-                                <Link to="/cart">
+                                <div onClick={() => setVisible(true)}>
                                     <i className="fas fa-shopping-bag"></i>
                                     {cartCount !== 0
                                         ? <span
                                             className="badge">{cartCount}</span>
                                         : null}
 
-                                </Link>
+                                </div>
                             </div>
                         </div>
                     </div>
