@@ -31,3 +31,8 @@
         transform: translate(0px);
     }
 }
+@media (max-width: 769px) {
+    .cart_wrapper{
+        padding: 20px;
+    }
+}

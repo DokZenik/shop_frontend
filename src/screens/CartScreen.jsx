@@ -97,7 +97,7 @@ const CartScreen = () => {
     return (
         <>
             {/*<Header/>*/}
-            <div className="container">
+            <div className="cart__container">
                 <div className=" alert alert-info text-center mt-3">
                     Total Cart Products
                     <Link
