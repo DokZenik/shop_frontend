@@ -779,10 +779,11 @@ textarea:focus {
 }
 @media (max-width: 426px) {
   .cookie__success {
-    padding: 5px 15px;
+    padding: 3px 10px;
   }
   .cookie_wrapper{
     gap: 20px;
     padding: 10px;
+    font-size: 1rem;
   }
 }
