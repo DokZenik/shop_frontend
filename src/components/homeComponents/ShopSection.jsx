@@ -5,8 +5,9 @@ import Pagination from "./pagination";
 import axios from "axios";
 import {setProd} from "../../data/Products";
 import Preloader from "../utils/Preloader/Preloader";
+import ModalCart from "../utils/Cart/ModalCart";
 
-const ShopSection = () => {
+const ShopSection = ({visible, setVisible}) => {
 
     const [currentPageNumber, setCurrentPageNumber] = useState(0);
     const [pagesCount, setPagesCount] = useState(1)
@@ -76,37 +77,41 @@ const ShopSection = () => {
                                     currentPageItems.length === 0
                                         ? <h1>No one items(((</h1>
                                         :
-                                        currentPageItems.map((product) => (
-                                            <div
-                                                className="shop"
-                                                key={product._id}
-                                            >
-                                                <Link to={`/products/${product._id}`}>
-                                                    <div className="shopBack">
-                                                        <img src={product.image} alt={product.name}/>
-                                                    </div>
-                                                </Link>
-
-                                                <div className="shoptext">
+                                        <>
+                                            <ModalCart visible={visible} setVisible={setVisible}/>
+                                            {currentPageItems.map((product) => (
+                                                <div
+                                                    className="shop"
+                                                    key={product._id}
+                                                >
                                                     <Link to={`/products/${product._id}`}>
-                                                        <p>
-                                                            {product.name}
-                                                        </p>
+                                                        <div className="shopBack">
+                                                            <img src={product.image} alt={product.name}/>
+                                                        </div>
                                                     </Link>
-                                                </div>
 
-                                                <div className="item__rating">
-                                                    <Rating
-                                                        value={product.rating}
-                                                        text={`${product.numReviews} reviews`}
-                                                    />
-                                                </div>
-                                                <div className="item_price">
-                                                    <h3>${product.price}</h3>
-                                                </div>
+                                                    <div className="shoptext">
+                                                        <Link to={`/products/${product._id}`}>
+                                                            <p>
+                                                                {product.name}
+                                                            </p>
+                                                        </Link>
+                                                    </div>
 
-                                            </div>
-                                        ))
+                                                    <div className="item__rating">
+                                                        <Rating
+                                                            value={product.rating}
+                                                            text={`${product.numReviews} reviews`}
+                                                        />
+                                                    </div>
+                                                    <div className="item_price">
+                                                        <h3>${product.price}</h3>
+                                                    </div>
+
+                                                </div>
+                                            ))
+                                            }
+                                        </>
                                 }
 
                             </div>

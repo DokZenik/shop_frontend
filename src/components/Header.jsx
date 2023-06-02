@@ -82,15 +82,14 @@ const Header = ({setVisible}) => {
                                             </Link>
                                         </div>
                                     </div>
-                                    <Link
-                                        // to="/cart"
-                                        className="cart-mobile-icon">
+                                    <div className={"cart_icon__wrapper"} onClick={() => setVisible(true)}>
                                         <i className="fas fa-shopping-bag"></i>
+                                        {console.log(cartCount)}
                                         {cartCount !== 0
-                                            ? <span
-                                                className="badge">{cartCount}</span>
+                                            ? <span className="badge">{cartCount}</span>
                                             : null}
-                                    </Link>
+
+                                    </div>
                                 </div>
                                 <div className="col-12 d-flex align-items-center">
                                     <form className="input-group">
@@ -162,11 +161,11 @@ const Header = ({setVisible}) => {
                                     </div>
                                 </div>
 
-                                <div onClick={() => setVisible(true)}>
+                                <div className={"cart_icon__wrapper"} onClick={() => setVisible(true)}>
                                     <i className="fas fa-shopping-bag"></i>
+                                    {console.log(cartCount)}
                                     {cartCount !== 0
-                                        ? <span
-                                            className="badge">{cartCount}</span>
+                                        ? <span className="badge">{cartCount}</span>
                                         : null}
 
                                 </div>
