@@ -7,7 +7,7 @@ import {setProd} from "../../data/Products";
 import Preloader from "../utils/Preloader/Preloader";
 import ModalCart from "../utils/Cart/ModalCart";
 
-const ShopSection = ({visible, setVisible}) => {
+const ShopSection = ({visible, setVisible, filteredItems, setFilteredItems}) => {
 
     const [currentPageNumber, setCurrentPageNumber] = useState(0);
     const [pagesCount, setPagesCount] = useState(1)
@@ -17,12 +17,14 @@ const ShopSection = ({visible, setVisible}) => {
     const [products, setProducts] = useState([]);
 
     const getPagesCount = (elemPerPageCount) => {
-        console.log(Math.ceil(products.length / elemPerPageCount))
-        return Math.ceil(products.length / elemPerPageCount)
+        // console.log(Math.ceil(products.length / elemPerPageCount))
+        return Math.ceil(filteredItems.length / elemPerPageCount)
     }
 
     const getPageData = (pageNumber, elemPerPageCount) => {
-        return products.slice(pageNumber * elemPerPageCount, (pageNumber + 1) * elemPerPageCount)
+        console.log("pageNumber: " + pageNumber)
+        console.log(filteredItems.slice(pageNumber * elemPerPageCount, (pageNumber + 1) * elemPerPageCount))
+        return filteredItems.slice(pageNumber * elemPerPageCount, (pageNumber + 1) * elemPerPageCount)
     }
 
     const fetchData = () => {
@@ -30,19 +32,20 @@ const ShopSection = ({visible, setVisible}) => {
         axios.get(`http://localhost:5000/api/products/`)
             .then(res => {
                 setProducts(res.data)
+                setFilteredItems(res.data)
                 setIsItemsLoading(false)
-
             })
             .catch(e => console.log(e))
 
     }
 
     useEffect(() => {
-        updateDataOnPage(currentPageNumber)
+        updateDataOnPage(0)
+        setCurrentPageNumber(0)
         setPagesCount(getPagesCount(maxItemsPerPage))
-        setCurrentPageItems(getPageData(currentPageNumber, maxItemsPerPage))
+        setCurrentPageItems(getPageData(0, maxItemsPerPage))
         setProd(products)
-    }, [products])
+    }, [products, filteredItems])
 
     useMemo(() => {
         fetchData()
