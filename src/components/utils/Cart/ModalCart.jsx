@@ -12,7 +12,7 @@ const ModalCart = ({visible, setVisible}) => {
     return (
         <div onClick={() => setVisible(false)} className={rootClasses.join(' ')}>
             <div className={classes.cart_wrapper} onClick={e => e.stopPropagation()}>
-                <CartScreen/>
+                <CartScreen setVisible={setVisible}/>
             </div>
         </div>
     );

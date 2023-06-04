@@ -7,7 +7,7 @@ import {getAllItems} from "../data/Products";
 import CartItemCounter from "../components/utils/CartItemCounter";
 import {addItem, removeItem} from "../data/Cart";
 
-const CartScreen = () => {
+const CartScreen = ({setVisible}) => {
     const [cart, setCart] = useState(JSON.parse(localStorage.getItem("storage")))
 
     const [totalCount, setTotalCount] = useState(cart.length)
@@ -151,11 +151,11 @@ const CartScreen = () => {
                 </div>
                 <hr/>
                 <div className="cart-buttons d-flex align-items-center row">
-                    <Link
-                        to="/"
+                    <div
+                        onClick={() => setVisible(false)}
                         className="col-md-6 ">
-                        <button>Continue To Shopping</button>
-                    </Link>
+                        <button className={"bg-black"}>Continue To Shopping</button>
+                    </div>
                     <div className="col-md-6 d-flex justify-content-md-end mt-3 mt-md-0">
                         <button>
                             <Link
