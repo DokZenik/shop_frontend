@@ -6,8 +6,9 @@ import axios from "axios";
 import {setProd} from "../../data/Products";
 import Preloader from "../utils/Preloader/Preloader";
 import ModalCart from "../utils/Cart/ModalCart";
+import SearchProduct from "../utils/search/SearchProduct";
 
-const ShopSection = ({visible, setVisible, filteredItems, setFilteredItems}) => {
+const ShopSection = ({visible, setVisible}) => {
 
     const [currentPageNumber, setCurrentPageNumber] = useState(0);
     const [pagesCount, setPagesCount] = useState(1)
@@ -15,9 +16,9 @@ const ShopSection = ({visible, setVisible, filteredItems, setFilteredItems}) => 
     const [maxItemsPerPage, setMaxItemsPerPage] = useState(8)
     const [isItemsLoading, setIsItemsLoading] = useState(false);
     const [products, setProducts] = useState([]);
+    const [filteredItems, setFilteredItems] = useState([]);
 
     const getPagesCount = (elemPerPageCount) => {
-        // console.log(Math.ceil(products.length / elemPerPageCount))
         return Math.ceil(filteredItems.length / elemPerPageCount)
     }
 
@@ -70,6 +71,7 @@ const ShopSection = ({visible, setVisible, filteredItems, setFilteredItems}) => 
                 <div className="section">
                     <div className="row">
                         <div className="col-lg-12 col-md-12 article">
+                            <SearchProduct products={products} setFilteredItems={setFilteredItems}/>
                             <div className="shopcontainer">
                                 {isItemsLoading
                                     ?
