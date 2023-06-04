@@ -13,7 +13,7 @@ const HomeScreen = () => {
 
     return (
         <div>
-            <Header setVisible={setModal}/>
+            <Header setVisible={setModal} cartEnable={true}/>
             <ShopSection visible={modal} setVisible={setModal}/>
             <CalltoActionSection/>
             <ContactInfo/>

@@ -14,13 +14,14 @@ import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import OrderScreen from './screens/OrderScreen';
 import NotFound from './screens/NotFound';
 import Cookies from "js-cookie";
+import PartnersComponent from "./components/utils/Partners/PartnersComponent";
 
 const App = () => {
     useEffect(() => {
         const COOKIE_NAME = "visit"
         const cookie = document.querySelector('.cookie--js')
         const cookieButton = document.querySelector('.cookie__btn')
-        if(!Cookies.get(COOKIE_NAME)){
+        if (!Cookies.get(COOKIE_NAME)) {
             setTimeout(() => {
                 cookie.classList.add('cookie__show')
             }, 1000)
@@ -44,8 +45,8 @@ const App = () => {
                     they’ve collected from your use of their services.
                 </div>
                 <div className="cookie__right">
-                  <button className="cookie__success cookie__btn">accept</button>
-                  <a href="#"  className="cookie__details">Details</a>
+                    <button className="cookie__success cookie__btn">accept</button>
+                    <a href="#" className="cookie__details">Details</a>
                 </div>
             </div>
 
@@ -93,9 +94,14 @@ const App = () => {
                         component={OrderScreen}
                     />
                     <Route
+                        path="/partners"
+                        component={PartnersComponent}
+                    />
+                    <Route
                         path="*"
                         component={NotFound}
                     />
+
                 </Switch>
             </Router>
         </>

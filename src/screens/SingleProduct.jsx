@@ -46,7 +46,7 @@ const SingleProduct = ({match}) => {
 
     return (
         <>
-            <Header setVisible={setModal}/>
+            <Header setVisible={setModal} cartEnable={true}/>
 
             {isItemsLoading
                 ?

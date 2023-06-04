@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 
-const Header = ({setVisible, filteredItems, setFilteredItems}) => {
+const Header = ({setVisible, cartEnable}) => {
     const [cartCount, setCartCount] = useState(JSON.parse(localStorage.getItem("storage")).length);
 
     useEffect(() => {
@@ -82,28 +82,17 @@ const Header = ({setVisible, filteredItems, setFilteredItems}) => {
                                             </Link>
                                         </div>
                                     </div>
-                                    <div className={"cart_icon__wrapper"} onClick={() => setVisible(true)}>
-                                        <i className="fas fa-shopping-bag"></i>
-                                        {console.log(cartCount)}
-                                        {cartCount !== 0
-                                            ? <span className="badge">{cartCount}</span>
-                                            : null}
+                                    {cartEnable
+                                    ?
+                                        <div className={"cart_icon__wrapper"} onClick={() => setVisible(true)}>
+                                            <i className="fas fa-shopping-bag"></i>
+                                            {console.log(cartCount)}
+                                            {cartCount !== 0
+                                                ? <span className="badge">{cartCount}</span>
+                                                : null}
 
-                                    </div>
-                                </div>
-                                <div className="col-12 d-flex align-items-center">
-                                    <form className="input-group">
-                                        <input
-                                            type="search"
-                                            className="form-control rounded search"
-                                            placeholder="Search"
-                                        />
-                                        <button
-                                            type="submit"
-                                            className="search-button">
-                                            search
-                                        </button>
-                                    </form>
+                                        </div>
+                                    : null}
                                 </div>
                             </div>
                         </div>
@@ -147,14 +136,17 @@ const Header = ({setVisible, filteredItems, setFilteredItems}) => {
                                     </div>
                                 </div>
 
-                                <div className={"cart_icon__wrapper"} onClick={() => setVisible(true)}>
-                                    <i className="fas fa-shopping-bag"></i>
-                                    {console.log(cartCount)}
-                                    {cartCount !== 0
-                                        ? <span className="badge">{cartCount}</span>
-                                        : null}
+                                {cartEnable
+                                    ?
+                                    <div className={"cart_icon__wrapper"} onClick={() => setVisible(true)}>
+                                        <i className="fas fa-shopping-bag"></i>
+                                        {console.log(cartCount)}
+                                        {cartCount !== 0
+                                            ? <span className="badge">{cartCount}</span>
+                                            : null}
 
-                                </div>
+                                    </div>
+                                    : null}
                             </div>
                         </div>
                     </div>
