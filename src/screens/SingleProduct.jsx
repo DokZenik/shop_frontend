@@ -8,13 +8,19 @@ import {addItem} from '../data/Cart.js';
 import {setProd} from "../data/Products";
 import Preloader from "../components/utils/Preloader/Preloader";
 import ModalCart from "../components/utils/Cart/ModalCart";
+import {useFetching} from "../components/utils/CustomHooks/useFetching";
 
 const SingleProduct = ({match}) => {
     const [product, setProduct] = useState({});
     const [products, setProducts] = useState([]);
     const [isItemsLoading, setIsItemsLoading] = useState(false);
-    const [modal, setModal] = useState(false)
-    const [reload, setReload] = useState(false)
+    const [modal, setModal] = useState(false);
+    const [reload, setReload] = useState(false);
+    const [comments, setComments] = useState([]);
+
+    const [fetchComments, areCommentsLoading, error] = useFetching(async () => {
+        axios.get(`http://localhost:5000/api/comments/${match.params.id}`).then(res => setComments(res.data))
+    })
 
     let count = 1
 
@@ -25,6 +31,7 @@ const SingleProduct = ({match}) => {
             setProduct(data);
         };
         fetchProduct();
+        fetchComments();
     }, []);
 
     const fetchData = () => {
@@ -128,17 +135,33 @@ const SingleProduct = ({match}) => {
                             <div className="col-md-6">
                                 <h6 className="mb-3">REVIEWS</h6>
                                 <Message variant={'alert-info mt-3'}>No Reviews</Message>
-                                <div className="mb-5 mb-md-3 bg-light p-3 shadow-sm rounded">
-                                    <strong>Admin Doe</strong>
-                                    <Rating/>
-                                    <span>Jan 12 2021</span>
-                                    <div className="alert alert-info mt-3">
-                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
-                                        Ipsum has been the industry's standard dummy text ever since the 1500s, when an
-                                        unknown printer took a galley of type and scrambled it to make a type specimen
-                                        book
+                                {areCommentsLoading
+                                    ? <Preloader/>
+                                    : <div className={"comments__container"}>
+                                        {comments.map(elem => (
+                                            <div className="mb-5 mb-md-3 bg-light p-3 shadow-sm rounded">
+                                                <strong>{elem.userId}</strong>
+                                                <Rating/>
+                                                <span>{elem.createdAt}</span>
+                                                <div className="alert alert-info mt-3">
+                                                    {elem.text}
+                                                </div>
+                                            </div>
+                                        ))}
                                     </div>
-                                </div>
+                                }
+
+                                {/*<div className="mb-5 mb-md-3 bg-light p-3 shadow-sm rounded">*/}
+                                {/*    <strong>Admin Doe</strong>*/}
+                                {/*    <Rating/>*/}
+                                {/*    <span>Jan 12 2021</span>*/}
+                                {/*    <div className="alert alert-info mt-3">*/}
+                                {/*        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem*/}
+                                {/*        Ipsum has been the industry's standard dummy text ever since the 1500s, when an*/}
+                                {/*        unknown printer took a galley of type and scrambled it to make a type specimen*/}
+                                {/*        book*/}
+                                {/*    </div>*/}
+                                {/*</div>*/}
                             </div>
                             <div className="col-md-6">
                                 <h6>WRITE A CUSTOMER REVIEW</h6>

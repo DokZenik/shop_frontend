@@ -796,6 +796,16 @@ textarea:focus {
 .form__section{
   margin-bottom: 25px;
 }
+.comments__container{
+  display: flex;
+  flex-direction: column;
+}
+.comments__container ul{
+  flex: 1 1 auto;
+  padding: 0;
+  margin: 0;
+}
+
 @media (max-width: 426px) {
   .cookie__success {
     padding: 3px 10px;
