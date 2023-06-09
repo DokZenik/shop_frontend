@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import SearchProduct from "./utils/search/SearchProduct";
 
 const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filterEnable}) => {
     const [cartCount, setCartCount] = useState(JSON.parse(localStorage.getItem("storage")).length);
     const [prod, setProd] = useState([])
+    const history = useHistory();
 
 
     useEffect(() => {
@@ -68,7 +69,6 @@ const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filter
                                 </div>
 
 
-
                                 <div className="col-6 d-flex align-items-center justify-content-end Login-Register">
                                     <div className="btn-group">
                                         <button
@@ -97,7 +97,7 @@ const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filter
                                         ?
                                         <div className={"cart_icon__wrapper"} onClick={() => setVisible(true)}>
                                             <i className="fas fa-shopping-bag"></i>
-                                            {console.log(cartCount)}
+                                            {/*{console.log(cartCount)}*/}
                                             {cartCount !== 0
                                                 ? <span className="badge">{cartCount}</span>
                                                 : null}
@@ -159,7 +159,12 @@ const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filter
 
                                 {cartEnable
                                     ?
-                                    <div className={"cart_icon__wrapper"} onClick={() => setVisible(true)}>
+                                    <div className={"cart_icon__wrapper"} onClick={() => {
+                                        if (!localStorage.getItem("token"))
+                                            history.push("/login")
+                                        else
+                                            setVisible(true)
+                                    }}>
                                         <i className="fas fa-shopping-bag"></i>
                                         {/*{console.log(cartCount)}*/}
                                         {cartCount !== 0

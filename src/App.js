@@ -73,10 +73,6 @@ const App = () => {
                         path="/profile"
                         component={ProfileScreen}
                     />
-                    {/*<Route*/}
-                    {/*  path="/cart/:id?"*/}
-                    {/*  component={CartScreen}*/}
-                    {/*/>*/}
                     <Route
                         path="/shipping"
                         component={ShippingScreen}

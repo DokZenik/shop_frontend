@@ -1,7 +1,7 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import Header from './../components/Header';
 import Rating from '../components/homeComponents/Rating';
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import Message from './../components/LoadingError/Error';
 import axios from 'axios';
 import {addItem} from '../data/Cart.js';
@@ -9,6 +9,7 @@ import {setProd} from "../data/Products";
 import Preloader from "../components/utils/Preloader/Preloader";
 import ModalCart from "../components/utils/Cart/ModalCart";
 import {useFetching} from "../components/utils/CustomHooks/useFetching";
+import redirect from "react-router-dom/es/Redirect";
 
 const SingleProduct = ({match}) => {
     const [product, setProduct] = useState({});
@@ -17,6 +18,7 @@ const SingleProduct = ({match}) => {
     const [modal, setModal] = useState(false);
     const [reload, setReload] = useState(false);
     const [comments, setComments] = useState([]);
+    const history = useHistory();
 
     const [fetchComments, areCommentsLoading, error] = useFetching(async () => {
         axios.get(`http://localhost:5000/api/comments/${match.params.id}`).then(res => setComments(res.data))
@@ -113,9 +115,13 @@ const SingleProduct = ({match}) => {
                                                         </select>
                                                     </div>
                                                     <button className="round-black-btn" onClick={() => {
-                                                        addItem(product._id, parseInt(count))
-                                                        // setReload(!reload)
-                                                        window.location.reload()
+                                                        if (!localStorage.getItem("token")) {
+                                                            console.log("TEST")
+                                                            history.push("/login")
+                                                        } else {
+                                                            addItem(product._id, parseInt(count))
+                                                            window.location.reload()
+                                                        }
                                                     }}>Add To Cart
                                                     </button>
                                                 </>
