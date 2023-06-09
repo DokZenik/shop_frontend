@@ -6,6 +6,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import {getAllItems} from "../data/Products";
 import CartItemCounter from "../components/utils/CartItemCounter";
 import {addItem, removeItem} from "../data/Cart";
+import axios from "axios";
+import error from "../components/LoadingError/Error";
 
 const CartScreen = ({setVisible}) => {
     const [cart, setCart] = useState(JSON.parse(localStorage.getItem("storage")))
@@ -21,6 +23,15 @@ const CartScreen = ({setVisible}) => {
         return s
     }
     useMemo(() => {
+        if (localStorage.getItem("username"))
+            axios.get(`http://localhost:5000/api/cart/${localStorage.getItem("username")}`, {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                }
+            })
+                .then(res => console.log(res.data.map(elem => elem.product)))
+                .catch(error => console.log(error))
+
         const foo = () => {
             let buff = []
 
@@ -40,11 +51,10 @@ const CartScreen = ({setVisible}) => {
         let buff = totalPrice
         let prod = getAllItems().find(elem => elem._id === itemId)
         buff = buff.map(elem => {
-            if(elem.key === itemId) {
+            if (elem.key === itemId) {
                 console.log({key: elem.key, fullPrice: elem.fullPrice + prod.price})
                 return {key: elem.key, fullPrice: elem.fullPrice + prod.price}
-            }
-            else
+            } else
                 return elem
         })
 
@@ -59,11 +69,10 @@ const CartScreen = ({setVisible}) => {
         let buff = totalPrice
         let prod = getAllItems().find(elem => elem._id === itemId)
         buff = buff.map(elem => {
-            if(elem.key === itemId) {
+            if (elem.key === itemId) {
                 console.log({key: elem.key, fullPrice: elem.fullPrice - prod.price})
                 return {key: elem.key, fullPrice: elem.fullPrice - prod.price}
-            }
-            else
+            } else
                 return elem
         })
 
@@ -134,7 +143,6 @@ const CartScreen = ({setVisible}) => {
                                     increment={incrementItemPrice}
                                     decrement={decrementItemPrice}
                                 />
-
 
 
                                 <div className="delete" onClick={() => deleteItem(idNumberItem.key)}>

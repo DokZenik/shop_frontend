@@ -24,8 +24,11 @@ const Login = () => {
             if (await res.status === 200) {
                 let resJson = await res.json();
                 localStorage.setItem("token", resJson.token)
+                localStorage.setItem("username", email)
                 history.push("/")
             }
+            setEmail("")
+            setPassword("")
             // console.log(resJson.token)
         } catch (err) {
             console.log(err);

@@ -152,7 +152,11 @@ const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filter
                                         <Link
                                             className="dropdown-item"
                                             to="#">
-                                            Logout
+                                            <div onClick={() => {
+                                                localStorage.removeItem("token")
+                                                localStorage.removeItem("username")
+                                            }}>Logout</div>
+
                                         </Link>
                                     </div>
                                 </div>
