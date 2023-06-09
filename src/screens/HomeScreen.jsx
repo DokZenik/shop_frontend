@@ -9,12 +9,12 @@ import ModalCart from "../components/utils/Cart/ModalCart";
 const HomeScreen = () => {
     window.scrollTo(0, 0);
     const [modal, setModal] = useState(false)
-
+    const [filteredItems, setFilteredItems] = useState([]);
 
     return (
         <div>
-            <Header setVisible={setModal} cartEnable={true}/>
-            <ShopSection visible={modal} setVisible={setModal}/>
+            <Header setVisible={setModal} cartEnable={true} filteredItems={filteredItems} setFilteredItems={setFilteredItems} filterEnable={true}/>
+            <ShopSection visible={modal} setVisible={setModal} filteredItems={filteredItems} setFilteredItems={setFilteredItems}/>
             <CalltoActionSection/>
             <ContactInfo/>
             <Footer/>

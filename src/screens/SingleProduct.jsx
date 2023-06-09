@@ -141,8 +141,8 @@ const SingleProduct = ({match}) => {
                                         {comments.map(elem => (
                                             <div className="mb-5 mb-md-3 bg-light p-3 shadow-sm rounded">
                                                 <strong>{elem.userId}</strong>
-                                                <Rating/>
-                                                <span>{elem.createdAt}</span>
+                                                <Rating value={elem.rating}/>
+                                                <span>{elem.createdAt.slice(0, 10)}</span>
                                                 <div className="alert alert-info mt-3">
                                                     {elem.text}
                                                 </div>
@@ -150,18 +150,6 @@ const SingleProduct = ({match}) => {
                                         ))}
                                     </div>
                                 }
-
-                                {/*<div className="mb-5 mb-md-3 bg-light p-3 shadow-sm rounded">*/}
-                                {/*    <strong>Admin Doe</strong>*/}
-                                {/*    <Rating/>*/}
-                                {/*    <span>Jan 12 2021</span>*/}
-                                {/*    <div className="alert alert-info mt-3">*/}
-                                {/*        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem*/}
-                                {/*        Ipsum has been the industry's standard dummy text ever since the 1500s, when an*/}
-                                {/*        unknown printer took a galley of type and scrambled it to make a type specimen*/}
-                                {/*        book*/}
-                                {/*    </div>*/}
-                                {/*</div>*/}
                             </div>
                             <div className="col-md-6">
                                 <h6>WRITE A CUSTOMER REVIEW</h6>

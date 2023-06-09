@@ -8,7 +8,7 @@ import Preloader from "../utils/Preloader/Preloader";
 import ModalCart from "../utils/Cart/ModalCart";
 import SearchProduct from "../utils/search/SearchProduct";
 
-const ShopSection = ({visible, setVisible}) => {
+const ShopSection = ({visible, setVisible, filteredItems, setFilteredItems}) => {
 
     const [currentPageNumber, setCurrentPageNumber] = useState(0);
     const [pagesCount, setPagesCount] = useState(1)
@@ -16,15 +16,14 @@ const ShopSection = ({visible, setVisible}) => {
     const [maxItemsPerPage, setMaxItemsPerPage] = useState(8)
     const [isItemsLoading, setIsItemsLoading] = useState(false);
     const [products, setProducts] = useState([]);
-    const [filteredItems, setFilteredItems] = useState([]);
 
     const getPagesCount = (elemPerPageCount) => {
         return Math.ceil(filteredItems.length / elemPerPageCount)
     }
 
     const getPageData = (pageNumber, elemPerPageCount) => {
-        console.log("pageNumber: " + pageNumber)
-        console.log(filteredItems.slice(pageNumber * elemPerPageCount, (pageNumber + 1) * elemPerPageCount))
+        // console.log("pageNumber: " + pageNumber)
+        // console.log(filteredItems.slice(pageNumber * elemPerPageCount, (pageNumber + 1) * elemPerPageCount))
         return filteredItems.slice(pageNumber * elemPerPageCount, (pageNumber + 1) * elemPerPageCount)
     }
 
@@ -71,7 +70,6 @@ const ShopSection = ({visible, setVisible}) => {
                 <div className="section">
                     <div className="row">
                         <div className="col-lg-12 col-md-12 article">
-                            <SearchProduct products={products} setFilteredItems={setFilteredItems}/>
                             <div className="shopcontainer">
                                 {isItemsLoading
                                     ?

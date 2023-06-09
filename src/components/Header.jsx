@@ -1,14 +1,22 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
+import SearchProduct from "./utils/search/SearchProduct";
 
-const Header = ({setVisible, cartEnable}) => {
+const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filterEnable}) => {
     const [cartCount, setCartCount] = useState(JSON.parse(localStorage.getItem("storage")).length);
+    const [prod, setProd] = useState([])
+
 
     useEffect(() => {
         let buff = 0;
         JSON.parse(localStorage.getItem("storage")).forEach(elem => buff += elem.value)
         setCartCount(buff)
     }, [JSON.parse(localStorage.getItem("storage")).length])
+
+    useEffect(() => {
+        if (prod.length === 0)
+            setProd(filteredItems)
+    }, [filteredItems])
 
     return (
         <div>
@@ -58,6 +66,9 @@ const Header = ({setVisible, cartEnable}) => {
                                         />
                                     </Link>
                                 </div>
+
+
+
                                 <div className="col-6 d-flex align-items-center justify-content-end Login-Register">
                                     <div className="btn-group">
                                         <button
@@ -83,7 +94,7 @@ const Header = ({setVisible, cartEnable}) => {
                                         </div>
                                     </div>
                                     {cartEnable
-                                    ?
+                                        ?
                                         <div className={"cart_icon__wrapper"} onClick={() => setVisible(true)}>
                                             <i className="fas fa-shopping-bag"></i>
                                             {console.log(cartCount)}
@@ -92,8 +103,13 @@ const Header = ({setVisible, cartEnable}) => {
                                                 : null}
 
                                         </div>
-                                    : null}
+                                        : null}
                                 </div>
+                                {filterEnable
+                                    ? <div className="col-12 d-flex align-items-center">
+                                        <SearchProduct products={prod} setFilteredItems={setFilteredItems}/>
+                                    </div>
+                                    : null}
                             </div>
                         </div>
                     </div>
@@ -111,6 +127,11 @@ const Header = ({setVisible, cartEnable}) => {
                                     />
                                 </Link>
                             </div>
+
+                            {filterEnable
+                                ? <SearchProduct products={prod} setFilteredItems={setFilteredItems}/>
+                                : null}
+
                             <div className="col-md-3 d-flex align-items-center justify-content-end Login-Register">
                                 <div className="btn-group">
                                     <button
@@ -140,7 +161,7 @@ const Header = ({setVisible, cartEnable}) => {
                                     ?
                                     <div className={"cart_icon__wrapper"} onClick={() => setVisible(true)}>
                                         <i className="fas fa-shopping-bag"></i>
-                                        {console.log(cartCount)}
+                                        {/*{console.log(cartCount)}*/}
                                         {cartCount !== 0
                                             ? <span className="badge">{cartCount}</span>
                                             : null}
