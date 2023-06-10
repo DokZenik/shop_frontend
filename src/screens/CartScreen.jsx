@@ -1,27 +1,16 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import Header from './../components/Header';
-import {Link} from 'react-router-dom';
-import {useDispatch, useSelector} from 'react-redux';
-
-import {getAllItems} from "../data/Products";
+import {Link, useHistory} from 'react-router-dom';
 import CartItemCounter from "../components/utils/CartItemCounter";
-import {addItem, removeItem} from "../data/Cart";
 import axios from "axios";
-import error from "../components/LoadingError/Error";
 
 const CartScreen = ({setVisible}) => {
-    const [cart, setCart] = useState(JSON.parse(localStorage.getItem("storage")))
-
+    const [cart, setCart] = useState([])
     const [totalCount, setTotalCount] = useState(cart.length)
-    const [totalPrice, setTotalPrice] = useState([])
+    const [totalItemsPrice, setTotalItemsPrice] = useState([])
     const [sum, setSum] = useState(0);
+    const history = useHistory()
 
-    const findSum = (arr) => {
-        let s = 0
-        arr.forEach(elem => s += elem.fullPrice)
-        console.log("s: " + s)
-        return s
-    }
+
     useMemo(() => {
         if (localStorage.getItem("username"))
             axios.get(`http://localhost:5000/api/cart/${localStorage.getItem("username")}`, {
@@ -29,75 +18,70 @@ const CartScreen = ({setVisible}) => {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`
                 }
             })
-                .then(res => console.log(res.data.map(elem => elem.product)))
-                .catch(error => console.log(error))
-
-        const foo = () => {
-            let buff = []
-
-            cart.forEach(idNumberItem => {
-                console.log(idNumberItem.key)
-                let prod = getAllItems().find(elem => elem._id === idNumberItem.key)
-                buff.push({key: idNumberItem.key, fullPrice: idNumberItem.value * prod.price})
-            })
-            // console.log(buff)
-            setTotalPrice(buff)
-            setSum(findSum(buff))
-        }
-        foo()
+                .then(res => {
+                    let sum = 0
+                    setCart(res.data.map(elem => {
+                        const newItem = {...elem.product, count: elem.count}
+                        sum += newItem.count * newItem.price
+                        totalItemsPrice.push({itemId: newItem._id, totalPrice: newItem.count * newItem.price})
+                        return newItem
+                    }))
+                    setSum(sum)
+                })
+                .catch(error => {
+                    console.log(error)
+                    history.push("/login")
+                })
     }, [])
 
     const incrementItemPrice = (itemId) => {
-        let buff = totalPrice
-        let prod = getAllItems().find(elem => elem._id === itemId)
-        buff = buff.map(elem => {
-            if (elem.key === itemId) {
-                console.log({key: elem.key, fullPrice: elem.fullPrice + prod.price})
-                return {key: elem.key, fullPrice: elem.fullPrice + prod.price}
-            } else
-                return elem
-        })
-
-        console.log(buff)
-
-        setTotalPrice(buff)
-        setSum(findSum(buff))
-
+        const price = cart.find(item => item._id === itemId).price
+        console.log(price)
+        setTotalItemsPrice(totalItemsPrice.map(elem =>
+            elem.itemId === itemId
+                ? {
+                    itemId: elem.itemId,
+                    totalPrice: elem.totalPrice + price
+                }
+                : elem
+        ))
+        axios.put(`http://localhost:5000/api/cart/increment/${localStorage.getItem("username")}/${itemId}`, {}, {
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("token")}`
+            }
+        }).catch(e => e.status === 403 ? history.push("/login") : null)
+        setSum(sum + price)
     }
 
     const decrementItemPrice = (itemId) => {
-        let buff = totalPrice
-        let prod = getAllItems().find(elem => elem._id === itemId)
-        buff = buff.map(elem => {
-            if (elem.key === itemId) {
-                console.log({key: elem.key, fullPrice: elem.fullPrice - prod.price})
-                return {key: elem.key, fullPrice: elem.fullPrice - prod.price}
-            } else
-                return elem
-        })
-
-        console.log(buff)
-
-        setTotalPrice(buff)
-        setSum(findSum(buff))
-
+        const price = cart.find(item => item._id === itemId).price
+        console.log(price)
+        setTotalItemsPrice(totalItemsPrice.map(elem =>
+            elem.itemId === itemId
+                ? {
+                    itemId: elem.itemId,
+                    totalPrice: elem.totalPrice - price
+                }
+                : elem
+        ))
+        axios.put(`http://localhost:5000/api/cart/decrement/${localStorage.getItem("username")}/${itemId}`, {}, {
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("token")}`
+            }
+        }).catch(e => e.status === 403 ? history.push("/login") : null)
+        setSum(sum - price)
     }
 
     const deleteItem = (itemId) => {
-        let buffPrice = totalPrice
-        buffPrice = buffPrice.filter(elem => elem.key !== itemId)
-
-        let buffItems = cart
-        buffItems = buffItems.filter(elem => elem.key !== itemId)
-
-        console.log(buffPrice)
-        console.log(buffItems)
-
-        setTotalPrice(buffPrice)
-        setSum(findSum(buffPrice))
-        setCart(buffItems)
-        setTotalCount(buffItems.length)
-        localStorage.setItem("storage", JSON.stringify(buffItems))
+        setCart(cart.filter(elem => elem._id !== itemId))
+        setSum(sum - totalItemsPrice.find(elem => elem.itemId === itemId).totalPrice)
+        setTotalItemsPrice(totalItemsPrice.filter(elem => elem.itemId !== itemId))
+        axios.delete(`http://localhost:5000/api/cart/${localStorage.getItem("username")}/${itemId}`, {
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+            .catch(e => e.status === 403 ? history.push("/login") : null)
     }
 
     window.scrollTo(0, 0);
@@ -116,42 +100,33 @@ const CartScreen = ({setVisible}) => {
                     </Link>
                 </div>
 
-
-                <div className="cart__items">
-                    {cart.map(idNumberItem => {
-                        let prod = getAllItems().find(elem => elem._id === idNumberItem.key)
-
-                        return (
-                            <div className="cart__item" key={idNumberItem.key}>
+                {cart.length !== 0
+                    ? <div className="cart__items">
+                        {cart.map(item => (
+                            <div className={"cart__item"} key={item._id}>
                                 <div className="cart__item-image">
-                                    <img src={prod.image} alt=""/>
+                                    <img src={item.image} alt="Item image"/>
                                 </div>
                                 <div className="cart__item-name">
-                                    <p>{prod.name}</p>
+                                    <p>{item.name}</p>
                                 </div>
-
-                                {
-                                    totalPrice.find(elem => elem.key === idNumberItem.key) ?
-                                        <div className="total__price">
-                                            {totalPrice.find(elem => elem.key === idNumberItem.key).fullPrice} $
-                                        </div> : "ERROR"
-                                }
-
+                                <div className="cart__item-price">
+                                    <p>{totalItemsPrice.find(elem => elem.itemId === item._id).totalPrice} $</p>
+                                </div>
                                 <CartItemCounter
-                                    counter={idNumberItem.value}
-                                    elemId={idNumberItem.key}
-                                    increment={incrementItemPrice}
+                                    counter={item.count}
+                                    elemId={item._id}
                                     decrement={decrementItemPrice}
+                                    increment={incrementItemPrice}
                                 />
-
-
-                                <div className="delete" onClick={() => deleteItem(idNumberItem.key)}>
+                                <div className="delete" onClick={() => deleteItem(item._id)}>
                                     del
                                 </div>
                             </div>
-                        )
-                    })}
-                </div>
+                        ))}
+                    </div>
+                    : null}
+
 
                 <div className="total">
                     <span className="sub">total:</span>

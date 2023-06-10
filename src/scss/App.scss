@@ -535,7 +535,7 @@ textarea:focus {
   font-weight: bold;
 }
 .cart-buttons {
-  margin: 90px 0;
+  margin: 30px 0;
 }
 .cart-buttons a button,
 .cart-buttons div button {
@@ -549,6 +549,10 @@ textarea:focus {
 }
 .cart-buttons a:nth-child(1) button {
   background-color: #000000;
+}
+.cart__item-price{
+  font-size: 1.4rem;
+  color: black;
 }
 /* FOOTER */
 .footer {

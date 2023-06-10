@@ -3,16 +3,11 @@ import {Link, useHistory} from 'react-router-dom';
 import SearchProduct from "./utils/search/SearchProduct";
 
 const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filterEnable}) => {
-    const [cartCount, setCartCount] = useState(JSON.parse(localStorage.getItem("storage")).length);
+    const [cartCount, setCartCount] = useState(0);
     const [prod, setProd] = useState([])
     const history = useHistory();
 
 
-    useEffect(() => {
-        let buff = 0;
-        JSON.parse(localStorage.getItem("storage")).forEach(elem => buff += elem.value)
-        setCartCount(buff)
-    }, [JSON.parse(localStorage.getItem("storage")).length])
 
     useEffect(() => {
         if (prod.length === 0)
@@ -155,6 +150,7 @@ const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filter
                                             <div onClick={() => {
                                                 localStorage.removeItem("token")
                                                 localStorage.removeItem("username")
+                                                window.location.reload()
                                             }}>Logout</div>
 
                                         </Link>

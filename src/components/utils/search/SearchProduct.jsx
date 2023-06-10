@@ -5,12 +5,7 @@ const SearchProduct = ( {products, setFilteredItems}) => {
             <input
                 type="text"
                 placeholder="Search for a product"
-                // value={search}
                 onChange={(e) => {
-                    // setSearch(e.target.value)
-                    // console.log("products")
-                    // console.log(products)
-                    // console.log(products.filter(elem => elem.name.toLowerCase().includes(e.target.value.toLowerCase())))
                     setFilteredItems(products.filter(elem => elem.name.toLowerCase().includes(e.target.value.toLowerCase())))
                 }}
                 className='form-control rounded search'
