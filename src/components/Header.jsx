@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Link, useHistory} from 'react-router-dom';
 import SearchProduct from "./utils/search/SearchProduct";
-import Category from "./homeComponents/Category";
 
 const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filterEnable}) => {
     const [cartCount, setCartCount] = useState(0);
@@ -48,7 +47,7 @@ const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filter
             </div>
             {/* Header */}
             <div className="header">
-                <div className="container-lg">
+                <div className="container">
                     {/* MOBILE HEADER */}
                     <div className="mobile-header">
                         <div className="container ">
@@ -112,8 +111,8 @@ const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filter
 
                     {/* PC HEADER */}
                     <div className="pc-header">
-                        <div className="d-flex justify-content-center gap-5">
-                            <div className="d-flex align-items-center justify-content-start flex-1">
+                        <div className="row justify-content-between">
+                            <div className="col-md-3 col-4 d-flex align-items-center">
                                 <Link
                                     className="navbar-brand"
                                     to="/">
@@ -122,14 +121,13 @@ const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filter
                                         src="/images/logo.png"
                                     />
                                 </Link>
-                                <Category/>
                             </div>
-                            <div className="w-50 flex-1">
-                                {filterEnable
-                                    ? <SearchProduct products={prod} setFilteredItems={setFilteredItems}/>
-                                    : null}
-                            </div>
-                            <div className="d-flex align-items-center justify-content-end Login-Register">
+
+                            {filterEnable
+                                ? <SearchProduct products={prod} setFilteredItems={setFilteredItems}/>
+                                : null}
+
+                            <div className="col-md-3 d-flex align-items-center justify-content-end Login-Register">
                                 <div className="btn-group">
                                     <button
                                         type="button"
