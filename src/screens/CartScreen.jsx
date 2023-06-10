@@ -12,7 +12,7 @@ const CartScreen = ({setVisible}) => {
 
 
     useMemo(() => {
-        if (localStorage.getItem("email"))
+        if (localStorage.getItem("email") && localStorage.getItem("token"))
             axios.get(`http://localhost:5000/api/cart/${localStorage.getItem("email")}`, {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`
