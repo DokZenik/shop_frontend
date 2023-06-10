@@ -4,7 +4,6 @@ const SearchProduct = ( {products, setFilteredItems}) => {
         <form action={""} className='form__section form'>
             <input
                 type="text"
-                placeholder="Search for a product"p
                 onChange={(e) => {
                     setFilteredItems(products.filter(elem => elem.name.toLowerCase().includes(e.target.value.toLowerCase())))
                 }}
