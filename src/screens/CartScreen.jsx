@@ -12,8 +12,8 @@ const CartScreen = ({setVisible}) => {
 
 
     useMemo(() => {
-        if (localStorage.getItem("username"))
-            axios.get(`http://localhost:5000/api/cart/${localStorage.getItem("username")}`, {
+        if (localStorage.getItem("email"))
+            axios.get(`http://localhost:5000/api/cart/${localStorage.getItem("email")}`, {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`
                 }
@@ -45,7 +45,7 @@ const CartScreen = ({setVisible}) => {
                 }
                 : elem
         ))
-        axios.put(`http://localhost:5000/api/cart/increment/${localStorage.getItem("username")}/${itemId}`, {}, {
+        axios.put(`http://localhost:5000/api/cart/increment/${localStorage.getItem("email")}/${itemId}`, {}, {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`
             }
@@ -64,7 +64,7 @@ const CartScreen = ({setVisible}) => {
                 }
                 : elem
         ))
-        axios.put(`http://localhost:5000/api/cart/decrement/${localStorage.getItem("username")}/${itemId}`, {}, {
+        axios.put(`http://localhost:5000/api/cart/decrement/${localStorage.getItem("email")}/${itemId}`, {}, {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`
             }
@@ -76,7 +76,7 @@ const CartScreen = ({setVisible}) => {
         setCart(cart.filter(elem => elem._id !== itemId))
         setSum(sum - totalItemsPrice.find(elem => elem.itemId === itemId).totalPrice)
         setTotalItemsPrice(totalItemsPrice.filter(elem => elem.itemId !== itemId))
-        axios.delete(`http://localhost:5000/api/cart/${localStorage.getItem("username")}/${itemId}`, {
+        axios.delete(`http://localhost:5000/api/cart/${localStorage.getItem("email")}/${itemId}`, {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`
             }

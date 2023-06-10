@@ -17,14 +17,14 @@ const Login = () => {
                     'Content-type': 'application/json'
                 },
                 body: JSON.stringify({
-                    username: email,
+                    email: email,
                     password: password,
                 }),
             });
             if (await res.status === 200) {
                 let resJson = await res.json();
                 localStorage.setItem("token", resJson.token)
-                localStorage.setItem("username", email)
+                localStorage.setItem("email", email)
                 history.push("/")
             }
             setEmail("")

@@ -66,7 +66,7 @@ const SingleProduct = ({match}) => {
 
     let handleSubmit = async (e) => {
         axios.post(`http://localhost:5000/api/comments/save`,{
-            userId: localStorage.getItem("username"),
+            userId: localStorage.getItem("email"),
             itemId: product._id,
             text: commentText,
             rating: itemRating
@@ -145,7 +145,7 @@ const SingleProduct = ({match}) => {
                                                         } else {
                                                             axios.post("http://localhost:5000/api/cart", {
                                                                 item: {
-                                                                    userId: localStorage.getItem("username"),
+                                                                    userId: localStorage.getItem("email"),
                                                                     count: count,
                                                                     product: product
                                                                 }
