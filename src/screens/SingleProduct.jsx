@@ -8,6 +8,7 @@ import {setProd} from "../data/Products";
 import Preloader from "../components/utils/Preloader/Preloader";
 import ModalCart from "../components/utils/Cart/ModalCart";
 import {useFetching} from "../components/utils/CustomHooks/useFetching";
+import rating from "../components/homeComponents/Rating";
 
 const SingleProduct = ({match}) => {
     const [product, setProduct] = useState({});
@@ -16,6 +17,8 @@ const SingleProduct = ({match}) => {
     const [modal, setModal] = useState(false);
     const [comments, setComments] = useState([]);
     const [showCommentWindow, setShowCommentWindow] = useState(false);
+    let commentText = "";
+    let itemRating = 1;
     const history = useHistory();
 
     const [fetchComments, areCommentsLoading, error] = useFetching(async () => {
@@ -61,7 +64,19 @@ const SingleProduct = ({match}) => {
         userValidate()
     }, [])
 
-
+    let handleSubmit = async (e) => {
+        axios.post(`http://localhost:5000/api/comments/save`,{
+            userId: localStorage.getItem("username"),
+            itemId: product._id,
+            text: commentText,
+            rating: itemRating
+        }, {
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                'Content-type': 'application/json'
+            }
+        }).catch(e => e.status === 403 ? history.push("/login") : null)
+    }
     return (
         <>
             <Header setVisible={setModal} cartEnable={true}/>
@@ -184,10 +199,10 @@ const SingleProduct = ({match}) => {
                                     <h6>WRITE A CUSTOMER REVIEW</h6>
                                     <div className="my-4"></div>
 
-                                    <form>
+                                    <form onSubmit={handleSubmit}>
                                         <div className="my-4">
                                             <strong>Rating</strong>
-                                            <select className="col-12 bg-light p-3 mt-2 border-0 rounded">
+                                            <select className="col-12 bg-light p-3 mt-2 border-0 rounded" onChange={e => itemRating = e.target.value}>
                                                 <option value="">Select...</option>
                                                 <option value="1">1 - Poor</option>
                                                 <option value="2">2 - Fair</option>
@@ -200,7 +215,9 @@ const SingleProduct = ({match}) => {
                                             <strong>Comment</strong>
                                             <textarea
                                                 row="3"
-                                                className="col-12 bg-light p-3 mt-2 border-0 rounded"></textarea>
+                                                className="col-12 bg-light p-3 mt-2 border-0 rounded"
+                                                onChange={e => commentText = e.target.value}
+                                            ></textarea>
                                         </div>
                                         <div className="my-3">
                                             <button className="col-12 bg-black border-0 p-3 rounded text-white">SUBMIT
