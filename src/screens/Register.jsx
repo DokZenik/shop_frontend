@@ -1,15 +1,23 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import Header from './../components/Header';
+import axios from "axios";
+
 
 const Register = () => {
+  const history = useHistory();
+
   window.scrollTo(0, 0);
   let username;
   let email;
   let password;
 
   let handleSubmit = async (e) => {
-
+    axios.post("http://localhost:5000/api/auth/registration", {
+      username: username,
+      email: email,
+      password: password
+    }).then(res => res.status === 200 ? history.push("/login") : window.location.reload())
   }
   return (
     <>
