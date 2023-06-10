@@ -4,11 +4,8 @@ const SearchProduct = ( {products, setFilteredItems}) => {
         <form action={""} className={"form__section form"}>
             <input
                 type="text"
-<<<<<<< HEAD
-=======
                 placeholder="Search for a product"
                 // value={search}
->>>>>>> parent of 25228fd (123)
                 onChange={(e) => {
                     // setSearch(e.target.value)
                     // console.log("products")
