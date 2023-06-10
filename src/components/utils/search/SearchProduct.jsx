@@ -1,16 +1,11 @@
 
 const SearchProduct = ( {products, setFilteredItems}) => {
     return (
-        <form action={""} className={"form__section form"}>
+        <form action={""} className='form__section form'>
             <input
                 type="text"
-                placeholder="Search for a product"
-                // value={search}
+                placeholder="Search for a product"p
                 onChange={(e) => {
-                    // setSearch(e.target.value)
-                    // console.log("products")
-                    // console.log(products)
-                    // console.log(products.filter(elem => elem.name.toLowerCase().includes(e.target.value.toLowerCase())))
                     setFilteredItems(products.filter(elem => elem.name.toLowerCase().includes(e.target.value.toLowerCase())))
                 }}
                 className='form-control rounded search'
