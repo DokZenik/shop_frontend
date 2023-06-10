@@ -1,6 +1,5 @@
 import {useState} from "react";
 
-import {addItem, removeItem} from "../../data/Cart.js"
 
 const CartItemCounter = ({counter, elemId, increment, decrement}) => {
 
@@ -10,7 +9,6 @@ const CartItemCounter = ({counter, elemId, increment, decrement}) => {
         <div className="counter__wrapper">
             <button className="plus" onClick={() => {
                 setCount(count + 1)
-                addItem(elemId)
                 increment(elemId)
             }
             }>
@@ -23,7 +21,6 @@ const CartItemCounter = ({counter, elemId, increment, decrement}) => {
             <button className="minus" onClick={() => {
                 if (count > 1) {
                     setCount(count - 1)
-                    removeItem(elemId)
                     decrement(elemId)
                 }
             }}>

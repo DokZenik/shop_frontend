@@ -9,6 +9,8 @@
     background-color: rgba(0,0,0,0.5);
     display: none;
     z-index: 4;
+    /*max-height: 100%;*/
+    overflow: scroll;
 }
 .cart_container.active{
     display: flex;

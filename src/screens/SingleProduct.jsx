@@ -4,24 +4,28 @@ import Rating from '../components/homeComponents/Rating';
 import {Link, useHistory} from 'react-router-dom';
 import Message from './../components/LoadingError/Error';
 import axios from 'axios';
-import {addItem} from '../data/Cart.js';
 import {setProd} from "../data/Products";
 import Preloader from "../components/utils/Preloader/Preloader";
 import ModalCart from "../components/utils/Cart/ModalCart";
 import {useFetching} from "../components/utils/CustomHooks/useFetching";
-import redirect from "react-router-dom/es/Redirect";
+import rating from "../components/homeComponents/Rating";
 
 const SingleProduct = ({match}) => {
     const [product, setProduct] = useState({});
     const [products, setProducts] = useState([]);
     const [isItemsLoading, setIsItemsLoading] = useState(false);
     const [modal, setModal] = useState(false);
-    const [reload, setReload] = useState(false);
     const [comments, setComments] = useState([]);
+    const [showCommentWindow, setShowCommentWindow] = useState(false);
+    let commentText = "";
+    let itemRating = 1;
     const history = useHistory();
 
     const [fetchComments, areCommentsLoading, error] = useFetching(async () => {
-        axios.get(`http://localhost:5000/api/comments/${match.params.id}`).then(res => setComments(res.data))
+        axios.get(`http://localhost:5000/api/comments/${match.params.id}`)
+            .then(res =>
+            setComments(res.data))
+            .catch(e => history.push("/login"))
     })
 
     let count = 1
@@ -47,12 +51,32 @@ const SingleProduct = ({match}) => {
             .catch(e => console.log(e))
 
     }
-
+    const userValidate = () => {
+        axios.get("http://localhost:5000/api/auth/users", {
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+            .then(res => setShowCommentWindow(res.status === 200))
+    }
     useMemo(() => {
         fetchData()
-
+        userValidate()
     }, [])
 
+    let handleSubmit = async (e) => {
+        axios.post(`http://localhost:5000/api/comments/save`,{
+            userId: localStorage.getItem("email"),
+            itemId: product._id,
+            text: commentText,
+            rating: itemRating
+        }, {
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                'Content-type': 'application/json'
+            }
+        }).catch(e => e.status === 403 ? history.push("/login") : null)
+    }
     return (
         <>
             <Header setVisible={setModal} cartEnable={true}/>
@@ -119,7 +143,18 @@ const SingleProduct = ({match}) => {
                                                             console.log("TEST")
                                                             history.push("/login")
                                                         } else {
-                                                            addItem(product._id, parseInt(count))
+                                                            axios.post("http://localhost:5000/api/cart", {
+                                                                item: {
+                                                                    userId: localStorage.getItem("email"),
+                                                                    count: count,
+                                                                    product: product
+                                                                }
+                                                            }, {
+                                                                headers: {
+                                                                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                                                                }
+                                                            }).catch(e => e.status === 403 ? history.push("/login") : null)
+                                                            // console.log(product)
                                                             window.location.reload()
                                                         }
                                                     }}>Add To Cart
@@ -140,51 +175,58 @@ const SingleProduct = ({match}) => {
                         <div className="row my-5">
                             <div className="col-md-6">
                                 <h6 className="mb-3">REVIEWS</h6>
-                                <Message variant={'alert-info mt-3'}>No Reviews</Message>
                                 {areCommentsLoading
                                     ? <Preloader/>
-                                    : <div className={"comments__container"}>
-                                        {comments.map(elem => (
-                                            <div className="mb-5 mb-md-3 bg-light p-3 shadow-sm rounded">
-                                                <strong>{elem.userId}</strong>
-                                                <Rating value={elem.rating}/>
-                                                <span>{elem.createdAt.slice(0, 10)}</span>
-                                                <div className="alert alert-info mt-3">
-                                                    {elem.text}
+                                    : comments.length !== 0
+                                        ? <div className={"comments__container"}>
+                                            {comments.map(elem => (
+                                                <div className="mb-5 mb-md-3 bg-light p-3 shadow-sm rounded">
+                                                    <strong>{elem.userId}</strong>
+                                                    <Rating value={elem.rating}/>
+                                                    <span>{elem.createdAt.slice(0, 10)}</span>
+                                                    <div className="alert alert-info mt-3">
+                                                        {elem.text}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        ))}
-                                    </div>
+
+                                            ))}
+                                        </div>
+                                        : <Message variant={'alert-info mt-3'}>No Reviews</Message>
                                 }
                             </div>
-                            <div className="col-md-6">
-                                <h6>WRITE A CUSTOMER REVIEW</h6>
-                                <div className="my-4"></div>
+                            {showCommentWindow
+                                ? <div className="col-md-6">
+                                    <h6>WRITE A CUSTOMER REVIEW</h6>
+                                    <div className="my-4"></div>
 
-                                <form>
-                                    <div className="my-4">
-                                        <strong>Rating</strong>
-                                        <select className="col-12 bg-light p-3 mt-2 border-0 rounded">
-                                            <option value="">Select...</option>
-                                            <option value="1">1 - Poor</option>
-                                            <option value="2">2 - Fair</option>
-                                            <option value="3">3 - Good</option>
-                                            <option value="4">4 - Very Good</option>
-                                            <option value="5">5 - Excellent</option>
-                                        </select>
-                                    </div>
-                                    <div className="my-4">
-                                        <strong>Comment</strong>
-                                        <textarea
-                                            row="3"
-                                            className="col-12 bg-light p-3 mt-2 border-0 rounded"></textarea>
-                                    </div>
-                                    <div className="my-3">
-                                        <button className="col-12 bg-black border-0 p-3 rounded text-white">SUBMIT
-                                        </button>
-                                    </div>
-                                </form>
-                                <div className="my-3">
+                                    <form onSubmit={handleSubmit}>
+                                        <div className="my-4">
+                                            <strong>Rating</strong>
+                                            <select className="col-12 bg-light p-3 mt-2 border-0 rounded" onChange={e => itemRating = e.target.value}>
+                                                <option value="">Select...</option>
+                                                <option value="1">1 - Poor</option>
+                                                <option value="2">2 - Fair</option>
+                                                <option value="3">3 - Good</option>
+                                                <option value="4">4 - Very Good</option>
+                                                <option value="5">5 - Excellent</option>
+                                            </select>
+                                        </div>
+                                        <div className="my-4">
+                                            <strong>Comment</strong>
+                                            <textarea
+                                                row="3"
+                                                className="col-12 bg-light p-3 mt-2 border-0 rounded"
+                                                onChange={e => commentText = e.target.value}
+                                            ></textarea>
+                                        </div>
+                                        <div className="my-3">
+                                            <button className="col-12 bg-black border-0 p-3 rounded text-white">SUBMIT
+                                            </button>
+                                        </div>
+                                    </form>
+
+                                </div>
+                                : <div className="my-3">
                                     <Message variant={'alert-warning'}>
                                         Please{' '}
                                         <Link to="/login">
@@ -192,8 +234,8 @@ const SingleProduct = ({match}) => {
                                         </Link>{' '}
                                         to write a review{' '}
                                     </Message>
-                                </div>
-                            </div>
+                                </div>}
+
                         </div>
                     </div>
                 </>
