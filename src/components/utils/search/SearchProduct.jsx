@@ -10,7 +10,7 @@ const SearchProduct = ( {products, setFilteredItems}) => {
                 }}
                 className='form-control rounded search'
             />
-            <button type={"submit"} onClick={e => {
+            <button className='search-button' type={"submit"} onClick={e => {
                 e.preventDefault()
             }}>search</button>
         </form>

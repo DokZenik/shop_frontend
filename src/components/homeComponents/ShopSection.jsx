@@ -66,7 +66,7 @@ const ShopSection = ({visible, setVisible, filteredItems, setFilteredItems}) => 
 
     return (
         <>
-            <div className="container">
+            <div className="container-xxl">
                 <div className="section">
                     <div className="row">
                         <div className="col-lg-12 col-md-12 article">
