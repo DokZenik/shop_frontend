@@ -2,14 +2,14 @@ import React, {useEffect, useState} from 'react';
 import {Link, useHistory} from 'react-router-dom';
 import SearchProduct from "./utils/search/SearchProduct";
 import Category from "./homeComponents/Category";
+import axios from "axios";
 
-const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filterEnable}) => {
+const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filterEnable, profileButtonVisible}) => {
     const [cartCount, setCartCount] = useState(0);
     const [prod, setProd] = useState([])
     const history = useHistory();
 
 
-
     useEffect(() => {
         if (prod.length === 0)
             setProd(filteredItems)
@@ -20,6 +20,14 @@ const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filter
             setProd(filteredItems)
     }, [filteredItems])
 
+    const userValidate = () => {
+        axios.get("http://localhost:5000/api/auth/users", {
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+            .catch(e => history.push("/login/403"))
+    }
     return (
         <div>
             {/* Top Header */}
@@ -134,41 +142,52 @@ const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filter
                                     ? <SearchProduct products={prod} setFilteredItems={setFilteredItems}/>
                                     : null}
                             </div>
-                            <div className="d-flex align-items-center justify-content-end Login-Register">
-                                <div className="btn-group">
-                                    <button
-                                        type="button"
-                                        className="name-button dropdown-toggle"
-                                        data-toggle="dropdown"
-                                        aria-haspopup="true"
-                                        aria-expanded="false">
-                                        Hi, Zbon
-                                    </button>
-                                    <div className="dropdown-menu">
-                                        <Link
-                                            className="dropdown-item"
-                                            to="/profile">
-                                            Profile
-                                        </Link>
 
-                                        <Link
-                                            className="dropdown-item"
-                                            to="#">
-                                            <div onClick={() => {
-                                                localStorage.removeItem("token")
-                                                localStorage.removeItem("username")
-                                            }}>Logout</div>
+                            <div className="d-flex align-items-center justify-content-end Login-Register gap-3">
+                                {profileButtonVisible
+                                    ? localStorage.getItem("email") && localStorage.getItem("token")
+                                        ? <div className="btn-group">
+                                            <button
+                                                type="button"
+                                                className="name-button dropdown-toggle"
+                                                data-toggle="dropdown"
+                                                aria-haspopup="true"
+                                                aria-expanded="false">
+                                                Hi, {localStorage.getItem("username")}
+                                            </button>
+                                            <div className="dropdown-menu">
+                                                <Link
+                                                    className="dropdown-item"
+                                                    to="/profile">
+                                                    Profile
+                                                </Link>
 
-                                        </Link>
-                                    </div>
-                                </div>
+                                                <Link
+                                                    className="dropdown-item"
+                                                    to="#">
+                                                    <div onClick={() => {
+                                                        localStorage.removeItem("token")
+                                                        localStorage.removeItem("username")
+                                                    }}>Logout
+                                                    </div>
+
+                                                </Link>
+                                            </div>
+                                        </div>
+                                        : <button className={"login__button"} onClick={() => history.push("/login/0")}>
+                                            login
+                                        </button>
+                                    : null
+                                }
+
 
                                 {cartEnable
                                     ?
                                     <div className={"cart_icon__wrapper"} onClick={() => {
                                         if (!localStorage.getItem("token"))
-                                            history.push("/login")
+                                            history.push("/login/401")
                                         else
+                                            userValidate()
                                             setVisible(true)
                                     }}>
                                         <i className="fas fa-shopping-bag"></i>

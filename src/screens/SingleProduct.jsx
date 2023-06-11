@@ -23,9 +23,13 @@ const SingleProduct = ({match}) => {
 
     const [fetchComments, areCommentsLoading, error] = useFetching(async () => {
         axios.get(`http://localhost:5000/api/comments/${match.params.id}`)
-            .then(res =>
-            setComments(res.data))
-            .catch(e => history.push("/login"))
+            .then(res => {
+                setComments(res.data)
+
+            })
+            .catch(e => {
+                console.log(e.status)
+            })
     })
 
     let count = 1
@@ -65,7 +69,7 @@ const SingleProduct = ({match}) => {
     }, [])
 
     let handleSubmit = async (e) => {
-        axios.post(`http://localhost:5000/api/comments/save`,{
+        axios.post(`http://localhost:5000/api/comments/save`, {
             userId: localStorage.getItem("email"),
             itemId: product._id,
             text: commentText,
@@ -140,8 +144,7 @@ const SingleProduct = ({match}) => {
                                                     </div>
                                                     <button className="round-black-btn" onClick={() => {
                                                         if (!localStorage.getItem("token")) {
-                                                            console.log("TEST")
-                                                            history.push("/login")
+                                                            history.push("/login/401")
                                                         } else {
                                                             axios.post("http://localhost:5000/api/cart", {
                                                                 item: {
@@ -153,9 +156,10 @@ const SingleProduct = ({match}) => {
                                                                 headers: {
                                                                     "Authorization": `Bearer ${localStorage.getItem("token")}`
                                                                 }
-                                                            }).catch(e => e.status === 403 ? history.push("/login") : null)
+                                                            }).then(res => window.location.reload())
+                                                                .catch(e =>  history.push("/login/403"))
                                                             // console.log(product)
-                                                            window.location.reload()
+
                                                         }
                                                     }}>Add To Cart
                                                     </button>
@@ -173,7 +177,7 @@ const SingleProduct = ({match}) => {
 
                         {/* RATING */}
                         <div className="row my-5">
-                            <div className="col-md-6">
+                            <div className="col-md-6 order-1">
                                 <h6 className="mb-3">REVIEWS</h6>
                                 {areCommentsLoading
                                     ? <Preloader/>
@@ -202,7 +206,8 @@ const SingleProduct = ({match}) => {
                                     <form onSubmit={handleSubmit}>
                                         <div className="my-4">
                                             <strong>Rating</strong>
-                                            <select className="col-12 bg-light p-3 mt-2 border-0 rounded" onChange={e => itemRating = e.target.value}>
+                                            <select className="col-12 bg-light p-3 mt-2 border-0 rounded"
+                                                    onChange={e => itemRating = e.target.value}>
                                                 <option value="">Select...</option>
                                                 <option value="1">1 - Poor</option>
                                                 <option value="2">2 - Fair</option>
@@ -226,7 +231,7 @@ const SingleProduct = ({match}) => {
                                     </form>
 
                                 </div>
-                                : <div className="my-3">
+                                : <div className="my-3 order-0">
                                     <Message variant={'alert-warning'}>
                                         Please{' '}
                                         <Link to="/login">

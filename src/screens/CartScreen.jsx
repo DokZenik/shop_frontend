@@ -19,6 +19,8 @@ const CartScreen = ({setVisible}) => {
                 }
             })
                 .then(res => {
+                    if(res.status !== 200)
+                        history.push(`/login/${res.status}`)
                     let sum = 0
                     setCart(res.data.map(elem => {
                         const newItem = {...elem.product, count: elem.count}
@@ -28,10 +30,10 @@ const CartScreen = ({setVisible}) => {
                     }))
                     setSum(sum)
                 })
-                .catch(error => {
-                    console.log(error)
-                    history.push("/login")
-                })
+                // .catch(error => {
+                //     console.log(error)
+                //     history.push("/login")
+                // })
     }, [])
 
     const incrementItemPrice = (itemId) => {
@@ -49,7 +51,7 @@ const CartScreen = ({setVisible}) => {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`
             }
-        }).catch(e => e.status === 403 ? history.push("/login") : null)
+        }).catch(e => e.status === 403 ? history.push("/login/403") : null)
         setSum(sum + price)
     }
 
@@ -68,7 +70,7 @@ const CartScreen = ({setVisible}) => {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`
             }
-        }).catch(e => e.status === 403 ? history.push("/login") : null)
+        }).catch(e => e.status === 403 ? history.push("/login/403") : null)
         setSum(sum - price)
     }
 
@@ -81,7 +83,7 @@ const CartScreen = ({setVisible}) => {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`
             }
         })
-            .catch(e => e.status === 403 ? history.push("/login") : null)
+            .catch(e => e.status === 403 ? history.push("/login/403") : null)
     }
 
     window.scrollTo(0, 0);

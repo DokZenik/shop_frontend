@@ -461,7 +461,21 @@ textarea:focus {
 .Login input:focus {
   outline: 0px;
 }
-
+.login__button{
+  text-transform: uppercase;
+  color: white;
+  background-color: black;
+  padding: 7px;
+  border: none;
+  border-radius: 5px;
+}
+.login__message{
+  background-color: #fff3cd;
+  border: 1px solid #fce9be;
+  padding: 10px;
+  border-radius: 10px;
+  letter-spacing: 0.07rem;
+}
 .Login button,
 .Login2 button {
   width: 100%;

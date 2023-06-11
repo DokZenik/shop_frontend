@@ -15,7 +15,7 @@ const HomeScreen = () => {
 
     return (
         <div>
-            <Header setVisible={setModal} cartEnable={true} filteredItems={filteredItems} setFilteredItems={setFilteredItems} filterEnable={true}/>
+            <Header setVisible={setModal} cartEnable={true} filteredItems={filteredItems} setFilteredItems={setFilteredItems} filterEnable={true} profileButtonVisible={true}/>
             <Navigation/>
             <ShopSection visible={modal} setVisible={setModal} filteredItems={filteredItems} setFilteredItems={setFilteredItems}/>
             <CalltoActionSection/>
