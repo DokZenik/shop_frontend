@@ -42,7 +42,7 @@ const Register = () => {
 
           <button type="submit">Register</button>
           <p>
-            <Link to={'/login'}>
+            <Link to={'/login/0'}>
               I Have Account <strong>Login</strong>
             </Link>
           </p>

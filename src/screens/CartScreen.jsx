@@ -19,7 +19,7 @@ const CartScreen = ({setVisible}) => {
                 }
             })
                 .then(res => {
-                    if(res.status !== 200)
+                    if (res.status !== 200)
                         history.push(`/login/${res.status}`)
                     let sum = 0
                     setCart(res.data.map(elem => {
@@ -30,10 +30,6 @@ const CartScreen = ({setVisible}) => {
                     }))
                     setSum(sum)
                 })
-                // .catch(error => {
-                //     console.log(error)
-                //     history.push("/login")
-                // })
     }, [])
 
     const incrementItemPrice = (itemId) => {
@@ -142,12 +138,19 @@ const CartScreen = ({setVisible}) => {
                         <button className={"bg-black"}>Continue To Shopping</button>
                     </div>
                     <div className="col-md-6 d-flex justify-content-md-end mt-3 mt-md-0">
+
                         <button>
-                            <Link
-                                to="/shipping"
-                                className="text-white">
-                                Checkout
-                            </Link>
+                            {cart.length !== 0
+                                ? <Link
+                                    to="/shipping"
+                                    className="text-white">
+                                    Checkout
+                                </Link>
+                                : <div className="text-white">
+                                    Checkout
+                                </div>
+                            }
+
                         </button>
                     </div>
                 </div>

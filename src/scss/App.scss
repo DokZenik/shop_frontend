@@ -476,6 +476,10 @@ textarea:focus {
   border-radius: 10px;
   letter-spacing: 0.07rem;
 }
+.message-alert{
+  background-color: rgba(255, 0, 0, 0.42);
+  border: 2px solid red;
+}
 .Login button,
 .Login2 button {
   width: 100%;
