@@ -1029,12 +1029,14 @@ textarea:focus {
   list-style: none;
   background: white;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: flex-start;
   flex-wrap: wrap;
   grid-gap: 30px;
   gap: 30px;
   width: 550px;
+  height: 510px;
+  overflow-y: scroll;
 }
 .third-dropdown{
   list-style: none;

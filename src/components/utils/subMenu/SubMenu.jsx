@@ -3,7 +3,7 @@ import React from "react";
 const SubMenu = ({ category, subcategories, isSubmenuOpen, closeSubmenu }) => {
     return (
         isSubmenuOpen && (
-            <ul className="cd-secondary-dropdown">
+            <ul className="cd-secondary-dropdown scroll">
                 {subcategories.map((subcategory, index) => (
                     <li className="has-children" key={index}>
                         <a className='category-title' href="#0">{subcategory.name}</a>
