@@ -32,7 +32,7 @@ const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filter
         <div>
             {/* Top Header */}
             <div className="Announcement ">
-                <div className="container">
+                <div className="container-xxl">
                     <div className="row">
                         <div className="col-md-6 d-flex align-items-center display-none justify-content-between">
                             <p>+420 728 445 671</p>
@@ -61,12 +61,12 @@ const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filter
             </div>
             {/* Header */}
             <div className="header">
-                <div className="container-lg">
+                <div className="container-xxl">
                     {/* MOBILE HEADER */}
                     <div className="mobile-header">
                         <div className="container ">
-                            <div className="row ">
-                                <div className="col-6 d-flex align-items-center">
+                            <div className="row flex-nowrap mobile-top">
+                                <div className="col-3 d-flex align-items-center">
                                     <Link
                                         className="navbar-brand"
                                         to="/">
@@ -76,9 +76,12 @@ const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filter
                                         />
                                     </Link>
                                 </div>
-
-
-                                <div className="col-6 d-flex align-items-center justify-content-end Login-Register">
+                                {filterEnable
+                                    ? <div className="col-6 d-flex align-items-center search-adaptive">
+                                        <SearchProduct products={prod} setFilteredItems={setFilteredItems}/>
+                                    </div>
+                                    : null}
+                                <div className="col-3 d-flex align-items-center justify-content-end Login-Register">
                                     <div className="btn-group">
                                         <button
                                             type="button"
@@ -114,12 +117,12 @@ const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filter
                                         </div>
                                         : null}
                                 </div>
-                                {filterEnable
-                                    ? <div className="col-12 d-flex align-items-center">
-                                        <SearchProduct products={prod} setFilteredItems={setFilteredItems}/>
-                                    </div>
-                                    : null}
                             </div>
+                            {filterEnable
+                                ? <div className="d-flex align-items-center justify-content-center search-small">
+                                    <SearchProduct products={prod} setFilteredItems={setFilteredItems}/>
+                                </div>
+                                : null}
                         </div>
                     </div>
 

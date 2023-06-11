@@ -34,18 +34,19 @@ const OrderScreen = () => {
             item: {
                 userId: localStorage.getItem("email"),
                 order: items,
-                total: productsTotalPrice
+                total: productsTotalPrice,
+                status: "PAIN"
             }
         }, {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`
             }
-        })
+        }).then(res => console.log(res)).catch(e => console.log(e))
         await axios.delete(`http://localhost:5000/api/cart/clear/${localStorage.getItem("email")}`, {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`
             }
-        })
+        }).then(res => console.log(res)).catch(e => console.log(e))
     }
 
     return (
@@ -186,6 +187,7 @@ const OrderScreen = () => {
                         <div className="col-12">
                             <PayPalButton amount={345}/>
                         </div>
+                        <button onClick={paymentHandler}>TEST</button>
                     </div>
                 </div>
             </div>
