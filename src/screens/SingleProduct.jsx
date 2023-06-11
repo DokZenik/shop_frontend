@@ -199,12 +199,12 @@ const SingleProduct = ({match}) => {
                                 }
                             </div>
                             {showCommentWindow
-                                ? <div className="col-md-6">
+                                ? <div className="col-md-6 order-2">
                                     <h6>WRITE A CUSTOMER REVIEW</h6>
                                     <div className="my-4"></div>
 
                                     <form onSubmit={handleSubmit}>
-                                        <div className="my-4">
+                                        <div className="my-4 ">
                                             <strong>Rating</strong>
                                             <select className="col-12 bg-light p-3 mt-2 border-0 rounded"
                                                     onChange={e => itemRating = e.target.value}>

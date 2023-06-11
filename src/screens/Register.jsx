@@ -17,7 +17,8 @@ const Register = () => {
       username: username,
       email: email,
       password: password
-    }).then(res => res.status === 200 ? history.push("/login/200") : window.location.reload())
+    }).then(res => res.status === 200 ? history.push("/login/200") : null)
+        .catch(e => console.log(e))
   }
   return (
     <>
