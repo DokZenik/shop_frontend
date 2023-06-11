@@ -17,7 +17,8 @@ const Register = () => {
       username: username,
       email: email,
       password: password
-    }).then(res => res.status === 200 ? history.push("/login") : window.location.reload())
+    }).then(res => res.status === 200 ? history.push("/login/200") : null)
+        .catch(e => console.log(e))
   }
   return (
     <>
@@ -42,7 +43,7 @@ const Register = () => {
 
           <button type="submit">Register</button>
           <p>
-            <Link to={'/login'}>
+            <Link to={'/login/0'}>
               I Have Account <strong>Login</strong>
             </Link>
           </p>

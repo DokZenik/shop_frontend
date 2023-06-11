@@ -62,7 +62,7 @@ const App = () => {
                         component={SingleProduct}
                     />
                     <Route
-                        path="/login"
+                        path="/login/:status"
                         component={Login}
                     />
                     <Route
