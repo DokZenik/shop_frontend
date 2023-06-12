@@ -13,6 +13,7 @@ const PlaceOrderScreen = () => {
     let tax = 0;
     let shippingPrice = 0
     let total = 0;
+    let deliveryData = JSON.parse(localStorage.getItem("delivery_address"))
 
     const [fetchOrderItems, areOrderItemsLoading, error] = useFetching(async () => {
         axios.get(`http://localhost:5000/api/cart/${localStorage.getItem("email")}`, {
@@ -82,7 +83,7 @@ const PlaceOrderScreen = () => {
                                     <strong>Deliver to</strong>
                                 </h5>
                                 <p>
-                                    Address: Arusha Tz, Ngaramtoni Crater, P.O BOX 1234 Arusha Tz
+                                    Address: {deliveryData.address}, {deliveryData.city}, P.O BOX {deliveryData.postalCode} {deliveryData.country}
                                 </p>
                             </div>
                         </div>

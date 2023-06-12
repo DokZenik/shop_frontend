@@ -15,6 +15,7 @@ const OrderScreen = () => {
     let tax = 0;
     let shippingPrice = 0
     let total = 0;
+    let deliveryData = JSON.parse(localStorage.getItem("delivery_address"))
 
     const [fetchOrderItems, areOrderItemsLoading, error] = useFetching(async () => {
         axios.get(`http://localhost:5000/api/cart/${localStorage.getItem("email")}`, {
@@ -47,6 +48,7 @@ const OrderScreen = () => {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`
             }
         }).then(res => console.log(res)).catch(e => console.log(e))
+        localStorage.removeItem("delivery_address")
     }
 
     return (
@@ -106,7 +108,7 @@ const OrderScreen = () => {
                                     <strong>Deliver to</strong>
                                 </h5>
                                 <p>
-                                    Address: Arusha Tz, Ngaramtoni Crater, P.O BOX 1234 Arusha Tz
+                                    Address: {deliveryData.address}, {deliveryData.city}, P.O BOX {deliveryData.postalCode} {deliveryData.country}
                                 </p>
                                 <div className="bg-danger p-1 col-12">
                                     <p className="text-white text-center text-sm-start">

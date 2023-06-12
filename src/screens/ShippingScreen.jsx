@@ -5,6 +5,19 @@ import Header from "../components/Header";
 const ShippingScreen = () => {
   window.scrollTo(0, 0);
 
+  let address;
+  let city;
+  let postalCode;
+  let country;
+
+  const saveData = () => {
+    localStorage.setItem("delivery_address", JSON.stringify({
+      address: address,
+      city: city,
+      postalCode: postalCode,
+      country: country
+    }))
+  }
   const submitHandler = (e) => {
     e.preventDefault();
   };
@@ -17,11 +30,11 @@ const ShippingScreen = () => {
           onSubmit={submitHandler}
         >
           <h6>DELIVERY ADDRESS</h6>
-          <input type="text" placeholder="Enter address" />
-          <input type="text" placeholder="Enter city" />
-          <input type="text" placeholder="Enter postal code" />
-          <input type="text" placeholder="Enter country" />
-          <button type="submit">
+          <input type="text" placeholder="Enter address" onChange={e => address = e.target.value} />
+          <input type="text" placeholder="Enter city" onChange={e => city = e.target.value} />
+          <input type="text" placeholder="Enter postal code" onChange={e => postalCode = e.target.value}/>
+          <input type="text" placeholder="Enter country" onChange={e => country = e.target.value}/>
+          <button type="submit" onClick={saveData}>
             <Link to="/payment" className="text-white">
               Continue
             </Link>
