@@ -3,9 +3,13 @@ import {useFetching} from "../utils/CustomHooks/useFetching";
 import axios from "axios";
 import {useHistory} from "react-router-dom";
 import Preloader from "../utils/Preloader/Preloader";
+import OrderWindow from "../utils/Orders/OrderWindow";
 
 const Orders = () => {
     const [orders, setOrders] = useState([])
+    const [isOrderListVisible, setOrderListVisible] = useState(false)
+    const [orderItems, setOrderItems] = useState([])
+
     const history = useHistory()
 
     const [loadOrders, areOrdersLoading, error] = useFetching(() => {
@@ -17,79 +21,77 @@ const Orders = () => {
     })
 
     useMemo(() => {
-      loadOrders()
+        loadOrders()
     }, [])
     return (
-        <div className=" d-flex justify-content-center align-items-center flex-column">
-            {/* <div className="col-12 alert alert-info text-center mt-3">
-        No Orders
-        <Link
-          className="btn btn-success mx-2 px-3 py-2"
-          to="/"
-          style={{
-            fontSize: "12px",
-          }}
-        >
-          START SHOPPING
-        </Link>
-      </div> */}
+        <>
+            {isOrderListVisible
+                ? <OrderWindow setVisible={setOrderListVisible} orderItems={orderItems}/>
+                : null}
 
-            <div className="table-responsive">
-                <table className="table">
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>STATUS</th>
-                        <th>DATE</th>
-                        <th>TOTAL</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {/*<tr className={"alert-success"}>*/}
-                    {/*  <td>*/}
-                    {/*    <a href={`/`} className="link">*/}
-                    {/*      1*/}
-                    {/*    </a>*/}
-                    {/*  </td>*/}
-                    {/*  <td>Paid</td>*/}
-                    {/*  <td>Dec 12 2021</td>*/}
-                    {/*  <td>$234</td>*/}
-                    {/*</tr>*/}
-                    {/*/!* Cancelled *!/*/}
-                    {/*<tr className={"alert-danger"}>*/}
-                    {/*  <td>*/}
-                    {/*    <a href={`/`} className="link">*/}
-                    {/*      2*/}
-                    {/*    </a>*/}
-                    {/*  </td>*/}
-                    {/*  <td>Not Paid</td>*/}
-                    {/*  <td>Dec 12 2021</td>*/}
-                    {/*  <td>$34</td>*/}
-                    {/*</tr>*/}
-                    {areOrdersLoading
-                        ? <Preloader/>
-                        : orders.map(item => (
-                            <tr className={"alert-success"}>
-                                <td>
-                                    <a href={`/`} className="link">
-                                      {item._id}
-                                    </a>
-                                </td>
-                                <td>
-                                  {item.status}
-                                </td>
-                                <td>
-                                    {item.createdAt.slice(0, 10)}
-                                </td>
-                                <td>
-                                    {item.total}$
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+            <div className=" d-flex justify-content-center align-items-center flex-column">
+
+                <div className="table-responsive">
+                    <table className="table">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>STATUS</th>
+                            <th>DATE</th>
+                            <th>TOTAL</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {/*<tr className={"alert-success"}>*/}
+                        {/*  <td>*/}
+                        {/*    <a href={`/`} className="link">*/}
+                        {/*      1*/}
+                        {/*    </a>*/}
+                        {/*  </td>*/}
+                        {/*  <td>Paid</td>*/}
+                        {/*  <td>Dec 12 2021</td>*/}
+                        {/*  <td>$234</td>*/}
+                        {/*</tr>*/}
+                        {/*/!* Cancelled *!/*/}
+                        {/*<tr className={"alert-danger"}>*/}
+                        {/*  <td>*/}
+                        {/*    <a href={`/`} className="link">*/}
+                        {/*      2*/}
+                        {/*    </a>*/}
+                        {/*  </td>*/}
+                        {/*  <td>Not Paid</td>*/}
+                        {/*  <td>Dec 12 2021</td>*/}
+                        {/*  <td>$34</td>*/}
+                        {/*</tr>*/}
+                        {areOrdersLoading
+                            ? <Preloader/>
+                            : orders.map(item => (
+                                <tr className={"alert-success"} onClick={() => {
+                                    setOrderItems(item.order)
+                                    setOrderListVisible(true)
+                                }
+                                }>
+                                    <td>
+                                        <a href={`/`} className="link">
+                                            {item._id}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        {item.status}
+                                    </td>
+                                    <td>
+                                        {item.createdAt.slice(0, 10)}
+                                    </td>
+                                    <td>
+                                        {item.total}$
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
+        </>
     );
 };
 

@@ -2,6 +2,7 @@ import React from "react";
 import Header from "../components/Header";
 import ProfileTabs from "../components/profileComponents/ProfileTabs";
 import Orders from "../components/profileComponents/Orders";
+import OrderWindow from "../components/utils/Orders/OrderWindow";
 
 const ProfileScreen = () => {
   window.scrollTo(0, 0);
