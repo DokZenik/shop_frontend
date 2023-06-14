@@ -15,6 +15,8 @@ import OrderScreen from './screens/OrderScreen';
 import NotFound from './screens/NotFound';
 import Cookies from "js-cookie";
 import PartnersComponent from "./components/utils/Partners/PartnersComponent";
+import Dashboard from "./components/utils/Dashboard/Dashboard";
+import DashProducts from "./components/utils/Dashboard/DashProducts";
 
 const App = () => {
     useEffect(() => {
@@ -94,10 +96,17 @@ const App = () => {
                         component={PartnersComponent}
                     />
                     <Route
+                        path="/dashboard"
+                        component={Dashboard}
+                    />
+                    <Route
+                    path='/dashProducts'
+                    component={DashProducts}
+                    />
+                    <Route
                         path="*"
                         component={NotFound}
                     />
-
                 </Switch>
             </Router>
         </>

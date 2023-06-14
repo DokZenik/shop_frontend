@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600&display=swap');
+
+body{
+    font-family: 'Open Sans', sans-serif;
+}
+
+.vw-20{
+    flex: 1 1 auto;
+    border-right: 2px solid #818181;
+    box-shadow: 2px 4px 15px 20px rgba(102, 102, 102, 0.15);
+    height: 100vh;
+    max-width: 20%;
+}
+.dashboard-list-group{
+    align-self: center;
+    list-style: none;
+    padding: 0;
+}
+.dashboard-list-group li{
+    width: 100%;
+    padding: 20px 30px;
+}
+.dashboard-list-group li:hover{
+    background-color: #E1FFC8;
+    box-shadow: inset 6px 0 0 #57BD00;
+}
+.dashboard-list-group li:hover svg path{
+    fill: #57BD00;
+}
+.dashboard-list-group li:hover a{
+    color: #57BD00;
+}
+.dashboard-list-group li a{
+    font-size: 24px;
+}
+.view-main{
+    flex: 10 auto;
+}
+.text-title{
+    color: #57BD00;
+}
+.bolder{
+    align-self: flex-end;
+    font-weight: bold;
+}
+.dashboard-graph_item{
+    padding: 20px 40px;
+    box-shadow: 0px 4px 30px 1px rgba(0, 0, 0, 0.25);
+    border-radius: 15px;
+}
+th, td{
+    text-align: center;
+}
+.dashboard-orders{
+    width: 1200px;
+}
+input[type=date]{
+    border-radius: 15px;
+    padding: 10px;
+    border: 0;
+    background-color: #545454;
+    color: white;
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}

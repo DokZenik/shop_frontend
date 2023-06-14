@@ -5,7 +5,6 @@ import ContactInfo from './../components/homeComponents/ContactInfo';
 import CalltoActionSection from './../components/homeComponents/CalltoActionSection';
 import Footer from './../components/Footer';
 import ModalCart from "../components/utils/Cart/ModalCart";
-import Navigation from "./Navigation";
 import PreFooter from "./PreFooter";
 import Banner from "./Banner";
 
