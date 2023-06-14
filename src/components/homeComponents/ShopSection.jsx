@@ -13,7 +13,7 @@ const ShopSection = ({visible, setVisible, filteredItems, setFilteredItems}) => 
     const [currentPageNumber, setCurrentPageNumber] = useState(0);
     const [pagesCount, setPagesCount] = useState(1)
     const [currentPageItems, setCurrentPageItems] = useState([])
-    const [maxItemsPerPage, setMaxItemsPerPage] = useState(8)
+    const [maxItemsPerPage, setMaxItemsPerPage] = useState(12)
     const [isItemsLoading, setIsItemsLoading] = useState(false);
     const [products, setProducts] = useState([]);
 

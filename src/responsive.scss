@@ -54,6 +54,11 @@
   }
 }
 @media (max-width: 768px) {
+  .d-block{
+    object-fit: cover;
+    object-position: left;
+    height: 210px;
+  }
   .form__section{
     width: 100%;
   }
@@ -196,5 +201,10 @@
   .single-image,
   .single-image img {
     height: 200px;
+  }
+}
+@media (max-width: 300px){
+  .d-block{
+    height: 150px;
   }
 }
