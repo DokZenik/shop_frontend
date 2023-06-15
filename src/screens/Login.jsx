@@ -13,6 +13,7 @@ const Login = ({match}) => {
     let handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            localStorage.clear()
             let res = await fetch("http://localhost:5000/api/auth/login", {
                 method: "POST",
                 headers: {
@@ -30,7 +31,11 @@ const Login = ({match}) => {
                 localStorage.setItem("token", resJson.token)
                 localStorage.setItem("email", email)
                 localStorage.setItem("username", resJson.username)
-                history.push("/")
+                localStorage.setItem("roles", JSON.stringify(resJson.roles))
+                if(resJson.roles.includes("ADMIN"))
+                    history.push("/dashboard")
+                else
+                    history.push("/")
             }else{
                 setChangeMessage(false)
             }

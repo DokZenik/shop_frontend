@@ -1,8 +1,10 @@
 import classes from './Dashboard.module.css'
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 
 
 const DashboardNavigation = ({ onItemClick, selectedComponent }) => {
+    const history = useHistory()
+
     const handleItemClick = (component) => {
         onItemClick(component);
     };
@@ -76,7 +78,13 @@ const DashboardNavigation = ({ onItemClick, selectedComponent }) => {
                     </ul>
                 </div>
                 <div>
-                    <button className={`btn btn-dark`}>Log Out</button>
+                    <button className={`btn btn-dark`} onClick={() => {
+                        localStorage.removeItem("username")
+                        localStorage.removeItem("token")
+                        localStorage.removeItem("email")
+                        localStorage.removeItem("roles")
+                        history.push("/")
+                    }}>Log Out</button>
                 </div>
             </div>
         </>

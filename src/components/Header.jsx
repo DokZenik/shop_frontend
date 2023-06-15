@@ -172,6 +172,7 @@ const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filter
                                                         localStorage.removeItem("token")
                                                         localStorage.removeItem("username")
                                                         localStorage.removeItem("email")
+                                                        localStorage.removeItem("role")
                                                     }}>Logout
                                                     </div>
 
