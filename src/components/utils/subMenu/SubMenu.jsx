@@ -1,6 +1,6 @@
 import React from "react";
 
-const SubMenu = ({ category, subcategories, isSubmenuOpen, closeSubmenu }) => {
+const SubMenu = ({ category, subcategories, isSubmenuOpen, closeSubmenu, products, setFilteredItems, setCategories, catData}) => {
     return (
         isSubmenuOpen && (
             <ul className="cd-secondary-dropdown scroll">
@@ -14,12 +14,26 @@ const SubMenu = ({ category, subcategories, isSubmenuOpen, closeSubmenu }) => {
                             {/*    </a>*/}
                             {/*</li>*/}
                             {subcategory.items.map((item, i) => (
-                                <li key={i}>
+                                <li key={i} onClick={() => {
+                                    setCategories([item.name])
+                                    setFilteredItems(products.filter(elem => elem.categories.includes(item.name)))
+                                }}>
                                     <a href={item.link}>{item.name}</a>
                                 </li>
                             ))}
-                            <li className="see-all">
-                                <a href="https://codyhouse.co/?p=748">All {subcategory.name}</a>
+                            <li className="see-all" onClick={() => {
+                                const buff = catData.filter(item => item.title === subcategory.name).map(elem => elem.value)
+                                setCategories(buff)
+                                setFilteredItems(products.filter(elem => {
+                                    let index = false
+                                    elem.categories.forEach(category => {
+                                        if(buff.includes(category))
+                                            index = true
+                                    })
+                                    return index
+                                }))
+                            }}>
+                                <a href="#">All {subcategory.name}</a>
                             </li>
                         </ul>
                     </li>

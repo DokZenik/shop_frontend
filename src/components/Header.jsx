@@ -8,7 +8,7 @@ const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filter
     const [cartCount, setCartCount] = useState(0);
     const [prod, setProd] = useState([])
     const history = useHistory();
-
+    const [categories, setCategories] = useState([])
 
     useEffect(() => {
         if (prod.length === 0)
@@ -78,7 +78,7 @@ const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filter
                                 </div>
                                 {filterEnable
                                     ? <div className="col-6 d-flex align-items-center search-adaptive">
-                                        <SearchProduct products={prod} setFilteredItems={setFilteredItems}/>
+                                        <SearchProduct products={prod} setFilteredItems={setFilteredItems} categories={categories}/>
                                     </div>
                                     : null}
                                 <div className="col-3 d-flex align-items-center justify-content-end Login-Register">
@@ -120,7 +120,7 @@ const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filter
                             </div>
                             {filterEnable
                                 ? <div className="d-flex align-items-center justify-content-center search-small">
-                                    <SearchProduct products={prod} setFilteredItems={setFilteredItems}/>
+                                    <SearchProduct products={prod} setFilteredItems={setFilteredItems} categories={categories}/>
                                 </div>
                                 : null}
                         </div>
@@ -138,11 +138,11 @@ const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filter
                                         src="/images/logo.png"
                                     />
                                 </Link>
-                                <Category/>
+                                <Category setFilteredItems={setFilteredItems} products={prod} setCategories={setCategories}/>
                             </div>
                             <div className="w-50 flex-1">
                                 {filterEnable
-                                    ? <SearchProduct products={prod} setFilteredItems={setFilteredItems}/>
+                                    ? <SearchProduct products={prod} setFilteredItems={setFilteredItems} categories={categories}/>
                                     : null}
                             </div>
 
