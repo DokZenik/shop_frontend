@@ -3,13 +3,19 @@
 body{
     font-family: 'Open Sans', sans-serif;
 }
-
+.h-512{
+    height: 512px;
+}
 .vw-20{
     flex: 1 1 auto;
     border-right: 2px solid #818181;
     box-shadow: 2px 4px 15px 20px rgba(102, 102, 102, 0.15);
     height: 100vh;
     max-width: 20%;
+}
+.shop_wrapper{
+    margin-left: 3rem;
+    flex-basis: 20%;
 }
 .dashboard-list-group{
     align-self: center;
@@ -32,9 +38,6 @@ body{
 }
 .dashboard-list-group li a{
     font-size: 24px;
-}
-.view-main{
-    flex: 10 auto;
 }
 .text-title{
     color: #57BD00;

@@ -139,19 +139,18 @@ const CartScreen = ({setVisible}) => {
                     </div>
                     <div className="col-md-6 d-flex justify-content-md-end mt-3 mt-md-0">
 
-                        <button>
+                        <Link to="/shipping" className='cart-buttons cart-btn'>
                             {cart.length !== 0
-                                ? <Link
-                                    to="/shipping"
+                                ? <p
                                     className="text-white">
                                     Checkout
-                                </Link>
+                                </p>
                                 : <div className="text-white">
                                     Checkout
                                 </div>
                             }
 
-                        </button>
+                        </Link>
                     </div>
                 </div>
             </div>

@@ -8,7 +8,7 @@ const DashboardNavigation = ({ onItemClick, selectedComponent }) => {
     };
     return (
         <>
-            <div className={`d-flex justify-content-between align-items-center p-3 flex-column ${[classes['vw-20']]}`}>
+            <div className={`d-flex justify-content-between align-items-center p-3 flex-column ${[classes['vw-20']]} flex-1`}>
                 <div className={`${classes['dashboard-list']} d-flex flex-column gap-5`}>
                     <div className={'d-flex align-items-center justify-content-center'}>
                         <img src="/images/logo.png" alt=""/>

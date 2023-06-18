@@ -21,11 +21,11 @@ const ShippingScreen = () => {
           <input type="text" placeholder="Enter city" />
           <input type="text" placeholder="Enter postal code" />
           <input type="text" placeholder="Enter country" />
-          <button type="submit">
-            <Link to="/payment" className="text-white">
+          <Link to="/payment" className='btn btn-success d-flex align-items-center justify-content-center mt-4' type="submit">
+            <p className="text-white align-self-center">
               Continue
-            </Link>
-          </button>
+            </p>
+          </Link>
         </form>
       </div>
     </>

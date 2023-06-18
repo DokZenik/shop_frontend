@@ -85,6 +85,9 @@
     width: 100%;
     margin-top: 5px;
   }
+  .form-section{
+    gap: 10px;
+  }
   .subscribe-head .form-section input[type="email"] {
     height: 45px;
     width: 70%;
@@ -160,7 +163,6 @@
   .subscribe-head .form-section input[type="submit"] {
     width: 100%;
     padding: 0 0;
-    margin-top: 20px;
     margin-left: 0px;
   }
   .subscribe-head h2 {
