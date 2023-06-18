@@ -27,13 +27,12 @@ const PaymentScreen = () => {
             </div>
           </div>
 
-          <button type="submit">
-            <Link
-              to="/placeorder"
+          <Link to='/placeorder' className='btn btn-success d-flex align-items-center justify-content-center mt-4' type="submit">
+            <p
               className="text-white">
               Continue
-            </Link>
-          </button>
+            </p>
+          </Link>
         </form>
       </div>
     </>

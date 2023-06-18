@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Rating from "../../homeComponents/Rating";
+import classes from '../Dashboard/Dashboard.module.css';
 
 const DashProducts = () => {
     const [isItemsLoading, setIsItemsLoading] = useState(false);
@@ -10,6 +11,7 @@ const DashProducts = () => {
         name: "",
         description: "",
         cost: 0,
+        image: "", // Added image field for editing
         editProductId: null, // Track the product ID being edited
     });
 
@@ -17,22 +19,29 @@ const DashProducts = () => {
         fetchData();
     }, []);
 
-    const fetchData = () => {
+    const fetchData = async () => {
         setIsItemsLoading(true);
-        axios
-            .get(`http://localhost:5000/api/products/`)
-            .then((res) => {
-                setProducts(res.data);
-                setIsItemsLoading(false);
-            })
-            .catch((e) => console.log(e));
+        try {
+            const response = await axios.get("http://localhost:5000/api/products/");
+            setProducts(response.data);
+            setIsItemsLoading(false);
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value,
-        });
+        if (e.target.name === "image") {
+            setFormData({
+                ...formData,
+                [e.target.name]: e.target.files[0], // Save the selected file
+            });
+        } else {
+            setFormData({
+                ...formData,
+                [e.target.name]: e.target.value,
+            });
+        }
     };
 
     const handleEdit = (productId) => {
@@ -41,83 +50,106 @@ const DashProducts = () => {
             name: "", // Clear the form fields when starting the edit
             description: "",
             cost: 0,
+            image: "", // Clear the image field when starting the edit
             editProductId: productId, // Set the ID of the product being edited
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const { editProductId, name, description, cost } = formData;
+        const { editProductId, name, description, cost, image } = formData;
 
-        // Update the product with the new data
-        const updatedProducts = products.map((product) => {
-            if (product._id === editProductId) {
-                return {
-                    ...product,
-                    name: name,
-                    description: description,
-                    cost: cost,
-                };
-            }
-            return product;
-        });
+        const updatedFormData = new FormData();
+        updatedFormData.append("name", name);
+        updatedFormData.append("description", description);
+        updatedFormData.append("cost", cost);
+        updatedFormData.append("image", image);
 
-        setProducts(updatedProducts);
-        setFormData({
-            name: "",
-            description: "",
-            cost: 0,
-            editProductId: null,
-        });
+        try {
+            await axios.post(`http://localhost:5000/api/products/${editProductId}/edit`, updatedFormData, {
+                headers: {
+                    "Content-Type": "multipart/form-data", // Set the content type for file uploads
+                },
+            });
+
+            const updatedProducts = products.map((product) => {
+                if (product._id === editProductId) {
+                    return {
+                        ...product,
+                        name: name,
+                        description: description,
+                        cost: cost,
+                    };
+                }
+                return product;
+            });
+
+            setProducts(updatedProducts);
+            setFormData({
+                name: "",
+                description: "",
+                cost: 0,
+                image: "",
+                editProductId: null,
+            });
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (
         <>
-            {/* Render the list of products */}
-            {products.map((product) => (
-                <div className="shop" key={product._id}>
-                    <div className="shopBack">
-                        <img src={product.image} alt={product.name} />
-                    </div>
-                    <div className="shoptext">
-                        <p>{product.name}</p>
-                    </div>
-                    <div className="item__rating">
-                        <Rating value={product.rating} text={`${product.numReviews} reviews`} />
-                    </div>
+            <div className={`d-flex flex-1 flex-wrap scroll ${classes['shop_wrapper']}`}>
+                {products.map((product) => (
+                    <div className={'shop h-50 m-3'} key={product._id}>
+                        <div className="shopBack">
+                            <img src={product.image} alt={product.name} />
+                        </div>
+                        <div className="shoptext">
+                            <p>{product.name}</p>
+                        </div>
+                        <div className="item__rating">
+                            <Rating value={product.rating} text={`${product.numReviews} reviews`} />
+                        </div>
 
-                    {/* Render the form only if the product is being edited */}
-                    {formData.editProductId === product._id && (
-                        <form onSubmit={handleSubmit}>
-                            <input
-                                type="text"
-                                name="name"
-                                value={formData.name}
-                                onChange={handleChange}
-                            />
-                            <input
-                                type="text"
-                                name="description"
-                                value={formData.description}
-                                onChange={handleChange}
-                            />
-                            <input
-                                type="number"
-                                name="cost"
-                                value={formData.cost}
-                                onChange={handleChange}
-                            />
-                            <button type="submit">Accept Changes</button>
-                        </form>
-                    )}
+                        {/* Render the form only if the product is being edited */}
+                        {formData.editProductId === product._id && (
+                            <form onSubmit={handleSubmit} className={'d-flex align-items-center gap-2'}>
+                                <input
+                                    type="text"
+                                    name="name"
+                                    value={formData.name}
+                                    onChange={handleChange}
+                                />
+                                <input
+                                    type="text"
+                                    name="description"
+                                    value={formData.description}
+                                    onChange={handleChange}
+                                />
+                                <input
+                                    type="number"
+                                    name="cost"
+                                    value={formData.cost}
+                                    onChange={handleChange}
+                                />
+                                <input
+                                    type="file"
+                                    name="image"
+                                    onChange={handleChange}
+                                />
+                                <button className={'btn btn-dark m-3'} type="submit">Accept Changes</button>
+                            </form>
+                        )}
 
-                    {/* Render the "Edit" button if the product is not being edited */}
-                    {formData.editProductId !== product._id && (
-                        <button onClick={() => handleEdit(product._id)}>Edit</button>
-                    )}
-                </div>
-            ))}
+                        {/* Render the "Edit" button if the product is not being edited */}
+                        {formData.editProductId !== product._id && (
+                            <button onClick={() => handleEdit(product._id)} className={'btn btn-dark'}>Edit</button>
+                        )}
+                    </div>
+                ))}
+            </div>
         </>
     );
 };

@@ -38,7 +38,7 @@ const DashboardView = () => {
 
     return (
         <>
-            <div className={`${classes['view-main']} d-flex align-items-start p-5 flex-column gap-5`}>
+            <div className={`${classes['view-main']} d-flex align-items-start p-5 flex-column gap-5 flex-1`}>
                 <div className={`d-flex flex-column gap-3 align-items-center`}>
                     <h1 className={`${classes['text-title']}`}>Dashboard</h1>
                     <div className={`${classes['dashboard-calendar']}`}>

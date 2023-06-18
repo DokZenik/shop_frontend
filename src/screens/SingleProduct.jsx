@@ -113,7 +113,7 @@ const SingleProduct = ({match}) => {
                                     <div className="product-count col-lg-7 ">
                                         <div className="flex-box d-flex justify-content-between align-items-center">
                                             <h6>Price</h6>
-                                            <span>${product.price}</span>
+                                            <span>${product.cost}</span>
                                         </div>
                                         <div className="flex-box d-flex justify-content-between align-items-center">
                                             <h6>Status</h6>

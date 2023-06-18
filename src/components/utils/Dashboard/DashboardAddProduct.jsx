@@ -41,9 +41,9 @@ const AddProduct = () => {
     };
 
     return (
-        <div>
+        <div className={'d-flex flex-1 flex-column mx-5 gap-5 my-4'}>
             <h2>Add Product</h2>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className={'d-flex gap-3'}>
                 <input
                     type="text"
                     name="name"
@@ -65,7 +65,7 @@ const AddProduct = () => {
                     value={formData.cost}
                     onChange={handleChange}
                 />
-                <button type="submit">Add Product</button>
+                <button className={'btn btn-dark'} type="submit">Add Product</button>
             </form>
         </div>
     );
