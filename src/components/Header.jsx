@@ -11,14 +11,12 @@ const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filter
     const [categories, setCategories] = useState([])
 
     useEffect(() => {
-        if (prod.length === 0)
+        if (prod.length === 0) {
+            console.log("TEST")
             setProd(filteredItems)
+        }
     }, [filteredItems])
 
-    useEffect(() => {
-        if (prod.length === 0)
-            setProd(filteredItems)
-    }, [filteredItems])
 
     const userValidate = () => {
         axios.get("http://localhost:5000/api/auth/users", {

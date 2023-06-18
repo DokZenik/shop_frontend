@@ -6,8 +6,11 @@ const SearchProduct = ( {products, setFilteredItems, categories}) => {
                 type="text"
                 placeholder="Search for a product"
                 onChange={(e) => {
+                    console.log(products)
+                    console.log(e.target.value.toLowerCase())
                     let buff = products.filter(elem => elem.name.toLowerCase().includes(e.target.value.toLowerCase()))
-                    if(categories)
+                    console.log(buff)
+                    if(categories.length !== 0)
                         buff = buff.filter(elem => {
                             let index = false
                             elem.categories.forEach(category => {
