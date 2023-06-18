@@ -5,7 +5,7 @@ const AddProduct = () => {
     const [formData, setFormData] = useState({
         name: "",
         description: "",
-        cost: 0,
+        price: 0,
     });
 
     const handleChange = (e) => {
@@ -22,7 +22,7 @@ const AddProduct = () => {
         const newProduct = {
             name: formData.name,
             description: formData.description,
-            cost: formData.cost,
+            price: formData.price,
         };
 
         // Send a POST request to the server to add the product
@@ -34,7 +34,7 @@ const AddProduct = () => {
                 setFormData({
                     name: "",
                     description: "",
-                    cost: 0,
+                    price: 0,
                 });
             })
             .catch((e) => console.log(e));
@@ -60,9 +60,9 @@ const AddProduct = () => {
                 />
                 <input
                     type="number"
-                    name="cost"
-                    placeholder="Product Cost"
-                    value={formData.cost}
+                    name="price"
+                    placeholder="Product price"
+                    value={formData.price}
                     onChange={handleChange}
                 />
                 <button className={'btn btn-dark'} type="submit">Add Product</button>

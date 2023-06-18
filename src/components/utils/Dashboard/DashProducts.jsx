@@ -10,7 +10,7 @@ const DashProducts = () => {
     const [formData, setFormData] = useState({
         name: "",
         description: "",
-        cost: 0,
+        price: 0,
         image: "", // Added image field for editing
         editProductId: null, // Track the product ID being edited
     });
@@ -49,7 +49,7 @@ const DashProducts = () => {
             ...formData,
             name: "", // Clear the form fields when starting the edit
             description: "",
-            cost: 0,
+            price: 0,
             image: "", // Clear the image field when starting the edit
             editProductId: productId, // Set the ID of the product being edited
         });
@@ -58,12 +58,12 @@ const DashProducts = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const { editProductId, name, description, cost, image } = formData;
+        const { editProductId, name, description, price, image } = formData;
 
         const updatedFormData = new FormData();
         updatedFormData.append("name", name);
         updatedFormData.append("description", description);
-        updatedFormData.append("cost", cost);
+        updatedFormData.append("price", price);
         updatedFormData.append("image", image);
 
         try {
@@ -79,7 +79,7 @@ const DashProducts = () => {
                         ...product,
                         name: name,
                         description: description,
-                        cost: cost,
+                        price: price,
                     };
                 }
                 return product;
@@ -89,7 +89,7 @@ const DashProducts = () => {
             setFormData({
                 name: "",
                 description: "",
-                cost: 0,
+                price: 0,
                 image: "",
                 editProductId: null,
             });
@@ -130,8 +130,8 @@ const DashProducts = () => {
                                 />
                                 <input
                                     type="number"
-                                    name="cost"
-                                    value={formData.cost}
+                                    name="price"
+                                    value={formData.price}
                                     onChange={handleChange}
                                 />
                                 <input

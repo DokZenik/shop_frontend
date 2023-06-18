@@ -108,7 +108,7 @@ const ShopSection = ({visible, setVisible, filteredItems, setFilteredItems}) => 
                                                         />
                                                     </div>
                                                     <div className="item_price">
-                                                        <h3>${product.cost}</h3>
+                                                        <h3>${product.price}</h3>
                                                     </div>
 
                                                 </div>
