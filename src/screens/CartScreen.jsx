@@ -112,6 +112,7 @@ const CartScreen = ({setVisible}) => {
                                     <p>{totalItemsPrice.find(elem => elem.itemId === item._id).totalPrice} $</p>
                                 </div>
                                 <CartItemCounter
+                                    maxItems={item.countInStock}
                                     counter={item.count}
                                     elemId={item._id}
                                     decrement={decrementItemPrice}
@@ -139,18 +140,20 @@ const CartScreen = ({setVisible}) => {
                     </div>
                     <div className="col-md-6 d-flex justify-content-md-end mt-3 mt-md-0">
 
-                        <Link to="/shipping" className='cart-buttons cart-btn'>
-                            {cart.length !== 0
-                                ? <p
+                        {cart.length !== 0
+                            ? <Link to="/shipping" className='cart-buttons cart-btn'>
+                                <p
                                     className="text-white">
                                     Checkout
                                 </p>
-                                : <div className="text-white">
+                            </Link>
+                            : <div className='cart-buttons cart-btn'>
+                                <p
+                                    className="text-white">
                                     Checkout
-                                </div>
-                            }
+                                </p>
+                            </div>}
 
-                        </Link>
                     </div>
                 </div>
             </div>

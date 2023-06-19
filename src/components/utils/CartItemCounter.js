@@ -1,15 +1,17 @@
 import {useState} from "react";
 
 
-const CartItemCounter = ({counter, elemId, increment, decrement}) => {
+const CartItemCounter = ({counter, elemId, increment, decrement, maxItems}) => {
 
     const [count, setCount] = useState(counter);
 
     return (
         <div className="counter__wrapper">
             <button className="plus" onClick={() => {
-                setCount(count + 1)
-                increment(elemId)
+                if(count < maxItems) {
+                    setCount(count + 1)
+                    increment(elemId)
+                }
             }
             }>
                 +

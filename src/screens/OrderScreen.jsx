@@ -42,7 +42,8 @@ const OrderScreen = () => {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`
             }
-        }).then(res => console.log(res)).catch(e => console.log(e))
+        })
+
         await axios.delete(`http://localhost:5000/api/cart/clear/${localStorage.getItem("email")}`, {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`

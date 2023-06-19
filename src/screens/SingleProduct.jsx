@@ -123,7 +123,7 @@ const SingleProduct = ({match}) => {
                                         <div className="flex-box d-flex justify-content-between align-items-center">
                                             <h6>Reviews</h6>
                                             <Rating
-                                                value={product.rating}
+                                                value={product.rating / product.numReviews}
                                                 text={`${product.numReviews} reviews`}
                                             />
                                         </div>
