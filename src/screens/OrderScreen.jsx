@@ -27,7 +27,15 @@ const OrderScreen = () => {
     })
 
     useMemo(() => {
-        fetchOrderItems()
+        if (!localStorage.getItem("email") || !localStorage.getItem("username") || !localStorage.getItem("token"))
+            history.push("/login/401")
+        else {
+            axios.get(`http://localhost:5000/api/auth/users`, {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                }
+            }).then(res => fetchOrderItems()).catch(e => history.push("/login/403"))
+        }
     }, [])
 
     const paymentHandler = async () => {
