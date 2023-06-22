@@ -674,6 +674,13 @@ textarea:focus {
   background-color: #1cb803;
   color: #ffffff;
 }
+.mapboxgl-control-container, .mapboxgl-popup, .mapboxgl-popup-anchor-bottom{
+  display: none;
+}
+.mapboxgl-canvas{
+  height: 600px;
+  width: 900px;
+}
 .cart-btn{
   width: 100%;
   background: #07bc0c;
