@@ -50,6 +50,13 @@ const OrderScreen = () => {
         }).then(res => console.log(res)).catch(e => console.log(e))
         localStorage.removeItem("delivery_address")
     }
+    const onApprove = (data, actions) => {
+        // Handle the payment approval
+        return actions.order.capture().then(function (details) {
+            console.log("Payment successful:", details);
+            // Perform any necessary actions with the payment details
+        });
+    };
 
     return (
         <>
@@ -108,7 +115,8 @@ const OrderScreen = () => {
                                     <strong>Deliver to</strong>
                                 </h5>
                                 <p>
-                                    Address: {deliveryData.address}, {deliveryData.city}, P.O BOX {deliveryData.postalCode} {deliveryData.country}
+                                    Address: {deliveryData.address}, {deliveryData.city}, P.O
+                                    BOX {deliveryData.postalCode} {deliveryData.country}
                                 </p>
                                 <div className="bg-danger p-1 col-12">
                                     <p className="text-white text-center text-sm-start">
@@ -187,7 +195,24 @@ const OrderScreen = () => {
                             </tbody>
                         </table>
                         <div className="col-12">
-                            <PayPalButton amount={345}/>
+                            <PayPalButton fundingSource={'paypal'}
+                                          style={{layout: "horizontal"}}
+                                          createOrder={(data, actions) => {
+                                              return actions.order.create({
+                                                  purchase_units: [
+                                                      {
+                                                          amount: {
+                                                              currency_code: "USD",
+                                                              value: (
+                                                                  productsTotalPrice + shippingPrice + tax
+                                                              ).toFixed(2),
+                                                          },
+                                                      },
+                                                  ],
+                                              });
+                                          }}
+                                          onApprove={onApprove}
+                            />
                         </div>
                         <button onClick={paymentHandler}>TEST</button>
                     </div>
