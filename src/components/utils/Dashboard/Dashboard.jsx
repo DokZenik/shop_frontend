@@ -22,11 +22,11 @@ const Dashboard = () => {
             if (localStorage.getItem("roles"))
                 if (JSON.parse(localStorage.getItem("roles")).includes("USER"))
                     history.push("/")
-            axios.get(`http://localhost:5000/api/auth/users`, {}, {
+            axios.get(`http://localhost:5000/api/auth/users`,  {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`
                 }
-            }).catch(e => history.push("/"))
+            }).catch(e => history.push("/login/403"))
         }
     }, [])
 
