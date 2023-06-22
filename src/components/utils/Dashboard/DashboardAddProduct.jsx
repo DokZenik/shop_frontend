@@ -6,6 +6,7 @@ const AddProduct = () => {
         name: "",
         description: "",
         price: 0,
+        images: [],
     });
 
     const handleChange = (e) => {
@@ -15,35 +16,46 @@ const AddProduct = () => {
         });
     };
 
+    const handleImageChange = (e) => {
+        const imageFiles = Array.from(e.target.files);
+        setFormData({
+            ...formData,
+            images: imageFiles,
+        });
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
+        const newProductData = new FormData();
+        newProductData.append("name", formData.name);
+        newProductData.append("description", formData.description);
+        newProductData.append("price", formData.price);
+        formData.images.forEach((image, index) => {
+            newProductData.append(`images`, image); // Update the field name to 'images'
+        });
 
-        // Create a new product object with the form data
-        const newProduct = {
-            name: formData.name,
-            description: formData.description,
-            price: formData.price,
-        };
-
-        // Send a POST request to the server to add the product
         axios
-            .post("http://localhost:5000/api/products/", newProduct)
+            .post("http://localhost:5000/api/products/", newProductData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            })
             .then((res) => {
                 console.log("Product added successfully");
-                // Clear the form fields after adding the product
                 setFormData({
                     name: "",
                     description: "",
                     price: 0,
+                    images: [],
                 });
             })
             .catch((e) => console.log(e));
     };
 
     return (
-        <div className={'d-flex flex-1 flex-column mx-5 gap-5 my-4'}>
+        <div className={"d-flex flex-1 flex-column mx-5 gap-5 my-4"}>
             <h2>Add Product</h2>
-            <form onSubmit={handleSubmit} className={'d-flex gap-3'}>
+            <form onSubmit={handleSubmit} className={"d-flex gap-3"}>
                 <input
                     type="text"
                     name="name"
@@ -65,7 +77,10 @@ const AddProduct = () => {
                     value={formData.price}
                     onChange={handleChange}
                 />
-                <button className={'btn btn-dark'} type="submit">Add Product</button>
+                <input type="file" name="image" onChange={handleImageChange} multiple />
+                <button className={"btn btn-dark"} type="submit" onClick={handleSubmit}>
+                    Add Product
+                </button>
             </form>
         </div>
     );

@@ -24,8 +24,8 @@ const CartScreen = ({setVisible}) => {
                     let sum = 0
                     setCart(res.data.map(elem => {
                         const newItem = {...elem.product, count: elem.count}
-                        sum += newItem.count * newItem.price
-                        totalItemsPrice.push({itemId: newItem._id, totalPrice: newItem.count * newItem.price})
+                        sum += newItem.count * newItem.cost
+                        totalItemsPrice.push({itemId: newItem._id, totalPrice: newItem.count * newItem.cost})
                         return newItem
                     }))
                     setSum(sum)
@@ -33,7 +33,7 @@ const CartScreen = ({setVisible}) => {
     }, [])
 
     const incrementItemPrice = (itemId) => {
-        const price = cart.find(item => item._id === itemId).price
+        const price = cart.find(item => item._id === itemId).cost
         console.log(price)
         setTotalItemsPrice(totalItemsPrice.map(elem =>
             elem.itemId === itemId
