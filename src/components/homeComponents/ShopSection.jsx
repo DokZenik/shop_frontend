@@ -109,7 +109,7 @@ const ShopSection = ({visible, setVisible, filteredItems, setFilteredItems, base
                                                 >
                                                     <Link to={`/products/${product._id}`}>
                                                         <div className="shopBack">
-                                                            <img src={product.image} alt={product.name}/>
+                                                            <img src={product.images[0]} alt={product.name}/>
                                                         </div>
                                                     </Link>
 

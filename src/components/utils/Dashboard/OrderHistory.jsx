@@ -1,22 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import axios from 'axios';
 
 
 const HistoryOrders = () => {
     const [orders, setOrders] = useState([]);
 
-    useEffect(() => {
-        fetchOrders();
-    }, []);
-
     const fetchOrders = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/history/getAll');
+            const response = await axios.get('http://localhost:5000/api/history/getAll', {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                }
+            });
+            console.log(response)
             setOrders(response.data);
         } catch (error) {
             console.log(error);
         }
     };
+
+    useMemo(() => {
+        fetchOrders();
+    }, []);
 
     return (
         <div>
