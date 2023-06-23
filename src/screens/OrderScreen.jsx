@@ -36,7 +36,7 @@ const OrderScreen = () => {
                 userId: localStorage.getItem("email"),
                 order: items,
                 total: productsTotalPrice,
-                status: "PAIN"
+                status: "PAID"
             }
         }, {
             headers: {
@@ -62,7 +62,7 @@ const OrderScreen = () => {
         <>
             <Header/>
             <div className="container">
-                <div className="row  order-detail">
+                <div className="row order-detail">
                     <div className="col-lg-4 col-sm-4 mb-lg-4 mb-5 mb-sm-0">
                         <div className="row">
                             <div className="col-md-4 center">

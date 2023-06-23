@@ -26,7 +26,7 @@ body{
     width: 100%;
     padding: 20px 30px;
 }
-.dashboard-list-group li:hover{
+.dashboard_list_group li:hover{
     background-color: #E1FFC8;
     box-shadow: inset 6px 0 0 #57BD00;
 }
@@ -66,4 +66,13 @@ input[type=date]{
 }
 input[type="date"]::-webkit-calendar-picker-indicator {
     filter: invert(1);
+}
+
+@media (max-width: 1440px) {
+    .dashboard-list-group li{
+        width: 250px;
+    }
+    .dashboard-list-group li a{
+        font-size: 18px;
+    }
 }

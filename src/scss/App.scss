@@ -86,6 +86,8 @@ textarea:focus {
 }
 
 .navbar-brand {
+  text-align: center;
+  width: 50%;
   margin: 0;
 }
 
@@ -204,6 +206,9 @@ textarea:focus {
   width: 25px;
   object-fit: contain;
   margin-left: 20px;
+}
+.max-height-600{
+  max-height: 700px;
 }
 
 .shop {
@@ -596,12 +601,14 @@ textarea:focus {
 .form input {
   padding: 20px 10px;
   font-size: 17px;
-  background-color: #e5fee9;
 }
-
+.swiper-pagination-bullet{
+  background-color: white !important;
+  opacity: 0.6 !important;
+}
 .form-container button {
   padding: 15px 0;
-  border: 0px;
+  border: 0;
   margin-top: 20px;
   text-transform: uppercase;
   font-size: 13px;
@@ -989,12 +996,16 @@ textarea:focus {
   padding: 0;
   margin: 0;
 }
-
+.h100vh{
+  max-height: 100vh;
+}
 .info_heading {
   font-size: 18px;
   font-weight: bold;
 }
-
+.scroll-none{
+  overflow-y: hidden;
+}
 .scroll::-webkit-scrollbar-thumb {
   background: #888;
 }

@@ -1,28 +1,29 @@
 import axios from "axios";
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import Rating from "../../homeComponents/Rating";
 import classes from '../Dashboard/Dashboard.module.css';
-import {Swiper, SwiperSlide} from "swiper/react";
-import {Pagination} from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from "swiper";
 import 'swiper/swiper.scss';
-import 'swiper/modules/pagination/pagination.scss'
-
-
+import 'swiper/modules/pagination/pagination.scss';
 
 const DashProducts = () => {
     const [isItemsLoading, setIsItemsLoading] = useState(false);
     const [products, setProducts] = useState([]);
     const [image, setImage] = useState([]);
+    const [categories, setCategories] = useState([]); // Added categories state
     const [formData, setFormData] = useState({
         name: "",
         description: "",
         price: 0,
         image: "", // Added image field for editing
+        category: "", // Added category field
         editProductId: null, // Track the product ID being edited
     });
 
     useEffect(() => {
         fetchData();
+        fetchCategories(); // Fetch categories when component mounts
     }, []);
 
     const fetchData = async () => {
@@ -33,6 +34,15 @@ const DashProducts = () => {
             setProducts(response.data);
             console.log(response.data)
             setIsItemsLoading(false);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const fetchCategories = async () => {
+        try {
+            const response = await axios.get("http://localhost:5000/api/categories/");
+            setCategories(response.data);
         } catch (error) {
             console.log(error);
         }
@@ -60,6 +70,7 @@ const DashProducts = () => {
             description: "",
             price: 0,
             image: [], // Clear the image field when starting the edit
+            category: "", // Clear the category field when starting the edit
             editProductId: productId, // Set the ID of the product being edited
         });
     };
@@ -67,12 +78,13 @@ const DashProducts = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const {editProductId, name, description, price, images} = formData; // Updated field name from "image" to "images"
+        const { editProductId, name, description, price, images, category } = formData; // Updated field name from "image" to "images"
 
         const updatedFormData = new FormData();
         updatedFormData.append("name", name);
         updatedFormData.append("description", description);
         updatedFormData.append("price", price);
+        updatedFormData.append("category", category);
 
         // Append each image file to the form data
         for (let i = 0; i < images.length; i++) {
@@ -106,6 +118,7 @@ const DashProducts = () => {
                 description: "",
                 price: 0,
                 images: [], // Clear the images field when submitting
+                category: "", // Clear the category field when submitting
                 editProductId: null,
             });
         } catch (error) {
@@ -118,7 +131,7 @@ const DashProducts = () => {
         <>
             <div className={`d-flex flex-1 flex-wrap scroll ${classes['shop_wrapper']}`}>
                 {products.map((product) => (
-                    <div className={'shop h-50 m-3 w-25'} key={product._id}>
+                    <div className={'shop max-height-600 m-3 w-25'} key={product._id}>
                         <div className="shopBack">
                             <Swiper
                                 pagination={{
@@ -128,7 +141,7 @@ const DashProducts = () => {
                             >
                                 {product.images.map((image, index) => (
                                     <SwiperSlide key={index} virtualIndex={index}>
-                                        <img src={image} alt={product.name}/>
+                                        <img src={image} alt={product.name} />
                                     </SwiperSlide>
                                 ))}
                             </Swiper>
@@ -137,31 +150,47 @@ const DashProducts = () => {
                             <p>{product.name}</p>
                         </div>
                         <div className="item__rating">
-                            <Rating value={product.rating} text={`${product.numReviews} reviews`}/>
+                            <Rating value={product.rating} text={`${product.numReviews} reviews`} />
                         </div>
 
                         {/* Render the form only if the product is being edited */}
                         {formData.editProductId === product._id && (
-                            <form onSubmit={handleSubmit} className={'d-flex align-items-center gap-2'}>
+                            <form onSubmit={handleSubmit} className={'d-flex align-items-center gap-2 flex-column'}>
                                 <input
+                                    className={'form-control'}
                                     type="text"
                                     name="name"
                                     value={formData.name}
                                     onChange={handleChange}
                                 />
                                 <input
+                                    className={'form-control'}
                                     type="text"
                                     name="description"
                                     value={formData.description}
                                     onChange={handleChange}
                                 />
                                 <input
+                                    className={'form-control'}
                                     type="number"
                                     name="price"
                                     value={formData.price}
+                                    min={0}
                                     onChange={handleChange}
                                 />
+                                <select
+                                    className={'form-control'}
+                                    name="category"
+                                    value={formData.category}
+                                    onChange={handleChange}
+                                >
+                                    <option value="">Select Category</option>
+                                    {categories.map((category) => (
+                                        <option key={category._id} value={category.title}>{category.value}</option>
+                                    ))}
+                                </select>
                                 <input
+                                    className={'form-control'}
                                     type="file"
                                     name="images"
                                     onChange={handleChange}

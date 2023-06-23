@@ -4,6 +4,8 @@ import DashboardView from "./DashboardView";
 import DashProducts from "./DashProducts";
 import AddProduct from "./DashboardAddProduct";
 import {useHistory} from "react-router-dom";
+import DashBanner from "./DashBanner";
+import HistoryOrders from "./OrderHistory";
 
 const Dashboard = () => {
     const [selectedComponent, setSelectedComponent] = useState("dashboard");
@@ -21,7 +23,7 @@ const Dashboard = () => {
     }, [])
 
     return (
-        <div className="d-flex">
+        <div className="d-flex h100vh">
             <DashboardNavigation
                 onItemClick={handleNavigationItemClick}
                 selectedComponent={selectedComponent}
@@ -29,6 +31,8 @@ const Dashboard = () => {
             {selectedComponent === "dashboard" && <DashboardView />}
             {selectedComponent === "products" && <DashProducts />}
             {selectedComponent === "addProduct" && <AddProduct />}
+            {selectedComponent === "banners" && <DashBanner />}
+            {selectedComponent === "historyOrder" && <HistoryOrders />}
         </div>
     );
 };

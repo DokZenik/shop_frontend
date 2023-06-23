@@ -3,8 +3,9 @@ import {Link, useHistory} from 'react-router-dom';
 import SearchProduct from "./utils/search/SearchProduct";
 import Category from "./homeComponents/Category";
 import axios from "axios";
+import CurrencySelector from "./utils/Currency/CurrencyBtn";
 
-const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filterEnable, profileButtonVisible}) => {
+const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filterEnable, profileButtonVisible, baseCurrency, onCurrencyChange}) => {
     const [cartCount, setCartCount] = useState(0);
     const [prod, setProd] = useState([])
     const history = useHistory();
@@ -126,8 +127,8 @@ const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filter
 
                     {/* PC HEADER */}
                     <div className="pc-header">
-                        <div className="d-flex justify-content-center gap-5">
-                            <div className="d-flex align-items-center justify-content-start flex-1">
+                        <div className="d-flex justify-content-center gap-5 align-items-center">
+                            <div className="d-flex align-items-center justify-content-start flex-1 gap-2">
                                 <Link
                                     className="navbar-brand"
                                     to="/">
@@ -137,6 +138,8 @@ const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filter
                                     />
                                 </Link>
                                 <Category setFilteredItems={setFilteredItems} products={prod} setCategories={setCategories}/>
+                                <CurrencySelector baseCurrency={baseCurrency} onCurrencyChange={onCurrencyChange}/>
+                                {/*<button className={'btn btn-dark'}>RU</button>*/}
                             </div>
                             <div className="w-50 flex-1">
                                 {filterEnable

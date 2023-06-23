@@ -66,9 +66,9 @@ const PartnersComponent = () => {
                 <Header cartEnable={false}/>
                 <div className={`${classes.partners__container} d-flex flex-column gap-5`}>
                     <div className={'w-75 m-auto'}><MapboxMap/></div>
-                    <div className={'d-flex'}>
+                    <div className={'d-flex gap-4'}>
                         <div className={`${classes.partners__filter} flex-1`}>
-                            <h3>Filter by Category</h3>
+                            <h3>Filter</h3>
                             <ul className={`list-unstyled ${classes.partners__categoryList}`}>
                                 <li
                                     className={selectedCategory === null ? classes.active : ""}
@@ -92,7 +92,7 @@ const PartnersComponent = () => {
                             </ul>
                         </div>
                         <div className={classes.partners__title}></div>
-                        <div className={`classes.partners d-flex flex-1 flex-wrap gap-3`}>
+                        <div className={`classes.partners d-flex flex-1 flex-wrap gap-3 w-75`}>
                             {filteredPartners.map((partner) => (
                                 <div className={classes.partner} key={partner.id}>
                                     <div className={classes.partner__image}>

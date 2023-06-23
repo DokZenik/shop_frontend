@@ -1,30 +1,30 @@
-import React from 'react';
-import '../scss/App.scss'
+import React, { useEffect, useState } from 'react';
+import '../scss/App.scss';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination } from 'swiper';
+import 'swiper/swiper.scss';
+import 'swiper/modules/pagination/pagination.scss';
 
 const Banner = () => {
+    const [banners, setBanners] = useState([]);
+
+    useEffect(() => {
+        fetch('http://localhost:5000/api/banners')
+            .then((response) => response.json())
+            .then((data) => setBanners(data))
+            .catch((error) => console.error(error));
+        console.log(banners)
+    }, []);
+
     return (
-        <div className='container-xxl'>
-            <div id="carouselExampleControls" className="carousel slide" data-ride="carousel">
-                <div className="carousel-inner">
-                    <div className="carousel-item active">
-                        <img className="d-block w-100" src="/images/test.jpg" alt="First slide" />
-                    </div>
-                    <div className="carousel-item">
-                        <img className="d-block w-100" src="/images/test.jpg" alt="Second slide" />
-                    </div>
-                    <div className="carousel-item">
-                        <img className="d-block w-100" src="/images/test.jpg" alt="Third slide" />
-                    </div>
-                </div>
-                <a className="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-                    <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span className="sr-only">Previous</span>
-                </a>
-                <a className="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-                    <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span className="sr-only">Next</span>
-                </a>
-            </div>
+        <div className="container-xxl">
+            <Swiper pagination={{ dynamicBullets: true }} modules={[Pagination]}>
+                {banners.map((banner) => (
+                    <SwiperSlide key={banner._id}>
+                        <img className="d-block w-100" src={banner.imageUrl} alt={banner.altText} />
+                    </SwiperSlide>
+                ))}
+            </Swiper>
         </div>
     );
 };
