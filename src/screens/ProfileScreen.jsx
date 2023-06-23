@@ -7,114 +7,113 @@ import axios from "axios";
 import {useHistory} from "react-router-dom";
 
 const ProfileScreen = () => {
-  const [user, setUser] = useState({
-    roles: [1, 2],
-    email: "testEmail",
-    username: "testUsername",
-    createdAt: "0000-00-00"
-  })
-  const history = useHistory()
-
-  useMemo(() => {
-    axios.get(`http://localhost:5000/api/auth/user/${localStorage.getItem("email")}`, {
-      headers: {
-        "Authorization": `Bearer ${localStorage.getItem("token")}`
-      }
+    const [user, setUser] = useState({
+        roles: [1, 2],
+        email: "testEmail",
+        username: "testUsername",
+        createdAt: "0000-00-00"
     })
-        .then(res => setUser(res.data))
-        .catch(e => history.push("/login/403"))
-  }, [])
+    const history = useHistory()
+
+    useMemo(() => {
+        axios.get(`http://localhost:5000/api/auth/user/${localStorage.getItem("email")}`, {
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+            .then(res => setUser(res.data))
+            .catch(e => history.push("/login/403"))
+    }, [])
 
 
-  window.scrollTo(0, 0);
-  return (
+    window.scrollTo(0, 0);
+    return (
 
-    <>
-      {console.log(user)}
-      <Header />
-      <div className="container mt-lg-5 mt-3">
-        <div className="row align-items-start">
-          <div className="col-lg-4 p-0 shadow ">
-            <div className="author-card pb-0 pb-md-3">
-              <div className="author-card-cover"></div>
-              <div className="author-card-profile row">
-                <div className="author-card-avatar col-md-5">
-                  <img src="./images/user.png" alt="userprofileimage" />
-                </div>
-                <div className="author-card-details col-md-7">
-                  <h5 className="author-card-name mb-2">
-                    <strong>{user.roles[0]} {user.username}</strong>
-                  </h5>
-                  <span className="author-card-position">
+        <>
+            <Header/>
+            <div className="container mt-lg-5 mt-3">
+                <div className="row align-items-start">
+                    <div className="col-lg-4 p-0 shadow ">
+                        <div className="author-card pb-0 pb-md-3">
+                            <div className="author-card-cover"></div>
+                            <div className="author-card-profile row">
+                                <div className="author-card-avatar col-md-5">
+                                    <img src="./images/user.png" alt="userprofileimage"/>
+                                </div>
+                                <div className="author-card-details col-md-7">
+                                    <h5 className="author-card-name mb-2">
+                                        <strong>{user.roles[0]} {user.username}</strong>
+                                    </h5>
+                                    <span className="author-card-position">
                     <>Joined {user.createdAt.slice(0, 10)}</>
                   </span>
-                </div>
-              </div>
-            </div>
-            <div className="wizard pt-3 ">
-              <div class="d-flex align-items-start">
-                <div
-                  class="nav align-items-start flex-column col-12 nav-pills me-3 "
-                  id="v-pills-tab"
-                  role="tablist"
-                  aria-orientation="vertical"
-                >
-                  <button
-                    class="nav-link active"
-                    id="v-pills-home-tab"
-                    data-bs-toggle="pill"
-                    data-bs-target="#v-pills-home"
-                    type="button"
-                    role="tab"
-                    aria-controls="v-pills-home"
-                    aria-selected="true"
-                  >
-                    Profile Settings
-                  </button>
-                  <button
-                    class="nav-link d-flex justify-content-between"
-                    id="v-pills-profile-tab"
-                    data-bs-toggle="pill"
-                    data-bs-target="#v-pills-profile"
-                    type="button"
-                    role="tab"
-                    aria-controls="v-pills-profile"
-                    aria-selected="false"
-                  >
-                    Orders List
-                    <span className="badge2">3</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="wizard pt-3 ">
+                            <div class="d-flex align-items-start">
+                                <div
+                                    class="nav align-items-start flex-column col-12 nav-pills me-3 "
+                                    id="v-pills-tab"
+                                    role="tablist"
+                                    aria-orientation="vertical"
+                                >
+                                    <button
+                                        class="nav-link active"
+                                        id="v-pills-home-tab"
+                                        data-bs-toggle="pill"
+                                        data-bs-target="#v-pills-home"
+                                        type="button"
+                                        role="tab"
+                                        aria-controls="v-pills-home"
+                                        aria-selected="true"
+                                    >
+                                        Profile Settings
+                                    </button>
+                                    <button
+                                        class="nav-link d-flex justify-content-between"
+                                        id="v-pills-profile-tab"
+                                        data-bs-toggle="pill"
+                                        data-bs-target="#v-pills-profile"
+                                        type="button"
+                                        role="tab"
+                                        aria-controls="v-pills-profile"
+                                        aria-selected="false"
+                                    >
+                                        Orders List
+                                        <span className="badge2">3</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-          {/* panels */}
-          <div
-            class="tab-content col-lg-8 pb-5 pt-lg-0 pt-3"
-            id="v-pills-tabContent"
-          >
-            <div
-              class="tab-pane fade show active"
-              id="v-pills-home"
-              role="tabpanel"
-              aria-labelledby="v-pills-home-tab"
-            >
-              <ProfileTabs />
+                    {/* panels */}
+                    <div
+                        class="tab-content col-lg-8 pb-5 pt-lg-0 pt-3"
+                        id="v-pills-tabContent"
+                    >
+                        <div
+                            class="tab-pane fade show active"
+                            id="v-pills-home"
+                            role="tabpanel"
+                            aria-labelledby="v-pills-home-tab"
+                        >
+                            <ProfileTabs/>
+                        </div>
+                        <div
+                            class="tab-pane fade"
+                            id="v-pills-profile"
+                            role="tabpanel"
+                            aria-labelledby="v-pills-profile-tab"
+                        >
+                            <Orders/>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div
-              class="tab-pane fade"
-              id="v-pills-profile"
-              role="tabpanel"
-              aria-labelledby="v-pills-profile-tab"
-            >
-              <Orders />
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
-  );
+        </>
+    );
 };
 
 export default ProfileScreen;
