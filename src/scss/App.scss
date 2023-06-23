@@ -999,6 +999,12 @@ textarea:focus {
 .h100vh{
   max-height: 100vh;
 }
+.third-dropdown li a:hover{
+  color: #57BD00 !important;
+}
+.third-dropdown li a{
+  cursor: pointer;
+}
 .info_heading {
   font-size: 18px;
   font-weight: bold;
