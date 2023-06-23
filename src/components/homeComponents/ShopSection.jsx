@@ -103,7 +103,7 @@ const ShopSection = ({visible, setVisible, filteredItems, setFilteredItems}) => 
 
                                                     <div className="item__rating">
                                                         <Rating
-                                                            value={product.rating}
+                                                            value={product.rating / product.numReviews}
                                                             text={`${product.numReviews} reviews`}
                                                         />
                                                     </div>

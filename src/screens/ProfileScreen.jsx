@@ -1,13 +1,36 @@
-import React from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import Header from "../components/Header";
 import ProfileTabs from "../components/profileComponents/ProfileTabs";
 import Orders from "../components/profileComponents/Orders";
 import OrderWindow from "../components/utils/Orders/OrderWindow";
+import axios from "axios";
+import {useHistory} from "react-router-dom";
 
 const ProfileScreen = () => {
+  const [user, setUser] = useState({
+    roles: [1, 2],
+    email: "testEmail",
+    username: "testUsername",
+    createdAt: "0000-00-00"
+  })
+  const history = useHistory()
+
+  useMemo(() => {
+    axios.get(`http://localhost:5000/api/auth/user/${localStorage.getItem("email")}`, {
+      headers: {
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      }
+    })
+        .then(res => setUser(res.data))
+        .catch(e => history.push("/login/403"))
+  }, [])
+
+
   window.scrollTo(0, 0);
   return (
+
     <>
+      {console.log(user)}
       <Header />
       <div className="container mt-lg-5 mt-3">
         <div className="row align-items-start">
@@ -20,10 +43,10 @@ const ProfileScreen = () => {
                 </div>
                 <div className="author-card-details col-md-7">
                   <h5 className="author-card-name mb-2">
-                    <strong>Admin Doe</strong>
+                    <strong>{user.roles[0]} {user.username}</strong>
                   </h5>
                   <span className="author-card-position">
-                    <>Joined Dec 12 2021</>
+                    <>Joined {user.createdAt.slice(0, 10)}</>
                   </span>
                 </div>
               </div>
