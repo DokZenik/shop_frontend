@@ -1,9 +1,9 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import Rating from "../../homeComponents/Rating";
 import classes from '../Dashboard/Dashboard.module.css';
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination } from "swiper";
+import {Swiper, SwiperSlide} from "swiper/react";
+import {Pagination} from "swiper";
 import 'swiper/swiper.scss';
 import 'swiper/modules/pagination/pagination.scss';
 
@@ -29,7 +29,11 @@ const DashProducts = () => {
     const fetchData = async () => {
         setIsItemsLoading(true);
         try {
-            const response = await axios.get("http://localhost:5000/api/products/");
+            const response = await axios.get("http://localhost:5000/api/products/", {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                }
+            });
             setImage(response.data);
             setProducts(response.data);
             console.log(response.data)
@@ -41,7 +45,11 @@ const DashProducts = () => {
 
     const fetchCategories = async () => {
         try {
-            const response = await axios.get("http://localhost:5000/api/categories/");
+            const response = await axios.get("http://localhost:5000/api/categories/", {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                }
+            });
             setCategories(response.data);
         } catch (error) {
             console.log(error);
@@ -78,7 +86,7 @@ const DashProducts = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const { editProductId, name, description, price, images, category } = formData; // Updated field name from "image" to "images"
+        const {editProductId, name, description, price, images, category} = formData; // Updated field name from "image" to "images"
 
         const updatedFormData = new FormData();
         updatedFormData.append("name", name);
@@ -96,6 +104,7 @@ const DashProducts = () => {
             await axios.post(`http://localhost:5000/api/products/${editProductId}/edit`, updatedFormData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
                 },
             });
 
@@ -141,7 +150,7 @@ const DashProducts = () => {
                             >
                                 {product.images.map((image, index) => (
                                     <SwiperSlide key={index} virtualIndex={index}>
-                                        <img src={image} alt={product.name} />
+                                        <img src={image} alt={product.name}/>
                                     </SwiperSlide>
                                 ))}
                             </Swiper>
@@ -150,7 +159,7 @@ const DashProducts = () => {
                             <p>{product.name}</p>
                         </div>
                         <div className="item__rating">
-                            <Rating value={product.rating} text={`${product.numReviews} reviews`} />
+                            <Rating value={product.rating / product.numReviews} text={`${product.numReviews} reviews`}/>
                         </div>
 
                         {/* Render the form only if the product is being edited */}
