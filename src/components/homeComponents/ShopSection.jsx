@@ -7,8 +7,9 @@ import {setProd} from "../../data/Products";
 import Preloader from "../utils/Preloader/Preloader";
 import ModalCart from "../utils/Cart/ModalCart";
 import SearchProduct from "../utils/search/SearchProduct";
+import CurrencySelector from "../utils/Currency/CurrencyBtn";
 
-const ShopSection = ({visible, setVisible, filteredItems, setFilteredItems}) => {
+const ShopSection = ({visible, setVisible, filteredItems, setFilteredItems, baseCurrency}) => {
 
     const [currentPageNumber, setCurrentPageNumber] = useState(0);
     const [pagesCount, setPagesCount] = useState(1)
@@ -16,6 +17,25 @@ const ShopSection = ({visible, setVisible, filteredItems, setFilteredItems}) => 
     const [maxItemsPerPage, setMaxItemsPerPage] = useState(12)
     const [isItemsLoading, setIsItemsLoading] = useState(false);
     const [products, setProducts] = useState([]);
+    const [conversionRate, setConversionRate] = useState({
+        CZK: 21.50,
+        EUR: 1.00,
+        PLN: 4.55
+    });
+
+    const convertCurrency = (price) => {
+        const rate = conversionRate[baseCurrency];
+        if (rate) {
+            const convertedPrice = price / rate;
+            return convertedPrice.toFixed(2);
+        } else {
+            return "N/A"; // Or any other default value or error handling logic
+        }
+    };
+
+
+
+
 
     const getPagesCount = (elemPerPageCount) => {
         return Math.ceil(filteredItems.length / elemPerPageCount)
@@ -108,7 +128,11 @@ const ShopSection = ({visible, setVisible, filteredItems, setFilteredItems}) => 
                                                         />
                                                     </div>
                                                     <div className="item_price">
-                                                        <h3>${product.price}</h3>
+                                                        <h3>
+                                                            {`${baseCurrency} ${(
+                                                                product.price * conversionRate[baseCurrency]
+                                                            ).toFixed(2)}`}
+                                                        </h3>
                                                     </div>
 
                                                 </div>

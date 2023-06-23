@@ -12,7 +12,11 @@ const HomeScreen = () => {
     window.scrollTo(0, 0);
     const [modal, setModal] = useState(false)
     const [filteredItems, setFilteredItems] = useState([]);
+    const [baseCurrency, setBaseCurrency] = useState('EUR');
     const history = useHistory()
+    const handleCurrencyChange = (selectedCurrency) => {
+        setBaseCurrency(selectedCurrency);
+    };
 
     useMemo(() => {
         if (localStorage.getItem("roles"))
@@ -23,10 +27,10 @@ const HomeScreen = () => {
     return (
         <div>
             <Header setVisible={setModal} cartEnable={true} filteredItems={filteredItems}
-                    setFilteredItems={setFilteredItems} filterEnable={true} profileButtonVisible={true}/>
+                    setFilteredItems={setFilteredItems} filterEnable={true} profileButtonVisible={true} baseCurrency={baseCurrency} onCurrencyChange={handleCurrencyChange}/>
             <Banner/>
             <ShopSection visible={modal} setVisible={setModal} filteredItems={filteredItems}
-                         setFilteredItems={setFilteredItems}/>
+                         setFilteredItems={setFilteredItems} baseCurrency={baseCurrency} />
             <CalltoActionSection/>
             <ContactInfo/>
             <PreFooter/>
