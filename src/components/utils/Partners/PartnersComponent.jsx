@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from "../../Header";
 import classes from "./PartnersComponent.module.css";
-import MapboxMap from "./PartnersMap";
+// import MapboxMap from "./PartnersMap";
 
 const PartnersComponent = () => {
     const [selectedCategory, setSelectedCategory] = React.useState(null);
@@ -65,7 +65,7 @@ const PartnersComponent = () => {
             <div>
                 <Header cartEnable={false}/>
                 <div className={`${classes.partners__container} d-flex flex-column gap-5`}>
-                    <div className={'w-75 m-auto'}><MapboxMap/></div>
+                    {/*<div className={'w-75 m-auto'}><MapboxMap/></div>*/}
                     <div className={'d-flex gap-4'}>
                         <div className={`${classes.partners__filter} flex-1`}>
                             <h3>Filter</h3>
