@@ -12,7 +12,7 @@ const DashBanner = () => {
 
     const fetchBanners = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/banners');
+            const response = await axios.get('https://platz-shop-api.onrender.com/api/banners');
             setBanners(response.data);
         } catch (error) {
             console.error('Error fetching banners:', error);
@@ -48,7 +48,7 @@ const DashBanner = () => {
 
     const deleteBanner = async (id) => {
         try {
-            await axios.delete(`http://localhost:5000/api/banners/${id}`);
+            await axios.delete(`https://platz-shop-api.onrender.com/api/banners/${id}`);
 
             // Refresh the banners
             fetchBanners();

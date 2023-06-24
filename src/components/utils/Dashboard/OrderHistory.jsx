@@ -7,7 +7,7 @@ const HistoryOrders = () => {
 
     const fetchOrders = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/history/getAll', {
+            const response = await axios.get('https://platz-shop-api.onrender.com/api/history/getAll', {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`
                 }

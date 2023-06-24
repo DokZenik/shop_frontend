@@ -13,7 +13,7 @@ const Orders = () => {
     const history = useHistory()
 
     const [loadOrders, areOrdersLoading, error] = useFetching(() => {
-        axios.get(`http://localhost:5000/api/history/getAll/${localStorage.getItem("email")}`, {
+        axios.get(`https://platz-shop-api.onrender.com/api/history/getAll/${localStorage.getItem("email")}`, {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`
             }

@@ -14,7 +14,7 @@ const Category = ({products, setFilteredItems, setCategories}) => {
     const history = useHistory()
 
     const [fetchCategories, areCategoriesLoading, error] = useFetching(() => {
-        axios.get("http://localhost:5000/api/categories", {
+        axios.get("https://platz-shop-api.onrender.com/api/categories", {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`
             }

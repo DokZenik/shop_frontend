@@ -18,7 +18,7 @@ const AddProduct = () => {
 
     const fetchCategories = async () => {
         try {
-            const response = await axios.get("http://localhost:5000/api/categories");
+            const response = await axios.get("https://platz-shop-api.onrender.com/api/categories");
             setCategories(response.data);
         } catch (error) {
             console.log(error);
@@ -52,7 +52,7 @@ const AddProduct = () => {
         });
 
         axios
-            .post("http://localhost:5000/api/products/", newProductData, {
+            .post("https://platz-shop-api.onrender.com/api/products/", newProductData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },

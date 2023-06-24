@@ -9,7 +9,7 @@ const Product = () => {
         const fetchData = () => {
 
             console.log("test1")
-            axios.get(`http://localhost:5000/api/products/`)
+            axios.get(`https://platz-shop-api.onrender.com/api/products/`)
                 .then(res => {
                     setProducts(res.data)
                     console.log(products)

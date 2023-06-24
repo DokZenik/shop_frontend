@@ -20,7 +20,7 @@ const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filter
 
 
     const userValidate = () => {
-        axios.get("http://localhost:5000/api/auth/users", {
+        axios.get("https://platz-shop-api.onrender.com/api/auth/users", {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`
             }

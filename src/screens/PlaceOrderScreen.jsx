@@ -16,7 +16,7 @@ const PlaceOrderScreen = () => {
     let deliveryData = JSON.parse(localStorage.getItem("delivery_address"))
 
     const [fetchOrderItems, areOrderItemsLoading, error] = useFetching(async () => {
-        axios.get(`http://localhost:5000/api/cart/${localStorage.getItem("email")}`, {
+        axios.get(`https://platz-shop-api.onrender.com/api/cart/${localStorage.getItem("email")}`, {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`
             }
@@ -28,7 +28,7 @@ const PlaceOrderScreen = () => {
         if (!localStorage.getItem("email") || !localStorage.getItem("username") || !localStorage.getItem("token"))
             history.push("/login/401")
         else {
-            axios.get(`http://localhost:5000/api/auth/users`, {
+            axios.get(`https://platz-shop-api.onrender.com/api/auth/users`, {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`
                 }

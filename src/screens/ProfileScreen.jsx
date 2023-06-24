@@ -16,7 +16,7 @@ const ProfileScreen = () => {
     const history = useHistory()
 
     useMemo(() => {
-        axios.get(`http://localhost:5000/api/auth/user/${localStorage.getItem("email")}`, {
+        axios.get(`https://platz-shop-api.onrender.com/api/auth/user/${localStorage.getItem("email")}`, {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`
             }

@@ -18,7 +18,7 @@ const OrderScreen = () => {
     let deliveryData = JSON.parse(localStorage.getItem("delivery_address"))
 
     const [fetchOrderItems, areOrderItemsLoading, error] = useFetching(async () => {
-        axios.get(`http://localhost:5000/api/cart/${localStorage.getItem("email")}`, {
+        axios.get(`https://platz-shop-api.onrender.com/api/cart/${localStorage.getItem("email")}`, {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`
             }
@@ -30,7 +30,7 @@ const OrderScreen = () => {
         if (!localStorage.getItem("email") || !localStorage.getItem("username") || !localStorage.getItem("token"))
             history.push("/login/401")
         else {
-            axios.get(`http://localhost:5000/api/auth/users`, {
+            axios.get(`https://platz-shop-api.onrender.com/api/auth/users`, {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`
                 }
@@ -39,7 +39,7 @@ const OrderScreen = () => {
     }, [])
 
     const paymentHandler = async () => {
-        await axios.post(`http://localhost:5000/api/history/addItem`, {
+        await axios.post(`https://platz-shop-api.onrender.com/api/history/addItem`, {
             item: {
                 userId: localStorage.getItem("email"),
                 order: items,
@@ -52,7 +52,7 @@ const OrderScreen = () => {
             }
         })
 
-        await axios.delete(`http://localhost:5000/api/cart/clear/${localStorage.getItem("email")}`, {
+        await axios.delete(`https://platz-shop-api.onrender.com/api/cart/clear/${localStorage.getItem("email")}`, {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`
             }

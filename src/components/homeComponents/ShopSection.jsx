@@ -49,7 +49,7 @@ const ShopSection = ({visible, setVisible, filteredItems, setFilteredItems, base
 
     const fetchData = () => {
         setIsItemsLoading(true)
-        axios.get(`http://localhost:5000/api/products/`)
+        axios.get(`https://platz-shop-api.onrender.com/api/products/`)
             .then(res => {
                 setProducts(res.data)
                 setFilteredItems(res.data)

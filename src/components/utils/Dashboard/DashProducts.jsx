@@ -29,7 +29,7 @@ const DashProducts = () => {
     const fetchData = async () => {
         setIsItemsLoading(true);
         try {
-            const response = await axios.get("http://localhost:5000/api/products/", {
+            const response = await axios.get("https://platz-shop-api.onrender.com/api/products/", {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`
                 }
@@ -45,7 +45,7 @@ const DashProducts = () => {
 
     const fetchCategories = async () => {
         try {
-            const response = await axios.get("http://localhost:5000/api/categories/", {
+            const response = await axios.get("https://platz-shop-api.onrender.com/api/categories/", {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`
                 }
@@ -101,7 +101,7 @@ const DashProducts = () => {
 
         try {
             // Make the POST request with the updatedFormData
-            await axios.post(`http://localhost:5000/api/products/${editProductId}/edit`, updatedFormData, {
+            await axios.post(`https://platz-shop-api.onrender.com/api/products/${editProductId}/edit`, updatedFormData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                     "Authorization": `Bearer ${localStorage.getItem("token")}`

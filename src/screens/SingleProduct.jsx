@@ -22,7 +22,7 @@ const SingleProduct = ({match}) => {
     const history = useHistory();
 
     const [fetchComments, areCommentsLoading, error] = useFetching(async () => {
-        axios.get(`http://localhost:5000/api/comments/${match.params.id}`)
+        axios.get(`https://platz-shop-api.onrender.com/api/comments/${match.params.id}`)
             .then(res => {
                 setComments(res.data)
 
@@ -46,7 +46,7 @@ const SingleProduct = ({match}) => {
 
     const fetchData = () => {
         setIsItemsLoading(true)
-        axios.get(`http://localhost:5000/api/products/`)
+        axios.get(`https://platz-shop-api.onrender.com/api/products/`)
             .then(res => {
                 setProducts(res.data)
                 setProd(res.data)
@@ -56,7 +56,7 @@ const SingleProduct = ({match}) => {
 
     }
     const userValidate = () => {
-        axios.get("http://localhost:5000/api/auth/users", {
+        axios.get("https://platz-shop-api.onrender.com/api/auth/users", {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`
             }
@@ -69,7 +69,7 @@ const SingleProduct = ({match}) => {
     }, [])
 
     let handleSubmit = async (e) => {
-        axios.post(`http://localhost:5000/api/comments/save`, {
+        axios.post(`https://platz-shop-api.onrender.com/api/comments/save`, {
             userId: localStorage.getItem("email"),
             itemId: product._id,
             text: commentText,
@@ -146,7 +146,7 @@ const SingleProduct = ({match}) => {
                                                         if (!localStorage.getItem("token")) {
                                                             history.push("/login/401")
                                                         } else {
-                                                            axios.post("http://localhost:5000/api/cart", {
+                                                            axios.post("https://platz-shop-api.onrender.com/api/cart", {
                                                                 item: {
                                                                     userId: localStorage.getItem("email"),
                                                                     count: count,

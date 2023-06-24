@@ -13,7 +13,7 @@ const CartScreen = ({setVisible}) => {
 
     useMemo(() => {
         if (localStorage.getItem("email") && localStorage.getItem("token"))
-            axios.get(`http://localhost:5000/api/cart/${localStorage.getItem("email")}`, {
+            axios.get(`https://platz-shop-api.onrender.com/api/cart/${localStorage.getItem("email")}`, {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`
                 }
@@ -43,7 +43,7 @@ const CartScreen = ({setVisible}) => {
                 }
                 : elem
         ))
-        axios.put(`http://localhost:5000/api/cart/increment/${localStorage.getItem("email")}/${itemId}`, {}, {
+        axios.put(`https://platz-shop-api.onrender.com/api/cart/increment/${localStorage.getItem("email")}/${itemId}`, {}, {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`
             }
@@ -62,7 +62,7 @@ const CartScreen = ({setVisible}) => {
                 }
                 : elem
         ))
-        axios.put(`http://localhost:5000/api/cart/decrement/${localStorage.getItem("email")}/${itemId}`, {}, {
+        axios.put(`https://platz-shop-api.onrender.com/api/cart/decrement/${localStorage.getItem("email")}/${itemId}`, {}, {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`
             }
@@ -74,7 +74,7 @@ const CartScreen = ({setVisible}) => {
         setCart(cart.filter(elem => elem._id !== itemId))
         setSum(sum - totalItemsPrice.find(elem => elem.itemId === itemId).totalPrice)
         setTotalItemsPrice(totalItemsPrice.filter(elem => elem.itemId !== itemId))
-        axios.delete(`http://localhost:5000/api/cart/${localStorage.getItem("email")}/${itemId}`, {
+        axios.delete(`https://platz-shop-api.onrender.com/api/cart/${localStorage.getItem("email")}/${itemId}`, {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`
             }

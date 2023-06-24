@@ -24,7 +24,7 @@ const Dashboard = () => {
             if (localStorage.getItem("roles"))
                 if (JSON.parse(localStorage.getItem("roles")).includes("USER"))
                     history.push("/")
-            axios.get(`http://localhost:5000/api/auth/users`,  {
+            axios.get(`https://platz-shop-api.onrender.com/api/auth/users`,  {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`
                 }

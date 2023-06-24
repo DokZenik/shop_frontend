@@ -21,7 +21,7 @@ const Register = () => {
     let handleSubmit = async (e) => {
         e.preventDefault()
 
-        axios.post("http://localhost:5000/api/auth/registration", {
+        axios.post("https://platz-shop-api.onrender.com/api/auth/registration", {
             username: requestData.username,
             email: requestData.email,
             password: requestData.password

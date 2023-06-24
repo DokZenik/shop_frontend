@@ -9,7 +9,7 @@ const Banner = () => {
     const [banners, setBanners] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:5000/api/banners')
+        fetch('https://platz-shop-api.onrender.com/api/banners')
             .then((response) => response.json())
             .then((data) => setBanners(data))
             .catch((error) => console.error(error));
