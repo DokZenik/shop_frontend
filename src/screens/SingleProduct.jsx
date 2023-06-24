@@ -9,6 +9,7 @@ import Preloader from "../components/utils/Preloader/Preloader";
 import ModalCart from "../components/utils/Cart/ModalCart";
 import {useFetching} from "../components/utils/CustomHooks/useFetching";
 import rating from "../components/homeComponents/Rating";
+import async from "async";
 
 const SingleProduct = ({match}) => {
     const [product, setProduct] = useState({});
@@ -34,25 +35,14 @@ const SingleProduct = ({match}) => {
 
     let count = 1
 
-    useEffect(() => {
-
-        const fetchProduct = async () => {
-            const {data} = await axios.get(`https://platz-shop-api.onrender.com/api/products/${match.params.id}`);
-            setProduct(data);
-        };
-        fetchProduct();
-        fetchComments();
-    }, []);
-
     const fetchData = () => {
         setIsItemsLoading(true)
-        axios.get(`https://platz-shop-api.onrender.com/api/products/`)
+        axios.get(`https://platz-shop-api.onrender.com/api/products/${match.params.id}`)
             .then(res => {
-                setProducts(res.data)
-                setProd(res.data)
+                setProduct(res.data)
+                console.log(res.data)
                 setIsItemsLoading(false)
             })
-            .catch(e => console.log(e))
 
     }
     const userValidate = () => {
@@ -63,6 +53,7 @@ const SingleProduct = ({match}) => {
         })
             .then(res => setShowCommentWindow(res.status === 200))
     }
+
     useMemo(() => {
         fetchData()
         userValidate()
@@ -81,6 +72,9 @@ const SingleProduct = ({match}) => {
             }
         }).catch(e => e.status === 403 ? history.push("/login") : null)
     }
+
+
+
     return (
         <>
             <Header setVisible={setModal} cartEnable={true}/>
@@ -98,7 +92,7 @@ const SingleProduct = ({match}) => {
                             <div className="col-md-6">
                                 <div className="single-image">
                                     <img
-                                        src={product.images[0]}
+                                        src={product.images}
                                         alt={product.name}
                                     />
                                 </div>
@@ -157,7 +151,7 @@ const SingleProduct = ({match}) => {
                                                                     "Authorization": `Bearer ${localStorage.getItem("token")}`
                                                                 }
                                                             }).then(res => window.location.reload())
-                                                                .catch(e =>  history.push("/login/403"))
+                                                                .catch(e => history.push("/login/403"))
                                                             // console.log(product)
 
                                                         }
