@@ -20,6 +20,7 @@ const SingleProduct = ({match}) => {
     const [showCommentWindow, setShowCommentWindow] = useState(false);
     let commentText = "";
     let itemRating = 1;
+    let disableButton = false
     const history = useHistory();
 
     const [fetchComments, areCommentsLoading, error] = useFetching(async () => {
@@ -59,7 +60,10 @@ const SingleProduct = ({match}) => {
         fetchComments()
     }, [])
 
-    let handleSubmit = async (e) => {
+    let handleSubmit = (e) => {
+        e.preventDefault()
+        disableButton = true
+
         axios.post(`https://platz-shop-api.onrender.com/api/comments/save`, {
             userId: localStorage.getItem("email"),
             itemId: product._id,
@@ -70,9 +74,12 @@ const SingleProduct = ({match}) => {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 'Content-type': 'application/json'
             }
-        }).catch(e => e.status === 403 ? history.push("/login") : null)
+        })
+            .then(res => {
+                window.location.reload()
+            })
+            .catch(e => e.status === 403 ? history.push("/login") : null)
     }
-
 
 
     return (
@@ -219,7 +226,8 @@ const SingleProduct = ({match}) => {
                                             ></textarea>
                                         </div>
                                         <div className="my-3">
-                                            <button className="col-12 bg-black border-0 p-3 rounded text-white">SUBMIT
+                                            <button disabled={disableButton}
+                                                    className="col-12 bg-black border-0 p-3 rounded text-white">SUBMIT
                                             </button>
                                         </div>
                                     </form>
