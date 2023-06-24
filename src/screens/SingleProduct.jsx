@@ -8,11 +8,11 @@ import {setProd} from "../data/Products";
 import Preloader from "../components/utils/Preloader/Preloader";
 import ModalCart from "../components/utils/Cart/ModalCart";
 import {useFetching} from "../components/utils/CustomHooks/useFetching";
-import rating from "../components/homeComponents/Rating";
-import async from "async";
 
 const SingleProduct = ({match}) => {
-    const [product, setProduct] = useState({});
+    const [product, setProduct] = useState({
+        images: []
+    });
     const [products, setProducts] = useState([]);
     const [isItemsLoading, setIsItemsLoading] = useState(false);
     const [modal, setModal] = useState(false);
@@ -99,7 +99,7 @@ const SingleProduct = ({match}) => {
                             <div className="col-md-6">
                                 <div className="single-image">
                                     <img
-                                        src={product.images}
+                                        src={product.images[0]}
                                         alt={product.name}
                                     />
                                 </div>
