@@ -26,7 +26,6 @@ const SingleProduct = ({match}) => {
         axios.get(`https://platz-shop-api.onrender.com/api/comments/${match.params.id}`)
             .then(res => {
                 setComments(res.data)
-
             })
             .catch(e => {
                 console.log(e.status)
@@ -57,6 +56,7 @@ const SingleProduct = ({match}) => {
     useMemo(() => {
         fetchData()
         userValidate()
+        fetchComments()
     }, [])
 
     let handleSubmit = async (e) => {
