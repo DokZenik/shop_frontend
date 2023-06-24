@@ -37,7 +37,7 @@ const SingleProduct = ({match}) => {
     useEffect(() => {
 
         const fetchProduct = async () => {
-            const {data} = await axios.get(`/api/products/${match.params.id}`);
+            const {data} = await axios.get(`https://platz-shop-api.onrender.com/api/products/${match.params.id}`);
             setProduct(data);
         };
         fetchProduct();
@@ -98,7 +98,7 @@ const SingleProduct = ({match}) => {
                             <div className="col-md-6">
                                 <div className="single-image">
                                     <img
-                                        src={product.image}
+                                        src={product.images[0]}
                                         alt={product.name}
                                     />
                                 </div>
