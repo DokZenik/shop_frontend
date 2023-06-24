@@ -1,6 +1,9 @@
 import React, {useState} from "react";
 import {Link, useHistory} from "react-router-dom";
 import Header from "./../components/Header";
+import Loader from "../components/utils/Loaders/Loader";
+import {useFetching} from "../components/utils/CustomHooks/useFetching";
+import axios from "axios";
 
 const Login = ({match}) => {
     window.scrollTo(0, 0);
@@ -9,39 +12,42 @@ const Login = ({match}) => {
     const [changeMessage, setChangeMessage] = useState(true);
     const history = useHistory();
 
+    const [loginSend, isLoginSending, error] = useFetching(async () => {
+        localStorage.clear()
+        let res = await fetch("https://platz-shop-api.onrender.com/api/auth/login", {
+            method: "POST",
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: email,
+                password: password,
+            }),
+        });
+        console.log(await res.status)
+        if (await res.status === 200) {
+            setChangeMessage(true)
+            let resJson = await res.json();
+            localStorage.setItem("token", resJson.token)
+            localStorage.setItem("email", email)
+            localStorage.setItem("username", resJson.username)
+            localStorage.setItem("roles", JSON.stringify(resJson.roles))
+            if (resJson.roles.includes("ADMIN"))
+                history.push("/dashboard")
+            else
+                history.push("/")
+        } else {
+            setChangeMessage(false)
+        }
+        setEmail("")
+        setPassword("")
+        // console.log(resJson.token)
+    })
 
     let handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            localStorage.clear()
-            let res = await fetch("https://platz-shop-api.onrender.com/api/auth/login", {
-                method: "POST",
-                headers: {
-                    'Content-type': 'application/json'
-                },
-                body: JSON.stringify({
-                    email: email,
-                    password: password,
-                }),
-            });
-            console.log(await res.status)
-            if (await res.status === 200) {
-                setChangeMessage(true)
-                let resJson = await res.json();
-                localStorage.setItem("token", resJson.token)
-                localStorage.setItem("email", email)
-                localStorage.setItem("username", resJson.username)
-                localStorage.setItem("roles", JSON.stringify(resJson.roles))
-                if(resJson.roles.includes("ADMIN"))
-                    history.push("/dashboard")
-                else
-                    history.push("/")
-            }else{
-                setChangeMessage(false)
-            }
-            setEmail("")
-            setPassword("")
-            // console.log(resJson.token)
+            loginSend()
         } catch (err) {
             console.log(err);
         }
@@ -70,6 +76,12 @@ const Login = ({match}) => {
                         <Link to={"/register"}>Create Account</Link>
                     </p>
                 </form>
+                {
+                    isLoginSending
+                        ? <Loader/>
+                        : null
+                }
+
             </div>
         </>
     );

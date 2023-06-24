@@ -4,7 +4,7 @@ import Rating from "./Rating";
 import Pagination from "./pagination";
 import axios from "axios";
 import {setProd} from "../../data/Products";
-import Preloader from "../utils/Preloader/Preloader";
+import Preloader from "../utils/Loaders/Preloader";
 import ModalCart from "../utils/Cart/ModalCart";
 import SearchProduct from "../utils/search/SearchProduct";
 import CurrencySelector from "../utils/Currency/CurrencyBtn";

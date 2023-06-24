@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import {Link, useHistory} from 'react-router-dom';
 import Header from './../components/Header';
 import axios from "axios";
+import Loader from "../components/utils/Loaders/Loader";
+import {useFetching} from "../components/utils/CustomHooks/useFetching";
 
 
 const Register = () => {
@@ -17,9 +19,7 @@ const Register = () => {
     const history = useHistory();
 
     window.scrollTo(0, 0);
-
-    let handleSubmit = async (e) => {
-        e.preventDefault()
+    const [registerSend, isRegisterSending, error] = useFetching(async () => {
 
         axios.post("https://platz-shop-api.onrender.com/api/auth/registration", {
             username: requestData.username,
@@ -30,11 +30,11 @@ const Register = () => {
                 setResponseMessage(res.data.message)
                 setResponseStatus(res.status)
                 setRegisterMessageVisible(true)
-              setRequestData({
-                username: "",
-                email: "",
-                password: ""
-              })
+                setRequestData({
+                    username: "",
+                    email: "",
+                    password: ""
+                })
             })
             .catch(e => {
                 setResponseMessage(e.response.data.message)
@@ -43,6 +43,10 @@ const Register = () => {
                 console.log(e.response.data.message)
                 console.log(e.response.status)
             })
+    })
+    let handleSubmit = async (e) => {
+        e.preventDefault()
+        registerSend()
     }
     return (
         <>
@@ -89,6 +93,11 @@ const Register = () => {
                         </Link>
                     </p>
                 </form>
+                {
+                    isRegisterSending
+                        ? <Loader/>
+                        : null
+                }
             </div>
         </>
     );

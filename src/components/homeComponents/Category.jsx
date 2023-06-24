@@ -3,7 +3,7 @@ import React, {useMemo, useState} from "react";
 import SubMenu from "../utils/subMenu/SubMenu";
 import {useFetching} from "../utils/CustomHooks/useFetching";
 import axios from "axios";
-import Preloader from "../utils/Preloader/Preloader";
+import Preloader from "../utils/Loaders/Preloader";
 
 const Category = ({products, setFilteredItems, setCategories}) => {
 

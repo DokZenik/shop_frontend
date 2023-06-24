@@ -5,7 +5,7 @@ import {Link, useHistory} from 'react-router-dom';
 import Message from './../components/LoadingError/Error';
 import axios from 'axios';
 import {setProd} from "../data/Products";
-import Preloader from "../components/utils/Preloader/Preloader";
+import Preloader from "../components/utils/Loaders/Preloader";
 import ModalCart from "../components/utils/Cart/ModalCart";
 import {useFetching} from "../components/utils/CustomHooks/useFetching";
 

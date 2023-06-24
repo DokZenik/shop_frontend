@@ -1,0 +1,28 @@
+.loader__wrapper{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.loader {
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    border: 2px dashed green;
+    animation: rotate 1.5s infinite linear;
+}
+
+@keyframes rotate {
+    0%{
+        transform: rotate(0deg) scale(1);
+    }
+    50%{
+        transform: rotate(180deg) scale(1.5);
+    }
+    100%{
+        transform: rotate(360deg) scale(1);
+    }
+}

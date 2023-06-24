@@ -2,7 +2,7 @@ import React, {useMemo, useState} from "react";
 import {useFetching} from "../utils/CustomHooks/useFetching";
 import axios from "axios";
 import {useHistory} from "react-router-dom";
-import Preloader from "../utils/Preloader/Preloader";
+import Preloader from "../utils/Loaders/Preloader";
 import OrderWindow from "../utils/Orders/OrderWindow";
 
 const Orders = () => {
