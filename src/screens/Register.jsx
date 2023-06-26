@@ -53,7 +53,6 @@ const Register = () => {
             <Header/>
 
             <div className="container d-flex flex-column justify-content-center align-items-center login-center gap-5">
-
                 {registerMessageVisible
                     ? responseStatus === 200
                         ?

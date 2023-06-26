@@ -506,7 +506,10 @@ textarea:focus {
   background-color: rgba(255, 0, 0, 0.42);
   border: 2px solid red;
 }
-
+.message-success{
+  background-color: rgba(85, 255, 0, 0.42);
+  border: 2px solid green;
+}
 .Login button,
 .Login2 button {
   width: 100%;
