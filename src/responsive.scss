@@ -63,6 +63,9 @@
   }
 }
 @media (max-width: 768px) {
+  .category-button{
+    align-self: center;
+  }
   .d-block{
     object-fit: cover;
     object-position: left;
@@ -83,6 +86,12 @@
   .cart-mobile-icon i {
     font-size: 13px;
     margin-left: 10px;
+  }
+  .btn-group{
+    margin-right: 15px;
+  }
+  .login__button{
+    margin-right: 15px;
   }
   .btn-group button {
     font-size: 12px;
@@ -148,6 +157,14 @@
   }
 }
 @media (max-width: 575.98px) {
+  .btn{
+    font-size: 12px;
+  }
+  .info{
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
   .search-small{
     display: block !important;
   }
@@ -202,20 +219,25 @@
   }
 }
 @media (max-width: 400px) {
+  #baseCurrency{
+    display: none;
+  }
   .form button{
     padding: 5px 20px;
   }
   .subscribe-head h2 {
     font-size: 20px;
   }
-
-  .single-image,
-  .single-image img {
-    height: 200px;
-  }
 }
 @media (max-width: 300px){
-  .d-block{
-    height: 150px;
+  .Login-Register{
+    max-height: 40px;
+  }
+  .adaptive-mobile-top{
+    flex-direction: column;
+    align-items: flex-start !important;
+  }
+  .name-button{
+    height: 30px;
   }
 }

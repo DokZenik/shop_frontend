@@ -3,7 +3,7 @@ import {Link, useHistory} from 'react-router-dom';
 import SearchProduct from "./utils/search/SearchProduct";
 import Category from "./homeComponents/Category";
 import axios from "axios";
-import CurrencySelector from "./utils/Currency/CurrencyBtn";
+import CurrencySelector from "./utils/Currency/CurrencySelector";
 
 const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filterEnable, profileButtonVisible, baseCurrency, onCurrencyChange}) => {
     const [cartCount, setCartCount] = useState(0);
@@ -63,9 +63,9 @@ const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filter
                 <div className="container-xxl">
                     {/* MOBILE HEADER */}
                     <div className="mobile-header">
-                        <div className="container ">
-                            <div className="row flex-nowrap mobile-top">
-                                <div className="col-3 d-flex align-items-center">
+                        <div className="container">
+                            <div className="flex-nowrap mobile-top">
+                                <div className="d-flex align-items-center gap-3 adaptive-mobile-top">
                                     <Link
                                         className="navbar-brand"
                                         to="/">
@@ -74,6 +74,8 @@ const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filter
                                             src="/images/logo.png"
                                         />
                                     </Link>
+                                    <Category setFilteredItems={setFilteredItems} products={prod} setCategories={setCategories}/>
+                                    <CurrencySelector baseCurrency={baseCurrency} onCurrencyChange={onCurrencyChange}/>
                                 </div>
                                 {filterEnable
                                     ? <div className="col-6 d-flex align-items-center search-adaptive">
@@ -81,29 +83,43 @@ const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filter
                                     </div>
                                     : null}
                                 <div className="col-3 d-flex align-items-center justify-content-end Login-Register">
-                                    <div className="btn-group">
-                                        <button
-                                            type="button"
-                                            className="name-button dropdown-toggle"
-                                            data-toggle="dropdown"
-                                            aria-haspopup="true"
-                                            aria-expanded="false">
-                                            <i class="fas fa-user"></i>
-                                        </button>
-                                        <div className="dropdown-menu">
-                                            <Link
-                                                className="dropdown-item"
-                                                to="/profile">
-                                                Profile
-                                            </Link>
+                                    {profileButtonVisible
+                                        ? localStorage.getItem("email") && localStorage.getItem("token")
+                                            ? <div className="btn-group">
+                                                <button
+                                                    type="button"
+                                                    className="name-button dropdown-toggle"
+                                                    data-toggle="dropdown"
+                                                    aria-haspopup="true"
+                                                    aria-expanded="false">
+                                                    Hi, {localStorage.getItem("username")}
+                                                </button>
+                                                <div className="dropdown-menu">
+                                                    <Link
+                                                        className="dropdown-item"
+                                                        to="/profile">
+                                                        Profile
+                                                    </Link>
 
-                                            <Link
-                                                className="dropdown-item"
-                                                to="#">
-                                                Logout
-                                            </Link>
-                                        </div>
-                                    </div>
+                                                    <Link
+                                                        className="dropdown-item"
+                                                        to="#">
+                                                        <div onClick={() => {
+                                                            localStorage.removeItem("token")
+                                                            localStorage.removeItem("username")
+                                                            localStorage.removeItem("email")
+                                                            localStorage.removeItem("roles")
+                                                        }}>Logout
+                                                        </div>
+
+                                                    </Link>
+                                                </div>
+                                            </div>
+                                            : <button className={"login__button"} onClick={() => history.push("/login/0")}>
+                                                login
+                                            </button>
+                                        : null
+                                    }
                                     {cartEnable
                                         ?
                                         <div className={"cart_icon__wrapper"} onClick={() => setVisible(true)}>

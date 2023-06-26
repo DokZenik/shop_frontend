@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useContext, useEffect, useMemo, useState} from 'react';
 import Header from './../components/Header';
 import Rating from '../components/homeComponents/Rating';
 import {Link, useHistory} from 'react-router-dom';
@@ -9,17 +9,31 @@ import Preloader from "../components/utils/Preloader/Preloader";
 import ModalCart from "../components/utils/Cart/ModalCart";
 import {useFetching} from "../components/utils/CustomHooks/useFetching";
 import rating from "../components/homeComponents/Rating";
+import {CurrencyContext} from "../components/utils/Currency/CurrensyContext";
+import {Navigation, Pagination} from "swiper";
+import {Swiper, SwiperSlide} from "swiper/react";
+import 'swiper/swiper.scss';
+import 'swiper/modules/pagination/pagination.scss';
+import 'swiper/modules/navigation/navigation.min.css'
 
 const SingleProduct = ({match}) => {
+    const { baseCurrency, handleCurrencyChange } = useContext(CurrencyContext);
     const [product, setProduct] = useState({});
     const [products, setProducts] = useState([]);
     const [isItemsLoading, setIsItemsLoading] = useState(false);
     const [modal, setModal] = useState(false);
     const [comments, setComments] = useState([]);
     const [showCommentWindow, setShowCommentWindow] = useState(false);
+    const [conversionRate, setConversionRate] = useState({
+        CZK: 21.50,
+        EUR: 1.00,
+        PLN: 4.55
+    });
     let commentText = "";
     let itemRating = 1;
     const history = useHistory();
+
+    console.log(baseCurrency)
 
     const [fetchComments, areCommentsLoading, error] = useFetching(async () => {
         axios.get(`http://localhost:5000/api/comments/${match.params.id}`)
@@ -83,7 +97,7 @@ const SingleProduct = ({match}) => {
     }
     return (
         <>
-            <Header setVisible={setModal} cartEnable={true}/>
+            <Header setVisible={setModal} cartEnable={true} baseCurrency={baseCurrency} onCurrencyChange={handleCurrencyChange} />
 
             {isItemsLoading
                 ?
@@ -97,10 +111,18 @@ const SingleProduct = ({match}) => {
                         <div className="row">
                             <div className="col-md-6">
                                 <div className="single-image">
-                                    <img
-                                        src={product.image}
-                                        alt={product.name}
-                                    />
+                                    <Swiper
+                                        pagination={{
+                                            dynamicBullets: true,
+                                        }}
+                                        navigation={true}
+                                    modules={[Pagination, Navigation]}>
+                                        {product.images && product.images.map((image, index) => (
+                                            <SwiperSlide key={index} virtualIndex={index}>
+                                                <img src={image} alt={product.name} />
+                                            </SwiperSlide>
+                                        ))}
+                                    </Swiper>
                                 </div>
                             </div>
                             <div className="col-md-6">
@@ -113,7 +135,9 @@ const SingleProduct = ({match}) => {
                                     <div className="product-count col-lg-7 ">
                                         <div className="flex-box d-flex justify-content-between align-items-center">
                                             <h6>Price</h6>
-                                            <span>${product.price}</span>
+                                            <span>{`${baseCurrency} ${(
+                                                product.price * conversionRate[baseCurrency]
+                                            ).toFixed(2)}`}</span>
                                         </div>
                                         <div className="flex-box d-flex justify-content-between align-items-center">
                                             <h6>Status</h6>
@@ -158,8 +182,6 @@ const SingleProduct = ({match}) => {
                                                                 }
                                                             }).then(res => window.location.reload())
                                                                 .catch(e =>  history.push("/login/403"))
-                                                            // console.log(product)
-
                                                         }
                                                     }}>Add To Cart
                                                     </button>

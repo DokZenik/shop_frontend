@@ -7,6 +7,7 @@ const Login = ({match}) => {
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [changeMessage, setChangeMessage] = useState(true);
+    const [profileButtonVisible, setProfileButtonVisible] = useState(false);
     const history = useHistory();
 
 
@@ -49,7 +50,7 @@ const Login = ({match}) => {
 
     return (
         <>
-            <Header profileButtonVisible={false}/>
+            <Header profileButtonVisible={profileButtonVisible}/>
             <div className="container d-flex flex-column justify-content-center align-items-center login-center gap-5">
                 {changeMessage
                     ? match.params.status == 401
