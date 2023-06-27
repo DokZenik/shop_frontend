@@ -144,7 +144,7 @@ const SingleProduct = ({match}) => {
                                             {product.countInStock > 0 ? <span>In Stock</span> :
                                                 <span>unavailable</span>}
                                         </div>
-                                        <div className="flex-box d-flex justify-content-between align-items-center">
+                                        <div className="flex-box d-flex justify-content-between align-items-center gap-5">
                                             <h6>Reviews</h6>
                                             <Rating
                                                 value={product.rating / product.numReviews}

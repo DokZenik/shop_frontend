@@ -218,7 +218,8 @@
     font-size: 17px;
   }
 }
-@media (max-width: 400px) {
+
+@media (max-width: 445px) {
   #baseCurrency{
     display: none;
   }
@@ -229,7 +230,8 @@
     font-size: 20px;
   }
 }
-@media (max-width: 300px){
+
+@media (max-width: 350px){
   .Login-Register{
     max-height: 40px;
   }

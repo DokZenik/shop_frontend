@@ -5,6 +5,8 @@ import {PayPalButton} from "react-paypal-button-v2";
 import {useFetching} from "../components/utils/CustomHooks/useFetching";
 import axios from "axios";
 import Preloader from "../components/utils/Preloader/Preloader";
+import {Swiper, SwiperSlide} from "swiper/react";
+import {Pagination} from "swiper";
 
 const OrderScreen = () => {
     window.scrollTo(0, 0);
@@ -149,7 +151,17 @@ const OrderScreen = () => {
                                         return (
                                             <div className="order-product row">
                                                 <div className="col-md-3 col-6">
-                                                    <img src={elem.product.image} alt="product"/>
+                                                    <Swiper
+                                                        pagination={{
+                                                            dynamicBullets: true,
+                                                        }}
+                                                        modules={[Pagination]}>
+                                                        {elem.product.images && elem.product.images.map((image, index) => (
+                                                            <SwiperSlide key={index} virtualIndex={index}>
+                                                                <img src={image} alt={elem.product.name} />
+                                                            </SwiperSlide>
+                                                        ))}
+                                                    </Swiper>
                                                 </div>
                                                 <div className="col-md-5 col-6 d-flex align-items-center">
                                                     <Link to={"/"}>
