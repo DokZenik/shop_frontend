@@ -15,6 +15,7 @@ const HomeScreen = () => {
     window.scrollTo(0, 0);
     const [modal, setModal] = useState(false)
     const [filteredItems, setFilteredItems] = useState([]);
+    const [categories, setCategories] = useState([])
     const history = useHistory()
 
     useMemo(() => {
@@ -25,11 +26,25 @@ const HomeScreen = () => {
 
     return (
         <div>
-            <Header setVisible={setModal} cartEnable={true} filteredItems={filteredItems}
-                    setFilteredItems={setFilteredItems} filterEnable={true} profileButtonVisible={true} baseCurrency={baseCurrency} onCurrencyChange={handleCurrencyChange}/>
+            <Header setVisible={setModal}
+                    cartEnable={true}
+                    filteredItems={filteredItems}
+                    setFilteredItems={setFilteredItems}
+                    filterEnable={true}
+                    profileButtonVisible={true}
+                    baseCurrency={baseCurrency}
+                    onCurrencyChange={handleCurrencyChange}
+                    categories={categories}
+                    setCategories={setCategories}
+            />
             <Banner/>
-            <ShopSection visible={modal} setVisible={setModal} filteredItems={filteredItems}
-                         setFilteredItems={setFilteredItems} baseCurrency={baseCurrency} />
+            <ShopSection visible={modal}
+                         setVisible={setModal}
+                         filteredItems={filteredItems}
+                         setFilteredItems={setFilteredItems}
+                         baseCurrency={baseCurrency}
+                         setCategories={setCategories}
+            />
             <CalltoActionSection/>
             <ContactInfo/>
             <PreFooter/>

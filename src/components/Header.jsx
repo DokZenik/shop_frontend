@@ -5,11 +5,10 @@ import Category from "./homeComponents/Category";
 import axios from "axios";
 import CurrencySelector from "./utils/Currency/CurrencySelector";
 
-const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filterEnable, profileButtonVisible, baseCurrency, onCurrencyChange}) => {
+const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filterEnable, profileButtonVisible, baseCurrency, onCurrencyChange,categories, setCategories}) => {
     const [cartCount, setCartCount] = useState(0);
     const [prod, setProd] = useState([])
     const history = useHistory();
-    const [categories, setCategories] = useState([])
 
     useEffect(() => {
         if (prod.length === 0) {

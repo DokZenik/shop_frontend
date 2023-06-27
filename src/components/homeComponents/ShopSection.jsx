@@ -10,7 +10,7 @@ import SearchProduct from "../utils/search/SearchProduct";
 import CurrencySelector from "../utils/Currency/CurrencySelector";
 import category from "./Category";
 
-const ShopSection = ({visible, setVisible, filteredItems, setFilteredItems, baseCurrency}) => {
+const ShopSection = ({visible, setVisible, filteredItems, setFilteredItems, baseCurrency, setCategories}) => {
 
     const [currentPageNumber, setCurrentPageNumber] = useState(0);
     const [pagesCount, setPagesCount] = useState(1)
@@ -71,6 +71,7 @@ const ShopSection = ({visible, setVisible, filteredItems, setFilteredItems, base
         setCurrentPageItems(buff)
     }
     const handleResetCategory = () => {
+        setCategories([])
         setFilteredItems(products); // Reset the filtered items to the original product list
     };
 

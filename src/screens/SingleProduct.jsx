@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useContext, useEffect, useMemo, useState} from 'react';
 import Header from './../components/Header';
 import Rating from '../components/homeComponents/Rating';
 import {Link, useHistory} from 'react-router-dom';
@@ -9,8 +9,12 @@ import Preloader from "../components/utils/Loaders/Preloader";
 import ModalCart from "../components/utils/Cart/ModalCart";
 import {useFetching} from "../components/utils/CustomHooks/useFetching";
 import rating from "../components/homeComponents/Rating";
+import {Swiper, SwiperSlide} from "swiper/react";
+import {Navigation, Pagination} from "swiper";
+import {CurrencyContext} from "../components/utils/Currency/CurrensyContext";
 
 const SingleProduct = ({match}) => {
+    const { baseCurrency, handleCurrencyChange } = useContext(CurrencyContext);
     const [product, setProduct] = useState({
         images: []
     });
@@ -23,6 +27,12 @@ const SingleProduct = ({match}) => {
     let itemRating = 1;
     let disableButton = false
     const history = useHistory();
+    const [conversionRate, setConversionRate] = useState({
+        CZK: 21.50,
+        EUR: 1.00,
+        PLN: 4.55
+    });
+
 
     const [fetchComments, areCommentsLoading, error] = useFetching(async () => {
         axios.get(`https://platz-shop-api.onrender.com/api/comments/${match.params.id}`)
