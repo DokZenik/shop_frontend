@@ -8,6 +8,7 @@ import {setProd} from "../data/Products";
 import Preloader from "../components/utils/Loaders/Preloader";
 import ModalCart from "../components/utils/Cart/ModalCart";
 import {useFetching} from "../components/utils/CustomHooks/useFetching";
+import rating from "../components/homeComponents/Rating";
 
 const SingleProduct = ({match}) => {
     const [product, setProduct] = useState({
@@ -27,6 +28,7 @@ const SingleProduct = ({match}) => {
         axios.get(`https://platz-shop-api.onrender.com/api/comments/${match.params.id}`)
             .then(res => {
                 setComments(res.data)
+
             })
             .catch(e => {
                 console.log(e.status)
@@ -43,6 +45,7 @@ const SingleProduct = ({match}) => {
                 console.log(res.data)
                 setIsItemsLoading(false)
             })
+            .catch(e => console.log(e))
 
     }
     const userValidate = () => {
@@ -53,11 +56,9 @@ const SingleProduct = ({match}) => {
         })
             .then(res => setShowCommentWindow(res.status === 200))
     }
-
     useMemo(() => {
         fetchData()
         userValidate()
-        fetchComments()
     }, [])
 
     let handleSubmit = (e) => {
@@ -80,11 +81,9 @@ const SingleProduct = ({match}) => {
             })
             .catch(e => e.status === 403 ? history.push("/login") : null)
     }
-
-
     return (
         <>
-            <Header setVisible={setModal} cartEnable={true}/>
+            <Header setVisible={setModal} cartEnable={true} baseCurrency={baseCurrency} onCurrencyChange={handleCurrencyChange} />
 
             {isItemsLoading
                 ?
@@ -98,10 +97,18 @@ const SingleProduct = ({match}) => {
                         <div className="row">
                             <div className="col-md-6">
                                 <div className="single-image">
-                                    <img
-                                        src={product.images[0]}
-                                        alt={product.name}
-                                    />
+                                    <Swiper
+                                        pagination={{
+                                            dynamicBullets: true,
+                                        }}
+                                        navigation={true}
+                                    modules={[Pagination, Navigation]}>
+                                        {product.images && product.images.map((image, index) => (
+                                            <SwiperSlide key={index} virtualIndex={index}>
+                                                <img src={image} alt={product.name} />
+                                            </SwiperSlide>
+                                        ))}
+                                    </Swiper>
                                 </div>
                             </div>
                             <div className="col-md-6">
@@ -114,7 +121,9 @@ const SingleProduct = ({match}) => {
                                     <div className="product-count col-lg-7 ">
                                         <div className="flex-box d-flex justify-content-between align-items-center">
                                             <h6>Price</h6>
-                                            <span>${product.price}</span>
+                                            <span>{`${baseCurrency} ${(
+                                                product.price * conversionRate[baseCurrency]
+                                            ).toFixed(2)}`}</span>
                                         </div>
                                         <div className="flex-box d-flex justify-content-between align-items-center">
                                             <h6>Status</h6>
@@ -158,7 +167,7 @@ const SingleProduct = ({match}) => {
                                                                     "Authorization": `Bearer ${localStorage.getItem("token")}`
                                                                 }
                                                             }).then(res => window.location.reload())
-                                                                .catch(e => history.push("/login/403"))
+                                                                .catch(e =>  history.push("/login/403"))
                                                             // console.log(product)
 
                                                         }

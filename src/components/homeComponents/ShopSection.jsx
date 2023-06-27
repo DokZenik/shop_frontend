@@ -7,7 +7,8 @@ import {setProd} from "../../data/Products";
 import Preloader from "../utils/Loaders/Preloader";
 import ModalCart from "../utils/Cart/ModalCart";
 import SearchProduct from "../utils/search/SearchProduct";
-import CurrencySelector from "../utils/Currency/CurrencyBtn";
+import CurrencySelector from "../utils/Currency/CurrencySelector";
+import category from "./Category";
 
 const ShopSection = ({visible, setVisible, filteredItems, setFilteredItems, baseCurrency}) => {
 
@@ -22,20 +23,6 @@ const ShopSection = ({visible, setVisible, filteredItems, setFilteredItems, base
         EUR: 1.00,
         PLN: 4.55
     });
-
-    const convertCurrency = (price) => {
-        const rate = conversionRate[baseCurrency];
-        if (rate) {
-            const convertedPrice = price / rate;
-            return convertedPrice.toFixed(2);
-        } else {
-            return "N/A"; // Or any other default value or error handling logic
-        }
-    };
-
-
-
-
 
     const getPagesCount = (elemPerPageCount) => {
         return Math.ceil(filteredItems.length / elemPerPageCount)
@@ -83,6 +70,9 @@ const ShopSection = ({visible, setVisible, filteredItems, setFilteredItems, base
         let buff = getPageData(pageNumber, maxItemsPerPage)
         setCurrentPageItems(buff)
     }
+    const handleResetCategory = () => {
+        setFilteredItems(products); // Reset the filtered items to the original product list
+    };
 
     return (
         <>
@@ -90,6 +80,13 @@ const ShopSection = ({visible, setVisible, filteredItems, setFilteredItems, base
                 <div className="section">
                     <div className="row">
                         <div className="col-lg-12 col-md-12 article">
+                            <div className="row">
+                                <div className="col-lg-12 col-md-12 article">
+                                    <button className="btn btn-dark my-3" onClick={handleResetCategory}>
+                                        Reset Category
+                                    </button>
+                                </div>
+                            </div>
                             <div className="shopcontainer">
                                 {isItemsLoading
                                     ?

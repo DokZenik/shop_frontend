@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import './scss/App.scss';
 import './responsive.scss';
 import 'react-toastify/dist/ReactToastify.css';
@@ -19,6 +19,10 @@ import Dashboard from "./components/utils/Dashboard/Dashboard";
 import DashProducts from "./components/utils/Dashboard/DashProducts";
 
 const App = () => {
+    const [baseCurrency, setBaseCurrency] = useState('EUR');
+    const handleCurrencyChange = (selectedCurrency) => {
+        setBaseCurrency(selectedCurrency);
+    };
     useEffect(() => {
         const COOKIE_NAME = "visit"
         const cookie = document.querySelector('.cookie--js')
@@ -56,12 +60,18 @@ const App = () => {
                 <Switch>
                     <Route
                         path="/"
-                        component={HomeScreen}
+                        render={(props) => (
+                            <HomeScreen
+                                {...props}
+                                baseCurrency={baseCurrency}
+                                onCurrencyChange={handleCurrencyChange}
+                            />
+                        )}
                         exact
                     />
                     <Route
                         path="/products/:id"
-                        component={SingleProduct}
+                        render={(props) => <SingleProduct {...props} baseCurrency={baseCurrency} onCurrencyChange={handleCurrencyChange}/>}
                     />
                     <Route
                         path="/login/:status"

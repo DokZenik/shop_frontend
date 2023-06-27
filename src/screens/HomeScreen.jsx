@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react';
+import React, {useContext, useMemo, useState} from 'react';
 import Header from './../components/Header';
 import ShopSection from './../components/homeComponents/ShopSection';
 import ContactInfo from './../components/homeComponents/ContactInfo';
@@ -7,16 +7,15 @@ import Footer from './../components/Footer';
 import PreFooter from "./PreFooter";
 import Banner from "./Banner";
 import {useHistory} from "react-router-dom";
+import SingleProduct from "./SingleProduct";
+import {CurrencyContext} from "../components/utils/Currency/CurrensyContext";
 
 const HomeScreen = () => {
+    const { baseCurrency, handleCurrencyChange } = useContext(CurrencyContext);
     window.scrollTo(0, 0);
     const [modal, setModal] = useState(false)
     const [filteredItems, setFilteredItems] = useState([]);
-    const [baseCurrency, setBaseCurrency] = useState('EUR');
     const history = useHistory()
-    const handleCurrencyChange = (selectedCurrency) => {
-        setBaseCurrency(selectedCurrency);
-    };
 
     useMemo(() => {
         if (localStorage.getItem("roles"))
