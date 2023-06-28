@@ -2,7 +2,7 @@ import React from "react";
 
 const Rating = ({value, text}) => {
     return (
-        <div className="rating d-flex flex-column align-items-center justify-content-center">
+        <div className="rating d-flex flex-column">
             <div className='stars d-flex'>
                 <i
                     className={
