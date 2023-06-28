@@ -381,7 +381,7 @@ textarea:focus {
 }
 
 .single-image img {
-  width: 90%;
+  width: 100%;
   height: 700px;
   object-fit: contain;
 }
@@ -638,6 +638,7 @@ textarea:focus {
 .cart__container{
   max-height: 90vh;
 }
+
 .remove-button {
   background-color: red;
   width: 25px;
