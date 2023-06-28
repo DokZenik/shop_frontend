@@ -18,6 +18,7 @@ const DashProducts = () => {
         price: 0,
         image: "", // Added image field for editing
         category: "", // Added category field
+        countInStock: 0,
         editProductId: null, // Track the product ID being edited
     });
 
@@ -57,11 +58,19 @@ const DashProducts = () => {
     };
 
     const handleChange = (e) => {
-        if (e.target.name === "images") { // Updated field name from "image" to "images"
-            setFormData({
-                ...formData,
-                [e.target.name]: e.target.files, // Save the selected files as an array
-            });
+        if (e.target.name === "images") {
+            // Check if files are selected
+            if (e.target.files && e.target.files.length > 0) {
+                setFormData({
+                    ...formData,
+                    [e.target.name]: e.target.files, // Save the selected files as an array
+                });
+            } else {
+                setFormData({
+                    ...formData,
+                    [e.target.name]: [], // Set images to an empty array if no files are selected
+                });
+            }
         } else {
             setFormData({
                 ...formData,
@@ -79,6 +88,7 @@ const DashProducts = () => {
             price: 0,
             image: [], // Clear the image field when starting the edit
             category: "", // Clear the category field when starting the edit
+            countInStock: 0,
             editProductId: productId, // Set the ID of the product being edited
         });
     };
@@ -86,18 +96,22 @@ const DashProducts = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const {editProductId, name, description, price, images, category} = formData; // Updated field name from "image" to "images"
+        const {editProductId, name, description, price, images, category, countInStock} = formData; // Updated field name from "image" to "images"
 
         const updatedFormData = new FormData();
         updatedFormData.append("name", name);
         updatedFormData.append("description", description);
         updatedFormData.append("price", price);
         updatedFormData.append("category", category);
+        updatedFormData.append('countInStock', countInStock);
 
         // Append each image file to the form data
-        for (let i = 0; i < images.length; i++) {
-            updatedFormData.append("images", images[i]);
+        if (images && images.length > 0) {
+            for (let i = 0; i < images.length; i++) {
+                updatedFormData.append("images", images[i]);
+            }
         }
+
 
         try {
             // Make the POST request with the updatedFormData
@@ -116,6 +130,7 @@ const DashProducts = () => {
                         name: name,
                         description: description,
                         price: price,
+                        countInStock: countInStock,
                     };
                 }
                 return product;
@@ -128,6 +143,7 @@ const DashProducts = () => {
                 price: 0,
                 images: [], // Clear the images field when submitting
                 category: "", // Clear the category field when submitting
+                countInStock: 0,
                 editProductId: null,
             });
         } catch (error) {
@@ -164,15 +180,17 @@ const DashProducts = () => {
 
                         {/* Render the form only if the product is being edited */}
                         {formData.editProductId === product._id && (
-                            <form onSubmit={handleSubmit} className={'d-flex align-items-center gap-2 flex-column'}>
+                            <form onSubmit={handleSubmit} className={'d-flex align-items-center gap-2 flex-column h-100'}>
                                 <input
                                     className={'form-control'}
+                                    placeholder={'Product Name'}
                                     type="text"
                                     name="name"
                                     value={formData.name}
                                     onChange={handleChange}
                                 />
                                 <input
+                                    placeholder="Product Description"
                                     className={'form-control'}
                                     type="text"
                                     name="description"
@@ -180,11 +198,20 @@ const DashProducts = () => {
                                     onChange={handleChange}
                                 />
                                 <input
+                                    placeholder="Product price"
                                     className={'form-control'}
                                     type="number"
                                     name="price"
                                     value={formData.price}
                                     min={0}
+                                    onChange={handleChange}
+                                />
+                                <input
+                                    type="number"
+                                    className={"form-control"}
+                                    name={'countInStock'}
+                                    placeholder={'Count of Stock'}
+                                    value={formData.countInStock}
                                     onChange={handleChange}
                                 />
                                 <select

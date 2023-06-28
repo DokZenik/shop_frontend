@@ -1,14 +1,24 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useContext, useEffect, useMemo, useState} from 'react';
 import {Link, useHistory} from 'react-router-dom';
 import CartItemCounter from "../components/utils/CartItemCounter";
 import axios from "axios";
+import {CurrencyContext} from "../components/utils/Currency/CurrensyContext";
+import {Pagination} from "swiper";
+import {Swiper, SwiperSlide} from "swiper/react";
+
 
 const CartScreen = ({setVisible}) => {
+    const { baseCurrency, handleCurrencyChange } = useContext(CurrencyContext);
     const [cart, setCart] = useState([])
     const [totalCount, setTotalCount] = useState(cart.length)
     const [totalItemsPrice, setTotalItemsPrice] = useState([])
     const [sum, setSum] = useState(0);
     const history = useHistory()
+    const [conversionRate, setConversionRate] = useState({
+        CZK: 21.50,
+        EUR: 1.00,
+        PLN: 4.55
+    });
 
 
     useMemo(() => {
@@ -21,16 +31,19 @@ const CartScreen = ({setVisible}) => {
                 .then(res => {
                     if (res.status !== 200)
                         history.push(`/login/${res.status}`)
-                    let sum = 0
+                    let sum = 0;
                     setCart(res.data.map(elem => {
-                        const newItem = {...elem.product, count: elem.count}
-                        sum += newItem.count * newItem.price
-                        totalItemsPrice.push({itemId: newItem._id, totalPrice: newItem.count * newItem.price})
-                        return newItem
-                    }))
-                    setSum(sum)
-                })
-    }, [])
+                        const newItem = {...elem.product, count: elem.count};
+                        const itemPrice = newItem.price * conversionRate[baseCurrency];
+                        sum += newItem.count * itemPrice;
+                        totalItemsPrice.push({itemId: newItem._id, totalPrice: newItem.count * itemPrice * conversionRate[baseCurrency]});
+                        return newItem;
+                    }));
+                    setSum(sum);
+                    console.log(sum)
+                });
+    }, []);
+
 
     const incrementItemPrice = (itemId) => {
         const price = cart.find(item => item._id === itemId).price
@@ -98,18 +111,30 @@ const CartScreen = ({setVisible}) => {
                     </Link>
                 </div>
 
-                {cart.length !== 0
-                    ? <div className="cart__items">
+                {cart.length !== 0 ? (
+                    <div className="cart__items">
                         {cart.map(item => (
                             <div className={"cart__item"} key={item._id}>
                                 <div className="cart__item-image">
-                                    <img src={item.image} alt="Item image"/>
+                                    <Swiper
+                                        pagination={{
+                                            dynamicBullets: true,
+                                        }}
+                                        modules={[Pagination]}>
+                                        {item.images && item.images.map((image, index) => (
+                                            <SwiperSlide key={index} virtualIndex={index}>
+                                                <img src={image[0]} alt={item.name} />
+                                            </SwiperSlide>
+                                        ))}
+                                    </Swiper>
                                 </div>
                                 <div className="cart__item-name">
                                     <p>{item.name}</p>
                                 </div>
                                 <div className="cart__item-price">
-                                    <p>{totalItemsPrice.find(elem => elem.itemId === item._id).totalPrice} $</p>
+                                    <p>
+                                        {totalItemsPrice.find(elem => elem.itemId === item._id).totalPrice * conversionRate[baseCurrency]} {baseCurrency}
+                                    </p>
                                 </div>
                                 <CartItemCounter
                                     maxItems={item.countInStock}
@@ -124,13 +149,13 @@ const CartScreen = ({setVisible}) => {
                             </div>
                         ))}
                     </div>
-                    : null}
-
+                ) : null}
 
                 <div className="total">
                     <span className="sub">total:</span>
-                    <span className="total-price">{sum}$</span>
+                    <span className="total-price">{(sum * conversionRate[baseCurrency]).toFixed(2)} {baseCurrency}</span>
                 </div>
+
                 <hr/>
                 <div className="cart-buttons d-flex align-items-center row">
                     <div

@@ -8,6 +8,7 @@ const AddProduct = () => {
         price: 0,
         images: [],
         category: "", // Added category field
+        countInStock: 0,
     });
 
     const [categories, setCategories] = useState([]);
@@ -47,6 +48,7 @@ const AddProduct = () => {
         newProductData.append("description", formData.description);
         newProductData.append("price", formData.price);
         newProductData.append("category", formData.category); // Add the selected category to the form data
+        newProductData.append('countInStock', formData.countInStock);
         formData.images.forEach((image, index) => {
             newProductData.append(`images`, image); // Update the field name to 'images'
         });
@@ -98,6 +100,15 @@ const AddProduct = () => {
                     value={formData.price}
                     min={0}
                     onChange={handleChange}
+                />
+                <input
+                    type="number"
+                    className={"form-control"}
+                    name={'countInStock'}
+                    placeholder={'Count of Stock'}
+                    value={formData.countInStock}
+                    onChange={handleChange}
+
                 />
                 <select
                     className={"form-control"}
