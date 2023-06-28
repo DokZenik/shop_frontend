@@ -4,7 +4,9 @@ import Header from "./../components/Header";
 import {PayPalButton} from "react-paypal-button-v2";
 import {useFetching} from "../components/utils/CustomHooks/useFetching";
 import axios from "axios";
-import Preloader from "../components/utils/Preloader/Preloader";
+import Preloader from "../components/utils/Loaders/Preloader";
+import {Swiper, SwiperSlide} from "swiper/react";
+import {Pagination} from "swiper";
 
 const OrderScreen = () => {
     window.scrollTo(0, 0);
@@ -233,7 +235,7 @@ const OrderScreen = () => {
                                           onApprove={onApprove}
                             />
                         </div>
-                        <button onClick={paymentHandler}>TEST</button>
+                        {/*<button onClick={paymentHandler}>TEST</button>*/}
                     </div>
                 </div>
             </div>

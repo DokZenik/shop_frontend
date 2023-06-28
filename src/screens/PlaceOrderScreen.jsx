@@ -3,9 +3,9 @@ import {Link, useHistory} from "react-router-dom";
 import Header from "./../components/Header";
 import {useFetching} from "../components/utils/CustomHooks/useFetching";
 import axios from "axios";
-import Preloader from "../components/utils/Preloader/Preloader";
 import {Pagination} from "swiper";
 import {Swiper, SwiperSlide} from "swiper/react";
+import Preloader from "../components/utils/Loaders/Preloader";
 
 const PlaceOrderScreen = () => {
     window.scrollTo(0, 0);

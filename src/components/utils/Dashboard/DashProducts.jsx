@@ -6,12 +6,16 @@ import {Swiper, SwiperSlide} from "swiper/react";
 import {Pagination} from "swiper";
 import 'swiper/swiper.scss';
 import 'swiper/modules/pagination/pagination.scss';
+import {useFetching} from "../CustomHooks/useFetching";
 
 const DashProducts = () => {
     const [isItemsLoading, setIsItemsLoading] = useState(false);
     const [products, setProducts] = useState([]);
     const [image, setImage] = useState([]);
     const [categories, setCategories] = useState([]); // Added categories state
+    const [subcategories, setSubcategories] = useState({})
+
+    let objectForDisplay = {}
     const [formData, setFormData] = useState({
         name: "",
         description: "",
@@ -21,6 +25,39 @@ const DashProducts = () => {
         countInStock: 0,
         editProductId: null, // Track the product ID being edited
     });
+
+
+    const formCategories = (data, title) => {
+        const buff = data.filter(elem => elem.title === title)
+
+        buff.forEach(elem => objectForDisplay[elem.value] = [])
+
+        if (data.length > buff.length)
+            Object.entries(objectForDisplay).forEach(([category, subcategoryList]) => {
+
+                objectForDisplay[category] = data.filter(elem => elem.title === category).map(elem => {
+                    return {name: elem.value, items: []}
+                })
+
+                objectForDisplay[category].forEach(elem => elem.items = data.filter(item => item.title === elem.name).map(elem => {
+                    return {name: elem.value}
+                }))
+
+            })
+        setSubcategories(objectForDisplay)
+    }
+
+    const [fetchCategories, areCategoriesLoading, error] = useFetching(() => {
+        axios.get("https://platz-shop-api.onrender.com/api/categories", {
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("token")}`
+            }
+        }).then(res => {
+            formCategories(res.data, "")
+        })
+    })
+
+
 
     useEffect(() => {
         fetchData();
@@ -37,25 +74,25 @@ const DashProducts = () => {
             });
             setImage(response.data);
             setProducts(response.data);
-            console.log(response.data)
+            // console.log(response.data)
             setIsItemsLoading(false);
         } catch (error) {
             console.log(error);
         }
     };
 
-    const fetchCategories = async () => {
-        try {
-            const response = await axios.get("https://platz-shop-api.onrender.com/api/categories/", {
-                headers: {
-                    "Authorization": `Bearer ${localStorage.getItem("token")}`
-                }
-            });
-            setCategories(response.data);
-        } catch (error) {
-            console.log(error);
-        }
-    };
+    // const fetchCategories = async () => {
+    //     try {
+    //         const response = await axios.get("https://platz-shop-api.onrender.com/api/categories/", {
+    //             headers: {
+    //                 "Authorization": `Bearer ${localStorage.getItem("token")}`
+    //             }
+    //         });
+    //         setCategories(response.data);
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // };
 
     const handleChange = (e) => {
         if (e.target.name === "images") {
@@ -81,14 +118,16 @@ const DashProducts = () => {
 
 
     const handleEdit = (productId) => {
+        const product = products.find(prod => prod._id === productId)
+        // console.log(product)
         setFormData({
             ...formData,
-            name: "", // Clear the form fields when starting the edit
-            description: "",
-            price: 0,
-            image: [], // Clear the image field when starting the edit
-            category: "", // Clear the category field when starting the edit
-            countInStock: 0,
+            name: product.name, // Clear the form fields when starting the edit
+            description: product.description,
+            price: product.price,
+            image: product.images, // Clear the image field when starting the edit
+            category: product.categories[0], // Clear the category field when starting the edit
+            countInStock: product.countInStock,
             editProductId: productId, // Set the ID of the product being edited
         });
     };
@@ -114,6 +153,7 @@ const DashProducts = () => {
 
 
         try {
+
             // Make the POST request with the updatedFormData
             await axios.post(`https://platz-shop-api.onrender.com/api/products/${editProductId}/edit`, updatedFormData, {
                 headers: {
@@ -150,7 +190,6 @@ const DashProducts = () => {
             console.log(error);
         }
     };
-
 
     return (
         <>
@@ -221,9 +260,18 @@ const DashProducts = () => {
                                     onChange={handleChange}
                                 >
                                     <option value="">Select Category</option>
-                                    {categories.map((category) => (
-                                        <option key={category._id} value={category.title}>{category.value}</option>
-                                    ))}
+                                    {/*{categories.map((category) => (*/}
+                                    {/*    <option key={category._id} value={category.title}>{category.value}</option>*/}
+                                    {/*))}*/}
+                                    {Object.entries(subcategories).map(([category, subcategoryList]) => {
+                                        return subcategoryList.map(subcat => {
+                                            return subcat.items.map(item => (
+                                                <option key={item.name} value={item.name}>
+                                                    {item.name}
+                                                </option>
+                                            ))
+                                        })
+                                    })}
                                 </select>
                                 <input
                                     className={'form-control'}

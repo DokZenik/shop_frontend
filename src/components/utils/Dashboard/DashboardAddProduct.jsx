@@ -1,7 +1,11 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
+import {useFetching} from "../CustomHooks/useFetching";
 
 const AddProduct = () => {
+    const [subcategories, setSubcategories] = useState({})
+    const [categories, setCategories] = useState([]);
+    let objectForDisplay = {}
     const [formData, setFormData] = useState({
         name: "",
         description: "",
@@ -11,20 +15,50 @@ const AddProduct = () => {
         countInStock: 0,
     });
 
-    const [categories, setCategories] = useState([]);
+
+    const formCategories = (data, title) => {
+        const buff = data.filter(elem => elem.title === title)
+
+        buff.forEach(elem => objectForDisplay[elem.value] = [])
+
+        if (data.length > buff.length)
+            Object.entries(objectForDisplay).forEach(([category, subcategoryList]) => {
+
+                objectForDisplay[category] = data.filter(elem => elem.title === category).map(elem => {
+                    return {name: elem.value, items: []}
+                })
+
+                objectForDisplay[category].forEach(elem => elem.items = data.filter(item => item.title === elem.name).map(elem => {
+                    return {name: elem.value}
+                }))
+
+            })
+        setSubcategories(objectForDisplay)
+    }
+
+    const [fetchCategories, areCategoriesLoading, error] = useFetching(() => {
+        axios.get("https://platz-shop-api.onrender.com/api/categories", {
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("token")}`
+            }
+        }).then(res => {
+            formCategories(res.data, "")
+        })
+    })
+
 
     useEffect(() => {
         fetchCategories();
     }, []);
 
-    const fetchCategories = async () => {
-        try {
-            const response = await axios.get("https://platz-shop-api.onrender.com/api/categories");
-            setCategories(response.data);
-        } catch (error) {
-            console.log(error);
-        }
-    };
+    // const fetchCategories = async () => {
+    //     try {
+    //         const response = await axios.get("https://platz-shop-api.onrender.com/api/categories");
+    //         setCategories(response.data);
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // };
 
     const handleChange = (e) => {
         setFormData({
@@ -117,13 +151,22 @@ const AddProduct = () => {
                     onChange={handleChange}
                 >
                     <option value="">Select Category</option>
-                    {categories.map((category) => (
-                        <option key={category._id} value={category.title}>
-                            {category.value}
-                        </option>
-                    ))}
+                    {/*{categories.map((category) => (*/}
+                    {/*    <option key={category._id} value={category.title}>*/}
+                    {/*        {category.value}*/}
+                    {/*    </option>*/}
+                    {/*))}*/}
+                    {Object.entries(subcategories).map(([category, subcategoryList]) => {
+                        return subcategoryList.map(subcat => {
+                            return subcat.items.map(item => (
+                                <option key={item.name} value={item.name}>
+                                    {item.name}
+                                </option>
+                            ))
+                        })
+                    })}
                 </select>
-                <input className={"form-control"} type="file" name="image" onChange={handleImageChange} multiple />
+                <input className={"form-control"} type="file" name="image" onChange={handleImageChange} multiple/>
                 <button className={"btn btn-dark"} type="submit" onClick={handleSubmit}>
                     Add Product
                 </button>

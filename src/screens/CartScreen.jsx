@@ -116,17 +116,18 @@ const CartScreen = ({setVisible}) => {
                         {cart.map(item => (
                             <div className={"cart__item"} key={item._id}>
                                 <div className="cart__item-image">
-                                    <Swiper
-                                        pagination={{
-                                            dynamicBullets: true,
-                                        }}
-                                        modules={[Pagination]}>
-                                        {item.images && item.images.map((image, index) => (
-                                            <SwiperSlide key={index} virtualIndex={index}>
-                                                <img src={image[0]} alt={item.name} />
-                                            </SwiperSlide>
-                                        ))}
-                                    </Swiper>
+                                    {/*<Swiper*/}
+                                    {/*    pagination={{*/}
+                                    {/*        dynamicBullets: true,*/}
+                                    {/*    }}*/}
+                                    {/*    modules={[Pagination]}>*/}
+                                    {/*    {item.images && item.images.map((image, index) => (*/}
+                                    {/*        <SwiperSlide key={index} virtualIndex={index}>*/}
+                                    {/*            <img src={image} alt={item.name} />*/}
+                                    {/*        </SwiperSlide>*/}
+                                    {/*    ))}*/}
+                                    {/*</Swiper>*/}
+                                    <img src={item.images[0]}/>
                                 </div>
                                 <div className="cart__item-name">
                                     <p>{item.name}</p>
