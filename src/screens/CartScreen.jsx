@@ -104,11 +104,9 @@ const CartScreen = ({setVisible}) => {
             <div className="cart__container">
                 <div className=" alert alert-info text-center mt-3">
                     Total Cart Products
-                    <Link
-                        className="text-success mx-2"
-                        to="/cart">
-                        ({totalCount})
-                    </Link>
+                    <div className="text-success mx-2 d-inline-block">
+                        ({cart.length})
+                    </div>
                 </div>
 
                 {cart.length !== 0 ? (
@@ -158,13 +156,13 @@ const CartScreen = ({setVisible}) => {
                 </div>
 
                 <hr/>
-                <div className="cart-buttons d-flex align-items-center row">
+                <div className="cart-buttons d-flex align-items-center row m-1">
                     <div
                         onClick={() => setVisible(false)}
                         className="col-md-6 ">
                         <button className={"bg-black"}>Continue To Shopping</button>
                     </div>
-                    <div className="col-md-6 d-flex justify-content-md-end mt-3 mt-md-0">
+                    <div className="col-md-6 d-flex justify-content-md-end ">
 
                         {cart.length !== 0
                             ? <Link to="/shipping" className='cart-buttons cart-btn'>

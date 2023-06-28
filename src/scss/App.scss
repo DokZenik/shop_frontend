@@ -507,6 +507,8 @@ textarea:focus {
   background-color: rgba(85, 255, 0, 0.42);
   border: 2px solid green;
 }
+
+
 .Login button,
 .Login2 button {
   width: 100%;
@@ -633,7 +635,9 @@ textarea:focus {
 }
 
 /* CART */
-
+.cart__container{
+  max-height: 90vh;
+}
 .remove-button {
   background-color: red;
   width: 25px;
@@ -826,13 +830,10 @@ textarea:focus {
   display: flex;
   flex-direction: column;
   row-gap: 10px;
+  max-height: 30vh;
+  overflow-y: scroll;
 }
 
-@media (max-width: 360px) {
-  .cart__items {
-    gap: 0;
-  }
-}
 
 .cart__item {
   display: flex;

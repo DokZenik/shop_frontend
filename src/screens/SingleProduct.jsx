@@ -12,13 +12,14 @@ import rating from "../components/homeComponents/Rating";
 import {Swiper, SwiperSlide} from "swiper/react";
 import {Navigation, Pagination} from "swiper";
 import {CurrencyContext} from "../components/utils/Currency/CurrensyContext";
+import Loader from "../components/utils/Loaders/Loader";
 
 const SingleProduct = ({match}) => {
-    const { baseCurrency, handleCurrencyChange } = useContext(CurrencyContext);
+    const {baseCurrency, handleCurrencyChange} = useContext(CurrencyContext);
     const [product, setProduct] = useState({
         images: []
     });
-    const [products, setProducts] = useState([]);
+    const [loaderActive, setLoaderActive] = useState(false);
     const [isItemsLoading, setIsItemsLoading] = useState(false);
     const [modal, setModal] = useState(false);
     const [comments, setComments] = useState([]);
@@ -69,12 +70,13 @@ const SingleProduct = ({match}) => {
     useMemo(() => {
         fetchData()
         userValidate()
+        fetchComments()
     }, [])
 
     let handleSubmit = (e) => {
         e.preventDefault()
         disableButton = true
-
+        setLoaderActive(true)
         axios.post(`https://platz-shop-api.onrender.com/api/comments/save`, {
             userId: localStorage.getItem("email"),
             itemId: product._id,
@@ -87,14 +89,19 @@ const SingleProduct = ({match}) => {
             }
         })
             .then(res => {
+                setLoaderActive(false)
                 window.location.reload()
             })
             .catch(e => e.status === 403 ? history.push("/login") : null)
     }
     return (
         <>
-            <Header setVisible={setModal} cartEnable={true} baseCurrency={baseCurrency} onCurrencyChange={handleCurrencyChange} />
+            {loaderActive
+                ? <Loader/>
+                : null}
 
+            <Header setVisible={setModal} cartEnable={true} baseCurrency={baseCurrency}
+                    onCurrencyChange={handleCurrencyChange}/>
             {isItemsLoading
                 ?
                 <div className="preloader_wrapper">
@@ -112,10 +119,10 @@ const SingleProduct = ({match}) => {
                                             dynamicBullets: true,
                                         }}
                                         navigation={true}
-                                    modules={[Pagination, Navigation]}>
+                                        modules={[Pagination, Navigation]}>
                                         {product.images && product.images.map((image, index) => (
                                             <SwiperSlide key={index} virtualIndex={index}>
-                                                <img src={image} alt={product.name} />
+                                                <img src={image} alt={product.name}/>
                                             </SwiperSlide>
                                         ))}
                                     </Swiper>
@@ -140,7 +147,8 @@ const SingleProduct = ({match}) => {
                                             {product.countInStock > 0 ? <span>In Stock</span> :
                                                 <span>unavailable</span>}
                                         </div>
-                                        <div className="flex-box d-flex justify-content-between align-items-center gap-5">
+                                        <div
+                                            className="flex-box d-flex justify-content-between align-items-center gap-5">
                                             <h6>Reviews</h6>
                                             <Rating
                                                 value={product.rating / product.numReviews}
@@ -166,6 +174,7 @@ const SingleProduct = ({match}) => {
                                                         if (!localStorage.getItem("token")) {
                                                             history.push("/login/401")
                                                         } else {
+                                                            setLoaderActive(true)
                                                             axios.post("https://platz-shop-api.onrender.com/api/cart", {
                                                                 item: {
                                                                     userId: localStorage.getItem("email"),
@@ -176,8 +185,14 @@ const SingleProduct = ({match}) => {
                                                                 headers: {
                                                                     "Authorization": `Bearer ${localStorage.getItem("token")}`
                                                                 }
-                                                            }).then(res => window.location.reload())
-                                                                .catch(e =>  history.push("/login/403"))
+                                                            }).then(res => {
+                                                                window.location.reload()
+                                                                setLoaderActive(false)
+                                                            })
+                                                                .catch(e => {
+                                                                    history.push("/login/403")
+                                                                    setLoaderActive(false)
+                                                                })
                                                             // console.log(product)
 
                                                         }
@@ -255,7 +270,7 @@ const SingleProduct = ({match}) => {
                                 : <div className="my-3 order-0">
                                     <Message variant={'alert-warning'}>
                                         Please{' '}
-                                        <Link to="/login">
+                                        <Link to="/login/403">
                                             " <strong>Login</strong> "
                                         </Link>{' '}
                                         to write a review{' '}
