@@ -33,7 +33,7 @@ const DashBanner = () => {
             formData.append('image', selectedImage);
             formData.append('altText', altText);
 
-            await axios.post('http://localhost:5000/api/banners', formData);
+            await axios.post('https://platz-shop-api.onrender.com/api/banners', formData);
 
             // Clear the form
             setSelectedImage(null);
