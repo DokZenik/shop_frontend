@@ -220,6 +220,19 @@
 }
 
 @media (max-width: 445px) {
+  .cd-dropdown-content{
+    width: 100px;
+  }
+  .cd-secondary-dropdown{
+    width: 100px;
+  }
+  .cd-dropdown-content li svg{
+    width: 12px;
+    height: 12px;
+  }
+  .cd-dropdown-content li a{
+    font-size: 12px;
+  }
   #baseCurrency{
     display: none;
   }
