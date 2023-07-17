@@ -299,7 +299,11 @@ textarea:focus {
   justify-content: center;
   align-items: center;
 }
-
+@media (max-width: 560px) {
+  .form-section{
+    flex-direction: column;
+  }
+}
 .form-section input[type='email'] {
   border: 0 none;
   border-radius: 25px;

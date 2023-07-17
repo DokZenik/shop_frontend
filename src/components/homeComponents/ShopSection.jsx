@@ -10,7 +10,15 @@ import SearchProduct from "../utils/search/SearchProduct";
 import CurrencySelector from "../utils/Currency/CurrencySelector";
 import category from "./Category";
 
-const ShopSection = ({visible, setVisible, filteredItems, setFilteredItems, baseCurrency, setCategories}) => {
+const ShopSection = ({
+                         visible,
+                         setVisible,
+                         filteredItems,
+                         setFilteredItems,
+                         baseCurrency,
+                         setCategories,
+                         categories
+                     }) => {
 
     const [currentPageNumber, setCurrentPageNumber] = useState(0);
     const [pagesCount, setPagesCount] = useState(1)
@@ -81,13 +89,18 @@ const ShopSection = ({visible, setVisible, filteredItems, setFilteredItems, base
                 <div className="section">
                     <div className="row">
                         <div className="col-lg-12 col-md-12 article">
-                            <div className="row">
+                            <div className="row d-inline-block">
                                 <div className="col-lg-12 col-md-12 article">
                                     <button className="btn btn-dark my-3" onClick={handleResetCategory}>
                                         Reset Category
                                     </button>
                                 </div>
                             </div>
+                            {categories.length !== 0
+                                ? <span>Current category: {categories.join(", ")}</span>
+                                : null
+                            }
+
                             <div className="shopcontainer">
                                 {isItemsLoading
                                     ?

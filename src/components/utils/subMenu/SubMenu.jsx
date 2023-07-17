@@ -1,6 +1,6 @@
 import React from "react";
 
-const SubMenu = ({ category, subcategories, isSubmenuOpen, closeSubmenu, products, setFilteredItems, setCategories, catData}) => {
+const SubMenu = ({ category, subcategories, isSubmenuOpen, closeSubmenu, products, setFilteredItems, setCategories, catData, setIsOpen}) => {
     return (
         isSubmenuOpen && (
             <ul className="cd-secondary-dropdown scroll">
@@ -17,6 +17,7 @@ const SubMenu = ({ category, subcategories, isSubmenuOpen, closeSubmenu, product
                                 <li key={i} onClick={() => {
                                     setCategories([item.name])
                                     setFilteredItems(products.filter(elem => elem.categories.includes(item.name)))
+                                    setIsOpen()
                                 }}>
                                     <a href={item.link}>{item.name}</a>
                                 </li>
@@ -32,6 +33,7 @@ const SubMenu = ({ category, subcategories, isSubmenuOpen, closeSubmenu, product
                                     })
                                     return index
                                 }))
+                                setIsOpen()
                             }}>
                                 <a href="#">All {subcategory.name}</a>
                             </li>

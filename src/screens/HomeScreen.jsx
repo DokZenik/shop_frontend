@@ -44,6 +44,7 @@ const HomeScreen = () => {
                          setFilteredItems={setFilteredItems}
                          baseCurrency={baseCurrency}
                          setCategories={setCategories}
+                         categories={categories}
             />
             <CalltoActionSection/>
             <ContactInfo/>

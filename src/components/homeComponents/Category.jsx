@@ -177,6 +177,7 @@ const Category = ({products, setFilteredItems, setCategories}) => {
                                             setFilteredItems={setFilteredItems}
                                             setCategories= {setCategories}
                                             catData={fullCatData}
+                                            setIsOpen={toggleDropdown}
                                         />
                                     )}
                                 </li>
