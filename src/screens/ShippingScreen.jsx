@@ -23,7 +23,7 @@ const ShippingScreen = () => {
         }
     }, [])
 
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
 
     const [address, setAddress] = useState("");
     const [city, setCity] = useState("");

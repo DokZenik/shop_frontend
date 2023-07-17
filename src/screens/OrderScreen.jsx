@@ -9,7 +9,7 @@ import {Swiper, SwiperSlide} from "swiper/react";
 import {Pagination} from "swiper";
 
 const OrderScreen = () => {
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
 
     const [items, setItems] = useState([])
     const history = useHistory()

@@ -18,7 +18,7 @@ const Register = () => {
 
     const history = useHistory();
 
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
     const [registerSend, isRegisterSending, error] = useFetching(async () => {
 
         await axios.post("https://platz-shop-api.onrender.com/api/auth/registration", {

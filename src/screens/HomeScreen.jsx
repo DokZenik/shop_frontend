@@ -12,7 +12,7 @@ import {CurrencyContext} from "../components/utils/Currency/CurrensyContext";
 
 const HomeScreen = () => {
     const { baseCurrency, handleCurrencyChange } = useContext(CurrencyContext);
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
     const [modal, setModal] = useState(false)
     const [filteredItems, setFilteredItems] = useState([]);
     const [categories, setCategories] = useState([])

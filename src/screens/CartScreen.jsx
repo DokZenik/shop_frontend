@@ -95,7 +95,7 @@ const CartScreen = ({setVisible}) => {
             .catch(e => e.status === 403 ? history.push("/login/403") : null)
     }
 
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
 
 
     return (

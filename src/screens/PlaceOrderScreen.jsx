@@ -8,7 +8,7 @@ import {Swiper, SwiperSlide} from "swiper/react";
 import Preloader from "../components/utils/Loaders/Preloader";
 
 const PlaceOrderScreen = () => {
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
     const [items, setItems] = useState([])
     const history = useHistory()
     let productsTotalPrice = 0;

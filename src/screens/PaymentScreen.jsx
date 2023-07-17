@@ -4,7 +4,7 @@ import Header from './../components/Header';
 import axios from "axios";
 
 const PaymentScreen = () => {
-  window.scrollTo(0, 0);
+  // window.scrollTo(0, 0);
 
   const history = useHistory();
   const [paymentMethod, setPaymentMethod] = useState('');

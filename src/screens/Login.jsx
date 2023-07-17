@@ -6,7 +6,7 @@ import {useFetching} from "../components/utils/CustomHooks/useFetching";
 import axios from "axios";
 
 const Login = ({match}) => {
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [changeMessage, setChangeMessage] = useState(true);
