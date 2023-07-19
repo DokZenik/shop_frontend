@@ -58,7 +58,6 @@ const DashProducts = () => {
     })
 
 
-
     useEffect(() => {
         fetchData();
         fetchCategories(); // Fetch categories when component mounts
@@ -196,6 +195,16 @@ const DashProducts = () => {
             <div className={`d-flex flex-1 flex-wrap scroll ${classes['shop_wrapper']}`}>
                 {products.map((product) => (
                     <div className={'shop max-height-600 m-3 w-25'} key={product._id}>
+
+                        <button onClick={() => {
+                            axios.delete(`http://localhost:5000/api/products/delete/${product._id}`)
+                                .then(res => console.log(res))
+                                .catch(e => console.log(e))
+                            const buff = products.filter(prod => prod._id !== product._id)
+                            setProducts(buff)
+                        }}>DELETE
+                        </button>
+
                         <div className="shopBack">
                             <Swiper
                                 pagination={{
@@ -219,7 +228,8 @@ const DashProducts = () => {
 
                         {/* Render the form only if the product is being edited */}
                         {formData.editProductId === product._id && (
-                            <form onSubmit={handleSubmit} className={'d-flex align-items-center gap-2 flex-column h-100'}>
+                            <form onSubmit={handleSubmit}
+                                  className={'d-flex align-items-center gap-2 flex-column h-100'}>
                                 <input
                                     className={'form-control'}
                                     placeholder={'Product Name'}
