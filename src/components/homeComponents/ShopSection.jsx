@@ -29,8 +29,6 @@ const ShopSection = ({visible, setVisible, filteredItems, setFilteredItems, base
     }
 
     const getPageData = (pageNumber, elemPerPageCount) => {
-        // console.log("pageNumber: " + pageNumber)
-        // console.log(filteredItems.slice(pageNumber * elemPerPageCount, (pageNumber + 1) * elemPerPageCount))
         return filteredItems.slice(pageNumber * elemPerPageCount, (pageNumber + 1) * elemPerPageCount)
     }
 
