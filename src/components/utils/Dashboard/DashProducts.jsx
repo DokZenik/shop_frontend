@@ -197,7 +197,7 @@ const DashProducts = () => {
                     <div className={'shop max-height-600 m-3 w-25'} key={product._id}>
 
                         <button onClick={() => {
-                            axios.delete(`http://localhost:5000/api/products/delete/${product._id}`)
+                            axios.delete(`https://platz-shop-api.onrender.com/api/products/delete/${product._id}`)
                                 .then(res => console.log(res))
                                 .catch(e => console.log(e))
                             const buff = products.filter(prod => prod._id !== product._id)
