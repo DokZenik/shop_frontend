@@ -4,14 +4,15 @@ import Rating from '../components/homeComponents/Rating';
 import {Link, useHistory} from 'react-router-dom';
 import Message from './../components/LoadingError/Error';
 import axios from 'axios';
-import {setProd} from "../data/Products";
 import Preloader from "../components/utils/Loaders/Preloader";
 import ModalCart from "../components/utils/Cart/ModalCart";
 import {useFetching} from "../components/utils/CustomHooks/useFetching";
-import rating from "../components/homeComponents/Rating";
-import {Swiper, SwiperSlide} from "swiper/react";
-import {Navigation, Pagination} from "swiper";
 import {CurrencyContext} from "../components/utils/Currency/CurrensyContext";
+import {Navigation, Pagination} from "swiper";
+import {Swiper, SwiperSlide} from "swiper/react";
+import 'swiper/swiper.scss';
+import 'swiper/modules/pagination/pagination.scss';
+import 'swiper/modules/navigation/navigation.min.css'
 import Loader from "../components/utils/Loaders/Loader";
 
 const SingleProduct = ({match}) => {
@@ -48,12 +49,22 @@ const SingleProduct = ({match}) => {
 
     let count = 1
 
+    useEffect(() => {
+
+        const fetchProduct = async () => {
+            const {data} = await axios.get(`https://platz-shop-api.onrender.com/api/products/${match.params.id}`);
+            setProduct(data);
+        };
+        fetchProduct();
+        fetchComments();
+    }, []);
+
     const fetchData = () => {
         setIsItemsLoading(true)
         axios.get(`https://platz-shop-api.onrender.com/api/products/${match.params.id}`)
             .then(res => {
                 setProduct(res.data)
-                console.log(res.data)
+                // console.log(res.data)
                 setIsItemsLoading(false)
             })
             .catch(e => console.log(e))
@@ -70,7 +81,6 @@ const SingleProduct = ({match}) => {
     useMemo(() => {
         fetchData()
         userValidate()
-        fetchComments()
     }, [])
 
     let handleSubmit = (e) => {
