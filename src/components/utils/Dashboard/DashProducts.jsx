@@ -237,6 +237,7 @@ const DashProducts = () => {
                                     name="name"
                                     value={formData.name}
                                     onChange={handleChange}
+                                    required
                                 />
                                 <input
                                     placeholder="Product Description"
@@ -245,6 +246,7 @@ const DashProducts = () => {
                                     name="description"
                                     value={formData.description}
                                     onChange={handleChange}
+                                    required
                                 />
                                 <input
                                     placeholder="Product price"
@@ -254,6 +256,7 @@ const DashProducts = () => {
                                     value={formData.price}
                                     min={0}
                                     onChange={handleChange}
+                                    required
                                 />
                                 <input
                                     type="number"
@@ -262,12 +265,14 @@ const DashProducts = () => {
                                     placeholder={'Count of Stock'}
                                     value={formData.countInStock}
                                     onChange={handleChange}
+                                    required
                                 />
                                 <select
                                     className={'form-control'}
                                     name="category"
                                     value={formData.category}
                                     onChange={handleChange}
+                                    required
                                 >
                                     <option value="">Select Category</option>
                                     {/*{categories.map((category) => (*/}
@@ -289,6 +294,7 @@ const DashProducts = () => {
                                     name="images"
                                     onChange={handleChange}
                                     multiple
+                                    required
                                 />
                                 <button className={'btn btn-dark m-3'} type="submit">Accept Changes</button>
                             </form>

@@ -134,6 +134,7 @@ const AddProduct = () => {
                     value={formData.price}
                     min={0}
                     onChange={handleChange}
+                    required
                 />
                 <input
                     type="number"
@@ -142,13 +143,14 @@ const AddProduct = () => {
                     placeholder={'Count of Stock'}
                     value={formData.countInStock}
                     onChange={handleChange}
-
+                    required
                 />
                 <select
                     className={"form-control"}
                     name="category"
                     value={formData.category}
                     onChange={handleChange}
+                    required
                 >
                     <option value="">Select Category</option>
                     {/*{categories.map((category) => (*/}
