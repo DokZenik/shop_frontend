@@ -1165,6 +1165,33 @@ textarea:focus {
 .dashImage img{
   width: 60%;
 }
+.popup-message {
+  width: 280px;
+  height: 100%;
+  position: fixed;
+  top: 50%;
+  right: 0;
+  z-index: 10000;
+}
+
+.popup-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.popup-content p {
+  margin-bottom: 10px;
+}
+
+.close {
+  float: right;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.FormControls{}
 
 @media (max-width: 1199px) {
   .w-30 {

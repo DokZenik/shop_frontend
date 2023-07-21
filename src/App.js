@@ -17,6 +17,7 @@ import Cookies from "js-cookie";
 import PartnersComponent from "./components/utils/Partners/PartnersComponent";
 import Dashboard from "./components/utils/Dashboard/Dashboard";
 import DashProducts from "./components/utils/Dashboard/DashProducts";
+import BusinessForm from "./components/homeComponents/BusinessForm";
 
 const App = () => {
     const [baseCurrency, setBaseCurrency] = useState('EUR');
@@ -69,6 +70,10 @@ const App = () => {
                         )}
                         exact
                     />
+                    <Route
+                        path='/businessForm'
+                        component={BusinessForm}
+                        />
                     <Route
                         path="/products/:id"
                         render={(props) => <SingleProduct {...props} baseCurrency={baseCurrency} onCurrencyChange={handleCurrencyChange}/>}

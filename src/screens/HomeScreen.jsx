@@ -9,6 +9,7 @@ import Banner from "./Banner";
 import {useHistory} from "react-router-dom";
 import SingleProduct from "./SingleProduct";
 import {CurrencyContext} from "../components/utils/Currency/CurrensyContext";
+import PopupMessage from "../components/homeComponents/PopupMessage";
 
 const HomeScreen = () => {
     const { baseCurrency, handleCurrencyChange } = useContext(CurrencyContext);
@@ -49,6 +50,7 @@ const HomeScreen = () => {
             <CalltoActionSection/>
             <ContactInfo/>
             <PreFooter/>
+            <PopupMessage/>
             <Footer/>
         </div>
     );
