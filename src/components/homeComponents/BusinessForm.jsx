@@ -15,7 +15,8 @@ const BusinessForm = () => {
         websiteLink: "",
         ico: "",
         productsType: "TT",
-        description: ""
+        description: "",
+        status: "WAITING"
     })
 
     const handleCheckboxChange = (e) => {
@@ -24,14 +25,33 @@ const BusinessForm = () => {
     const formHandler = (e) => {
         e.preventDefault()
         axios.post("https://platz-shop-api.onrender.com/api/seller/application/save", {formDate})
-            .then(res => console.log(res))
-            .catch(e => console.log(e))
+        // axios.post("http://localhost:5000/api/seller/application/save", {formDate})
+            .then(res => {
+                if (res.status === 200)
+                    setFormDate({
+                        name: "",
+                        surname: "",
+                        email: "TE",
+                        address: "",
+                        websiteLink: "",
+                        ico: "",
+                        productsType: "TT",
+                        description: "",
+                        status: "WAITING"
+                    })
+                else
+                    console.log("something was wrong")
+            })
+            .catch(e => {
+
+            })
     }
     return (
         <>
 
             <div className={'container-sm mt-5 d-flex justify-content-center'}>
-                <Form className={'w-50 d-flex flex-wrap gap-5 justify-content-center'} onSubmit={formHandler} action={"#"}>
+                <Form className={'w-50 d-flex flex-wrap gap-5 justify-content-center'} onSubmit={formHandler}
+                      action={"#"}>
                     <Form.Group>
                         <Form.Label>Name</Form.Label>
                         <Form.Control
@@ -47,7 +67,6 @@ const BusinessForm = () => {
                             placeholder="Enter surname"
                             value={formDate.surname}
                             onChange={e => setFormDate({...formDate, surname: e.target.value})}/>
-                        />
                         <Form.Text className="text-muted">
                             We should known little more about u.
                         </Form.Text>
@@ -59,11 +78,24 @@ const BusinessForm = () => {
                             placeholder="Enter Address"
                             value={formDate.address}
                             onChange={e => setFormDate({...formDate, address: e.target.value})}/>
+                        <Form.Text className="text-muted">
+                            Write only your/your company's actual address.
+                        </Form.Text>
+                    </Form.Group>
+                    {/* my changes */}
+                    <Form.Group className={'w-75'}>
+                        <Form.Label>Email</Form.Label>
+                        <Form.Control
+                            type={'text'}
+                            placeholder="Enter Email"
+                            value={formDate.email}
+                            onChange={e => setFormDate({...formDate, email: e.target.value})}/>
                         />
                         <Form.Text className="text-muted">
                             Write only your/your company's actual address.
                         </Form.Text>
                     </Form.Group>
+                    {/* my changes */}
                     <Form.Group className={'w-75'}>
                         <Form.Label>Link</Form.Label>
                         <Form.Control type={'text'}
@@ -73,7 +105,8 @@ const BusinessForm = () => {
                                       value={formDate.websiteLink}
                                       onChange={e => setFormDate({...formDate, websiteLink: e.target.value})}/>
                         />
-                        <Form.Check type="checkbox" label="Click if you doesn't have any links" onChange={handleCheckboxChange}/>
+                        <Form.Check type="checkbox" label="Click if you doesn't have any links"
+                                    onChange={handleCheckboxChange}/>
                     </Form.Group>
                     <Form.Group className={'w-75'}>
                         <Form.Label>IČO</Form.Label>
