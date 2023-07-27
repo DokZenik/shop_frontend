@@ -39,7 +39,7 @@ const SellerApplicationsList = () => {
         setSelectedApplication(null);
     };
 
-    const isWaitingStatus = selectedApplication && selectedApplication.status === "waiting";
+    const isWaitingStatus = selectedApplication && selectedApplication.status === "WAITING";
 
     const handleApprove = async () => {
         try {
