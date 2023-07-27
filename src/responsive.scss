@@ -245,6 +245,22 @@
 }
 
 @media (max-width: 350px){
+  .businessFormActivity textarea{
+    width: 150px;
+  }
+  .businessFormType select{
+    font-size: 13px;
+    width: 150px;
+  }
+  .form-check-label{
+    width: 130px;
+  }
+  .businessForm label{
+    font-size: 14px;
+  }
+  .businessForm input{
+    font-size: 14px;
+  }
   .Login-Register{
     max-height: 40px;
   }

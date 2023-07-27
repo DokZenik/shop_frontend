@@ -84,7 +84,7 @@ const BusinessForm = () => {
                         address: "",
                         websiteLink: "",
                         ico: "",
-                        productsType: "TT",
+                        productsType: "",
                         description: "",
                         status: "WAITING"
                     })
@@ -99,7 +99,7 @@ const BusinessForm = () => {
         <>
 
             <div className={'container-sm mt-5 d-flex justify-content-center'}>
-                <Form className={'w-50 d-flex flex-wrap gap-5 justify-content-center'} onSubmit={formHandler}
+                <Form className={'w-50 d-flex flex-wrap gap-5 justify-content-start businessForm'} onSubmit={formHandler}
                       action={"#"}>
                     <Form.Group>
                         <Form.Label>Name</Form.Label>
@@ -120,7 +120,7 @@ const BusinessForm = () => {
                             We should known little more about u.
                         </Form.Text>
                     </Form.Group>
-                    <Form.Group className={'w-75'}>
+                    <Form.Group className={''}>
                         <Form.Label>Address</Form.Label>
                         <Form.Control
                             type={'text'}
@@ -132,7 +132,7 @@ const BusinessForm = () => {
                         </Form.Text>
                     </Form.Group>
                     {/* my changes */}
-                    <Form.Group className={'w-75'}>
+                    <Form.Group className={''}>
                         <Form.Label>Email</Form.Label>
                         <Form.Control
                             type={'text'}
@@ -145,19 +145,21 @@ const BusinessForm = () => {
                         </Form.Text>
                     </Form.Group>
                     {/* my changes */}
-                    <Form.Group className={'w-75'}>
+                    <Form.Group className={''}>
                         <Form.Label>Link</Form.Label>
                         <Form.Control type={'text'}
-                                      placeholder="Enter actual link to your website"
+                                      placeholder="link to your website"
                                       className={'mb-3'}
                                       disabled={noLinks}
                                       value={formDate.websiteLink}
                                       onChange={e => setFormDate({...formDate, websiteLink: e.target.value})}
                         />
-                        <Form.Check type="checkbox" label="Click if you doesn't have any links"
-                                    onChange={handleCheckboxChange}/>
+                        <Form.Check type="checkbox"
+                                    label="Click if you doesn't have any links"
+                                    onChange={handleCheckboxChange}
+                                    className={'w-50'}/>
                     </Form.Group>
-                    <Form.Group className={'w-75'}>
+                    <Form.Group className={''}>
                         <Form.Label>IČO</Form.Label>
                         <Form.Control
                             type={'text'}
@@ -166,7 +168,7 @@ const BusinessForm = () => {
                             onChange={e => setFormDate({...formDate, ico: e.target.value})}
                         />
                     </Form.Group>
-                    <Form.Group className={'w-75'}>
+                    <Form.Group className={'businessFormType'}>
                         <Form.Label>Type of products</Form.Label>
                         <Form.Select
                             type={'text'}
@@ -196,7 +198,7 @@ const BusinessForm = () => {
                             })}
                         </Form.Select>
                     </Form.Group>
-                    <Form.Group className="w-100">
+                    <Form.Group className="businessFormActivity">
                         <Form.Label>Description of your activity</Form.Label>
                         <Form.Control
                             as="textarea"
