@@ -1,39 +1,48 @@
-import React, { useState } from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import classes from '../Dashboard/Dashboard.module.css';
+import axios from "axios";
 
 const DashboardView = () => {
     const [totalSales, setTotalSales] = useState(0);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [salesData, setSalesData] = useState([]);
 
-    const handleDateSelect = (date) => {
-        const generatedSalesData = generateSalesData(date);
-        setSalesData(generatedSalesData);
-        calculateTotalSales(generatedSalesData);
+    const fetchOrders = async () => {
+        try {
+            const response = await axios.get('https://platz-shop-api.onrender.com/api/history/getAll', {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                }
+            });
+
+            // Update the sales data
+            setSalesData(response.data);
+
+            // Calculate total sales by date
+            const selectedDateISO = selectedDate.toISOString().split('T')[0];
+            const totalSalesByDate = response.data.reduce((total, order) => {
+                const orderDate = new Date(order.createdAt).toISOString().split('T')[0];
+                if (orderDate === selectedDateISO) {
+                    total += order.total;
+                }
+                return total;
+            }, 0);
+
+            // Update the total sales state
+            setTotalSales(totalSalesByDate);
+        } catch (error) {
+            console.log(error);
+        }
     };
+
+    useEffect(() => {
+        fetchOrders();
+    }, [selectedDate]);
 
     const handleChange = (e) => {
         const date = new Date(e.target.value);
         setSelectedDate(date);
-        handleDateSelect(date);
-    };
-
-    const generateSalesData = (selectedDate) => {
-        const data = [];
-        const startDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
-        const endDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0);
-
-        for (let date = startDate; date <= endDate; date.setDate(date.getDate() + 1)) {
-            const sales = Math.floor(Math.random() * 1000) + 1;
-            data.push({ date: date.toISOString().split('T')[0], sales });
-        }
-
-        return data;
-    };
-    const calculateTotalSales = (data) => {
-        const total = data.reduce((accumulator, currentValue) => accumulator + currentValue.sales, 0);
-        setTotalSales(total);
     };
 
     return (
@@ -62,38 +71,14 @@ const DashboardView = () => {
                         </LineChart>
                         <p className={`${classes.bolder}`}>{totalSales}</p>
                     </div>
-                    <div className={`${classes['dashboard-graph_item']} d-flex flex-column`}>
-                        <p>Total sales</p>
-                        <p className={`${classes.bolder}`}>25600$</p>
-                    </div>
-                    <div className={`${classes['dashboard-graph_item']} d-flex flex-column`}>
-                        <p>Total sales</p>
-                        <p className={`${classes.bolder}`}>25600$</p>
-                    </div>
-                </div>
-                <div className={`${classes['dashboard-orders']} d-flex flex-column gap-5`}>
-                    <h2>Recently orders</h2>
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>Product name</th>
-                            <th>Product id</th>
-                            <th>Payment</th>
-                            <th>Status</th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>ProductName</td>
-                            <td>2281337</td>
-                            <td>Successful</td>
-                            <td>Delivered</td>
-                            <td>Details</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <button className={`btn btn-dark`}>Show All</button>
+                    {/*<div className={`${classes['dashboard-graph_item']} d-flex flex-column`}>*/}
+                    {/*    <p>Total sales</p>*/}
+                    {/*    <p className={`${classes.bolder}`}>25600$</p>*/}
+                    {/*</div>*/}
+                    {/*<div className={`${classes['dashboard-graph_item']} d-flex flex-column`}>*/}
+                    {/*    <p>Total sales</p>*/}
+                    {/*    <p className={`${classes.bolder}`}>25600$</p>*/}
+                    {/*</div>*/}
                 </div>
             </div>
         </>

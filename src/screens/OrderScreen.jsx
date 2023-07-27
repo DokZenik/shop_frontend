@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from "react";
+import React, {useContext, useEffect, useMemo, useState} from "react";
 import {Link, useHistory} from "react-router-dom";
 import Header from "./../components/Header";
 import {PayPalButton} from "react-paypal-button-v2";
@@ -7,10 +7,11 @@ import axios from "axios";
 import Preloader from "../components/utils/Loaders/Preloader";
 import {Swiper, SwiperSlide} from "swiper/react";
 import {Pagination} from "swiper";
+import { CurrencyContext } from '../components/utils/Currency/CurrensyContext';
 
 const OrderScreen = () => {
     // window.scrollTo(0, 0);
-
+    const { baseCurrency } = useContext(CurrencyContext);
     const [items, setItems] = useState([])
     const history = useHistory()
     let productsTotalPrice = 0;
@@ -40,6 +41,9 @@ const OrderScreen = () => {
         }
     }, [])
 
+
+
+
     const paymentHandler = async () => {
         await axios.post(`https://platz-shop-api.onrender.com/api/history/addItem`, {
             item: {
@@ -61,7 +65,10 @@ const OrderScreen = () => {
         }).then(res => console.log(res)).catch(e => console.log(e))
         localStorage.removeItem("delivery_address")
     }
-    const onApprove = (data, actions) => {
+    const onSuccess = (data, actions) => {
+        paymentHandler();
+        history.push('/');
+        console.log(paymentHandler());
         // Handle the payment approval
         return actions.order.capture().then(function (details) {
             console.log("Payment successful:", details);
@@ -223,16 +230,17 @@ const OrderScreen = () => {
                                                   purchase_units: [
                                                       {
                                                           amount: {
-                                                              currency_code: "USD",
+                                                              currency_code: 'USD',
                                                               value: (
                                                                   productsTotalPrice + shippingPrice + tax
                                                               ).toFixed(2),
                                                           },
                                                       },
+
                                                   ],
                                               });
                                           }}
-                                          onApprove={onApprove}
+                                          onSuccess={onSuccess}
                             />
                         </div>
                         {/*<button onClick={paymentHandler}>TEST</button>*/}

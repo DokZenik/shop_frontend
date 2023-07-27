@@ -88,7 +88,7 @@ const App = () => {
                     />
                     <Route
                         path="/profile"
-                        component={ProfileScreen}
+                        render={(props) => <ProfileScreen {...props} baseCurrency={baseCurrency} onCurrencyChange={handleCurrencyChange}/>}
                     />
                     <Route
                         path="/shipping"
@@ -104,7 +104,7 @@ const App = () => {
                     />
                     <Route
                         path="/order"
-                        component={OrderScreen}
+                        render={(props) => <OrderScreen {...props} baseCurrency={baseCurrency} onCurrencyChange={handleCurrencyChange}/>}
                     />
                     <Route
                         path="/partners"
@@ -112,7 +112,7 @@ const App = () => {
                     />
                     <Route
                         path="/dashboard"
-                        component={Dashboard}
+                        render={(props) => <Dashboard {...props} baseCurrency={baseCurrency} onCurrencyChange={handleCurrencyChange}/>}
                     />
                     <Route
                     path='/dashProducts'

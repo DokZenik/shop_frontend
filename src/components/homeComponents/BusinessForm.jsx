@@ -2,19 +2,68 @@ import {Button, Form} from "react-bootstrap";
 import React, {useEffect, useState} from "react";
 import {useFetching} from "../utils/CustomHooks/useFetching";
 import axios from "axios";
+import {Link} from "react-router-dom";
 
 
 const BusinessForm = () => {
     const [noLinks, setNoLinks] = useState(false);
+    const [categories, setCategories] = useState([]);
+    const [subcategories, setSubcategories] = useState([]);
+    let objectForDisplay = {}
+
+    useEffect(() => {
+        // Fetch categories and subcategories when the component mounts
+        fetchCategories();
+    }, []);
+
+    const fetchCategories = async () => {
+        try {
+            const response = await axios.get(
+                "https://platz-shop-api.onrender.com/api/categories",
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    },
+                }
+            );
+            console.log(response.data);
+
+            // The response.data should be an array of categories and subcategories
+            // directly set it to the subcategories state
+            formCategories(response.data, "");
+        } catch (error) {
+            console.error("Error fetching categories:", error);
+        }
+    };
+
+    const formCategories = (data, title) => {
+        const buff = data.filter(elem => elem.title === title)
+
+        buff.forEach(elem => objectForDisplay[elem.value] = [])
+
+        if (data.length > buff.length)
+            Object.entries(objectForDisplay).forEach(([category, subcategoryList]) => {
+
+                objectForDisplay[category] = data.filter(elem => elem.title === category).map(elem => {
+                    return {name: elem.value, items: []}
+                })
+
+                objectForDisplay[category].forEach(elem => elem.items = data.filter(item => item.title === elem.name).map(elem => {
+                    return {name: elem.value}
+                }))
+
+            })
+        setSubcategories(objectForDisplay)
+    }
 
     const [formDate, setFormDate] = useState({
         name: "",
         surname: "",
-        email: "TE",
+        email: "",
         address: "",
         websiteLink: "",
         ico: "",
-        productsType: "TT",
+        productsType: "",
         description: "",
         status: "WAITING"
     })
@@ -25,13 +74,13 @@ const BusinessForm = () => {
     const formHandler = (e) => {
         e.preventDefault()
         axios.post("https://platz-shop-api.onrender.com/api/seller/application/save", {formDate})
-        // axios.post("http://localhost:5000/api/seller/application/save", {formDate})
+            // axios.post("http://localhost:5000/api/seller/application/save", {formDate})
             .then(res => {
                 if (res.status === 200)
                     setFormDate({
                         name: "",
                         surname: "",
-                        email: "TE",
+                        email: "",
                         address: "",
                         websiteLink: "",
                         ico: "",
@@ -89,7 +138,7 @@ const BusinessForm = () => {
                             type={'text'}
                             placeholder="Enter Email"
                             value={formDate.email}
-                            onChange={e => setFormDate({...formDate, email: e.target.value})}/>
+                            onChange={e => setFormDate({...formDate, email: e.target.value})}
                         />
                         <Form.Text className="text-muted">
                             Write only your/your company's actual address.
@@ -103,7 +152,7 @@ const BusinessForm = () => {
                                       className={'mb-3'}
                                       disabled={noLinks}
                                       value={formDate.websiteLink}
-                                      onChange={e => setFormDate({...formDate, websiteLink: e.target.value})}/>
+                                      onChange={e => setFormDate({...formDate, websiteLink: e.target.value})}
                         />
                         <Form.Check type="checkbox" label="Click if you doesn't have any links"
                                     onChange={handleCheckboxChange}/>
@@ -114,7 +163,7 @@ const BusinessForm = () => {
                             type={'text'}
                             placeholder="Enter IČO"
                             value={formDate.ico}
-                            onChange={e => setFormDate({...formDate, ico: e.target.value})}/>
+                            onChange={e => setFormDate({...formDate, ico: e.target.value})}
                         />
                     </Form.Group>
                     <Form.Group className={'w-75'}>
@@ -124,7 +173,27 @@ const BusinessForm = () => {
                             placeholder="Choose type of products"
                             onChange={e => setFormDate({...formDate, productsType: e.target.value})}>
                             <option value="testValue">Select Category</option>
-                            //categories
+                            {Object.entries(subcategories).map(([category, subcategoryList]) => {
+                                if (subcategoryList.length === 0) {
+                                    return (
+                                        <option key={category} value={category}>
+                                            {category}
+                                        </option>
+                                    );
+                                } else {
+                                    return subcategoryList.map((subcat) => {
+                                        return (
+                                            <optgroup key={subcat.name} label={subcat.name}>
+                                                {subcat.items.map((item) => (
+                                                    <option key={item.name} value={item.name}>
+                                                        {item.name}
+                                                    </option>
+                                                ))}
+                                            </optgroup>
+                                        );
+                                    });
+                                }
+                            })}
                         </Form.Select>
                     </Form.Group>
                     <Form.Group className="w-100">
@@ -134,11 +203,15 @@ const BusinessForm = () => {
                             rows={3}
                             value={formDate.description}
                             onChange={e => setFormDate({...formDate, description: e.target.value})}/>
-                        />
                     </Form.Group>
-                    <Button variant="dark" type="submit">
-                        Submit
-                    </Button>
+                    <div className={'d-flex justify-content-between align-items-center gap-5'}>
+                        <Button variant="dark" type="submit">
+                            Submit
+                        </Button>
+                        <Link to={'/'} className={'btn btn-dark'}>
+                            Back
+                        </Link>
+                    </div>
                 </Form>
             </div>
         </>

@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from "react";
+import React, {useContext, useMemo, useState} from "react";
 import DashboardNavigation from "./DashboardNavigation";
 import DashboardView from "./DashboardView";
 import DashProducts from "./DashProducts";
@@ -7,6 +7,8 @@ import {useHistory} from "react-router-dom";
 import axios from "axios";
 import DashBanner from "./DashBanner";
 import HistoryOrders from "./OrderHistory";
+import CurrensyContext from "../Currency/CurrensyContext";
+import SellerApplicationsList from "./SellerApplicationsList";
 
 const Dashboard = () => {
     const [selectedComponent, setSelectedComponent] = useState("dashboard");
@@ -42,7 +44,8 @@ const Dashboard = () => {
             {selectedComponent === "products" && <DashProducts />}
             {selectedComponent === "addProduct" && <AddProduct />}
             {selectedComponent === "banners" && <DashBanner />}
-            {selectedComponent === "historyOrder" && <HistoryOrders />}
+            {selectedComponent === "historyOrder" && <HistoryOrders/>}
+            {selectedComponent === "customers" && <SellerApplicationsList/>}
         </div>
     );
 };

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Link, useHistory} from 'react-router-dom';
+import {Link, useHistory, useLocation} from 'react-router-dom';
 import SearchProduct from "./utils/search/SearchProduct";
 import Category from "./homeComponents/Category";
 import axios from "axios";
@@ -9,6 +9,9 @@ const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filter
     const [cartCount, setCartCount] = useState(0);
     const [prod, setProd] = useState([])
     const history = useHistory();
+    const location = useLocation();
+    const isSingleProduct = location.pathname === '/products/:id';
+    const isHomePage = location.pathname === '/';
 
     useEffect(() => {
         if (prod.length === 0) {
@@ -73,8 +76,8 @@ const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filter
                                             src="/images/logo.png"
                                         />
                                     </Link>
-                                    <Category setFilteredItems={setFilteredItems} products={prod} setCategories={setCategories}/>
-                                    <CurrencySelector baseCurrency={baseCurrency} onCurrencyChange={onCurrencyChange}/>
+                                    {(isHomePage || isSingleProduct) && <Category setFilteredItems={setFilteredItems} products={prod} setCategories={setCategories}/>}
+                                    {(isHomePage || isSingleProduct) && <CurrencySelector baseCurrency={baseCurrency} onCurrencyChange={onCurrencyChange} />}
                                 </div>
                                 {filterEnable
                                     ? <div className="col-6 d-flex align-items-center search-adaptive">
@@ -123,11 +126,9 @@ const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filter
                                         ?
                                         <div className={"cart_icon__wrapper"} onClick={() => setVisible(true)}>
                                             <i className="fas fa-shopping-bag"></i>
-                                            {/*{console.log(cartCount)}*/}
                                             {cartCount !== 0
                                                 ? <span className="badge">{cartCount}</span>
                                                 : null}
-
                                         </div>
                                         : null}
                                 </div>
@@ -152,8 +153,8 @@ const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filter
                                         src="/images/logo.png"
                                     />
                                 </Link>
-                                <Category setFilteredItems={setFilteredItems} products={prod} setCategories={setCategories}/>
-                                <CurrencySelector baseCurrency={baseCurrency} onCurrencyChange={onCurrencyChange}/>
+                                {(isHomePage || isSingleProduct) && <Category setFilteredItems={setFilteredItems} products={prod} setCategories={setCategories}/>}
+                                {(isHomePage || isSingleProduct) && <CurrencySelector baseCurrency={baseCurrency} onCurrencyChange={onCurrencyChange}/>}
                                 {/*<button className={'btn btn-dark'}>RU</button>*/}
                             </div>
                             <div className="w-50 flex-1">

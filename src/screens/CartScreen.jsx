@@ -10,7 +10,6 @@ import {Swiper, SwiperSlide} from "swiper/react";
 const CartScreen = ({setVisible}) => {
     const { baseCurrency, handleCurrencyChange } = useContext(CurrencyContext);
     const [cart, setCart] = useState([])
-    const [totalCount, setTotalCount] = useState(cart.length)
     const [totalItemsPrice, setTotalItemsPrice] = useState([])
     const [sum, setSum] = useState(0);
     const history = useHistory()

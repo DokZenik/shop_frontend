@@ -56,7 +56,7 @@ const DashboardNavigation = ({onItemClick, selectedComponent}) => {
                                     d="M18.9656 9.80912C18.6141 9.88412 18.0656 10.1326 17.85 10.3154L17.6953 10.4466L17.9766 10.756C18.7734 11.6513 19.2797 12.6638 19.5234 13.8544C19.6875 14.6701 19.7203 15.2701 19.7156 17.3372L19.7109 19.3435L19.8234 19.3716C19.8844 19.3857 20.5969 19.3904 21.4031 19.381C22.7906 19.3669 22.8891 19.3622 23.0906 19.2685C23.3906 19.1279 23.6766 18.856 23.8266 18.5747L23.9531 18.3357V15.3357V12.3357L23.8172 11.9185C23.475 10.8826 22.575 10.0482 21.5391 9.80443C21.1313 9.71068 19.4016 9.71068 18.9656 9.80912Z"
                                     fill="black"/>
                             </svg>
-                            <Link>Customers</Link></li>
+                            <Link onClick={() => handleItemClick("customers")} to={'/dashboard'}>Customers</Link></li>
                         <li className={'dashboard-list-group-item d-flex align-items-center gap-3'}>
                             <svg width="21" height="24" viewBox="0 0 21 24" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">

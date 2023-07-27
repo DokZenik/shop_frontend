@@ -1,14 +1,22 @@
-import React, {useMemo, useState} from "react";
+import React, {useContext, useMemo, useState} from "react";
 import {useFetching} from "../utils/CustomHooks/useFetching";
 import axios from "axios";
 import {useHistory} from "react-router-dom";
 import Preloader from "../utils/Loaders/Preloader";
 import OrderWindow from "../utils/Orders/OrderWindow";
+import {CurrencyContext} from "../utils/Currency/CurrensyContext";
+
 
 const Orders = () => {
+    const { baseCurrency } = useContext(CurrencyContext);
     const [orders, setOrders] = useState([])
     const [isOrderListVisible, setOrderListVisible] = useState(false)
     const [orderItems, setOrderItems] = useState([])
+    const [conversionRate, setConversionRate] = useState({
+        CZK: 21.50,
+        EUR: 1.00,
+        PLN: 4.55
+    });
 
     const history = useHistory()
 
@@ -26,7 +34,7 @@ const Orders = () => {
     return (
         <>
             {isOrderListVisible
-                ? <OrderWindow setVisible={setOrderListVisible} orderItems={orderItems}/>
+                ? <OrderWindow setVisible={setOrderListVisible} orderItems={orderItems} baseCurrency={baseCurrency}/>
                 : null}
 
             <div className=" d-flex justify-content-center align-items-center flex-column">
@@ -83,7 +91,7 @@ const Orders = () => {
                                         {item.createdAt.slice(0, 10)}
                                     </td>
                                     <td>
-                                        {item.total}$
+                                        {`${baseCurrency} ${(item.total * conversionRate[baseCurrency]).toFixed(2)}`}
                                     </td>
                                 </tr>
                             ))}
