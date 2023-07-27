@@ -7,8 +7,8 @@ import {Pagination} from "swiper";
 import {Swiper, SwiperSlide} from "swiper/react";
 
 
-const CartScreen = ({setVisible}) => {
-    const { baseCurrency, handleCurrencyChange } = useContext(CurrencyContext);
+const CartScreen = ({setVisible, setIndVisible}) => {
+    const {baseCurrency, handleCurrencyChange} = useContext(CurrencyContext);
     const [cart, setCart] = useState([])
     const [totalItemsPrice, setTotalItemsPrice] = useState([])
     const [sum, setSum] = useState(0);
@@ -35,11 +35,15 @@ const CartScreen = ({setVisible}) => {
                         const newItem = {...elem.product, count: elem.count};
                         const itemPrice = newItem.price * conversionRate[baseCurrency];
                         sum += newItem.count * itemPrice;
-                        totalItemsPrice.push({itemId: newItem._id, totalPrice: newItem.count * itemPrice * conversionRate[baseCurrency]});
+                        totalItemsPrice.push({
+                            itemId: newItem._id,
+                            totalPrice: newItem.count * itemPrice * conversionRate[baseCurrency]
+                        });
                         return newItem;
                     }));
                     setSum(sum);
-                    console.log(sum)
+                    if (sum)
+                        setIndVisible(true)
                 });
     }, []);
 
@@ -85,6 +89,8 @@ const CartScreen = ({setVisible}) => {
     const deleteItem = (itemId) => {
         setCart(cart.filter(elem => elem._id !== itemId))
         setSum(sum - totalItemsPrice.find(elem => elem.itemId === itemId).totalPrice)
+        if (sum - totalItemsPrice.find(elem => elem.itemId === itemId).totalPrice === 0)
+            setIndVisible(false)
         setTotalItemsPrice(totalItemsPrice.filter(elem => elem.itemId !== itemId))
         axios.delete(`https://platz-shop-api.onrender.com/api/cart/${localStorage.getItem("email")}/${itemId}`, {
             headers: {
@@ -151,7 +157,8 @@ const CartScreen = ({setVisible}) => {
 
                 <div className="total">
                     <span className="sub">total:</span>
-                    <span className="total-price">{(sum * conversionRate[baseCurrency]).toFixed(2)} {baseCurrency}</span>
+                    <span
+                        className="total-price">{(sum * conversionRate[baseCurrency]).toFixed(2)} {baseCurrency}</span>
                 </div>
 
                 <hr/>

@@ -21,6 +21,7 @@ import BusinessForm from "./components/homeComponents/BusinessForm";
 
 const App = () => {
     const [baseCurrency, setBaseCurrency] = useState('EUR');
+    const [indVisible, setIndVisible] = useState(false);
     const handleCurrencyChange = (selectedCurrency) => {
         setBaseCurrency(selectedCurrency);
     };
@@ -66,6 +67,8 @@ const App = () => {
                                 {...props}
                                 baseCurrency={baseCurrency}
                                 onCurrencyChange={handleCurrencyChange}
+                                indVisible={indVisible}
+                                setIndVisible={setIndVisible}
                             />
                         )}
                         exact
@@ -76,7 +79,14 @@ const App = () => {
                         />
                     <Route
                         path="/products/:id"
-                        render={(props) => <SingleProduct {...props} baseCurrency={baseCurrency} onCurrencyChange={handleCurrencyChange}/>}
+                        render={(props) =>
+                            <SingleProduct
+                                {...props}
+                                baseCurrency={baseCurrency}
+                                onCurrencyChange={handleCurrencyChange}
+                                indVisible={indVisible}
+                                setIndVisible={setIndVisible}
+                            />}
                     />
                     <Route
                         path="/login/:status"

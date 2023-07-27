@@ -15,7 +15,7 @@ import 'swiper/modules/pagination/pagination.scss';
 import 'swiper/modules/navigation/navigation.min.css'
 import Loader from "../components/utils/Loaders/Loader";
 
-const SingleProduct = ({match}) => {
+const SingleProduct = ({match, indVisible, setIndVisible}) => {
     const {baseCurrency, handleCurrencyChange} = useContext(CurrencyContext);
     const [product, setProduct] = useState({
         images: []
@@ -110,7 +110,7 @@ const SingleProduct = ({match}) => {
                 ? <Loader/>
                 : null}
 
-            <Header setVisible={setModal} cartEnable={true} baseCurrency={baseCurrency}
+            <Header indVisible={indVisible} setVisible={setModal} cartEnable={true} baseCurrency={baseCurrency}
                     onCurrencyChange={handleCurrencyChange}/>
             {isItemsLoading
                 ?
@@ -119,7 +119,7 @@ const SingleProduct = ({match}) => {
                 </div>
                 :
                 <>
-                    <ModalCart visible={modal} setVisible={setModal}/>
+                    <ModalCart setIndVisible={setIndVisible} visible={modal} setVisible={setModal}/>
                     <div className="container single-product">
                         <div className="row">
                             <div className="col-md-6">

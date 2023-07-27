@@ -17,7 +17,8 @@ const ShopSection = ({
                          setFilteredItems,
                          baseCurrency,
                          setCategories,
-                         categories
+                         categories,
+                         setIndVisible
                      }) => {
 
     const [currentPageNumber, setCurrentPageNumber] = useState(0);
@@ -110,7 +111,7 @@ const ShopSection = ({
                                         ? <h1>No one items(((</h1>
                                         :
                                         <>
-                                            <ModalCart visible={visible} setVisible={setVisible}/>
+                                            <ModalCart setIndVisible={setIndVisible} visible={visible} setVisible={setVisible}/>
                                             {currentPageItems.map((product) => (
                                                 <div
                                                     className="shop"

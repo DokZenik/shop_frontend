@@ -33,7 +33,7 @@ const Login = ({match}) => {
             localStorage.setItem("email", email)
             localStorage.setItem("username", resJson.username)
             localStorage.setItem("roles", JSON.stringify(resJson.roles))
-            if (resJson.roles.includes("ADMIN"))
+            if (resJson.roles.includes("ADMIN") || resJson.roles.includes("SELLER"))
                 history.push("/dashboard")
             else
                 history.push("/")

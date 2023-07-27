@@ -5,7 +5,7 @@ import Category from "./homeComponents/Category";
 import axios from "axios";
 import CurrencySelector from "./utils/Currency/CurrencySelector";
 
-const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filterEnable, profileButtonVisible, baseCurrency, onCurrencyChange,categories, setCategories}) => {
+const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filterEnable, profileButtonVisible, baseCurrency, onCurrencyChange,categories, setCategories, indVisible}) => {
     const [cartCount, setCartCount] = useState(0);
     const [prod, setProd] = useState([])
     const history = useHistory();
@@ -15,9 +15,10 @@ const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filter
 
     useEffect(() => {
         if (prod.length === 0) {
-            console.log("TEST")
+            // console.log("TEST")
             setProd(filteredItems)
         }
+        console.log(indVisible)
     }, [filteredItems])
 
 
@@ -126,8 +127,8 @@ const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filter
                                         ?
                                         <div className={"cart_icon__wrapper"} onClick={() => setVisible(true)}>
                                             <i className="fas fa-shopping-bag"></i>
-                                            {cartCount !== 0
-                                                ? <span className="badge">{cartCount}</span>
+                                            {indVisible
+                                                ? <span className="badge">*</span>
                                                 : null}
                                         </div>
                                         : null}
@@ -213,9 +214,8 @@ const Header = ({setVisible, cartEnable, filteredItems, setFilteredItems, filter
                                             setVisible(true)
                                     }}>
                                         <i className="fas fa-shopping-bag"></i>
-                                        {/*{console.log(cartCount)}*/}
-                                        {cartCount !== 0
-                                            ? <span className="badge">{cartCount}</span>
+                                        {indVisible
+                                            ? <span className="badge">*</span>
                                             : null}
 
                                     </div>

@@ -129,7 +129,8 @@ textarea:focus {
 
 .badge {
   background-color: red;
-  position: relative;
+  position: absolute;
+  left: 10px;
   top: -20px;
   border-radius: 100px;
   padding: 5px 7px;
@@ -973,6 +974,7 @@ textarea:focus {
 
 .cart_icon__wrapper {
   cursor: pointer;
+  position: relative;
 }
 
 .form {

@@ -8,11 +8,11 @@ const Product = () => {
     useEffect(() => {
         const fetchData = () => {
 
-            console.log("test1")
+            // console.log("test1")
             axios.get(`https://platz-shop-api.onrender.com/api/products/`)
                 .then(res => {
                     setProducts(res.data)
-                    console.log(products)
+                    // console.log(products)
                 })
                 .catch(e => console.log(e))
         }

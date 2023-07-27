@@ -7,21 +7,21 @@ import Footer from './../components/Footer';
 import PreFooter from "./PreFooter";
 import Banner from "./Banner";
 import {useHistory} from "react-router-dom";
-import SingleProduct from "./SingleProduct";
 import {CurrencyContext} from "../components/utils/Currency/CurrensyContext";
 import PopupMessage from "../components/homeComponents/PopupMessage";
 
-const HomeScreen = () => {
+const HomeScreen = ({indVisible, setIndVisible}) => {
     const { baseCurrency, handleCurrencyChange } = useContext(CurrencyContext);
     // window.scrollTo(0, 0);
     const [modal, setModal] = useState(false)
     const [filteredItems, setFilteredItems] = useState([]);
+    // const [indVisible, setIndVisible] = useState(true);
     const [categories, setCategories] = useState([])
     const history = useHistory()
 
     useMemo(() => {
         if (localStorage.getItem("roles"))
-            if (JSON.parse(localStorage.getItem("roles")).includes("ADMIN"))
+            if (JSON.parse(localStorage.getItem("roles")).includes("ADMIN") || JSON.parse(localStorage.getItem("roles")).includes("SELLER"))
                 history.push("/dashboard")
     }, [])
 
@@ -37,6 +37,7 @@ const HomeScreen = () => {
                     onCurrencyChange={handleCurrencyChange}
                     categories={categories}
                     setCategories={setCategories}
+                    indVisible={indVisible}
             />
             <Banner/>
             <ShopSection visible={modal}
@@ -46,6 +47,7 @@ const HomeScreen = () => {
                          baseCurrency={baseCurrency}
                          setCategories={setCategories}
                          categories={categories}
+                         setIndVisible={setIndVisible}
             />
             <CalltoActionSection/>
             <ContactInfo/>
