@@ -1193,7 +1193,15 @@ textarea:focus {
   font-weight: bold;
   cursor: pointer;
 }
-
+.static-image-mobile img{
+  display: none;
+}
+.dynamical-slider{
+  width: 75%;
+}
+.static-image img{
+  width: 100%;
+}
 
 @media (max-width: 1199px) {
   .w-30 {
@@ -1207,6 +1215,16 @@ textarea:focus {
   }
   .mobileNonVisible {
     display: none;
+  }
+  .static-image{
+    display: none;
+  }
+  .dynamical-slider{
+    width: 100%;
+  }
+  .static-image-mobile img{
+    width: 100%;
+    display: block;
   }
 }
 

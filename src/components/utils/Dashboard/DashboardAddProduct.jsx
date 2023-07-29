@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, {useState, useEffect} from "react";
 import {useFetching} from "../CustomHooks/useFetching";
+import AddCategory from "./AddCategory";
 
 const AddProduct = () => {
     const [subcategories, setSubcategories] = useState({})
@@ -51,15 +52,6 @@ const AddProduct = () => {
         fetchCategories();
     }, []);
 
-    // const fetchCategories = async () => {
-    //     try {
-    //         const response = await axios.get("https://platz-shop-api.onrender.com/api/categories");
-    //         setCategories(response.data);
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // };
-
     const handleChange = (e) => {
         setFormData({
             ...formData,
@@ -81,10 +73,10 @@ const AddProduct = () => {
         newProductData.append("name", formData.name);
         newProductData.append("description", formData.description);
         newProductData.append("price", formData.price);
-        newProductData.append("category", formData.category); // Add the selected category to the form data
+        newProductData.append("categories", formData.category);
         newProductData.append('countInStock', formData.countInStock);
         formData.images.forEach((image, index) => {
-            newProductData.append(`images`, image); // Update the field name to 'images'
+            newProductData.append(`images`, image);
         });
 
         axios
@@ -153,19 +145,26 @@ const AddProduct = () => {
                     required
                 >
                     <option value="">Select Category</option>
-                    {/*{categories.map((category) => (*/}
-                    {/*    <option key={category._id} value={category.title}>*/}
-                    {/*        {category.value}*/}
-                    {/*    </option>*/}
-                    {/*))}*/}
                     {Object.entries(subcategories).map(([category, subcategoryList]) => {
-                        return subcategoryList.map(subcat => {
-                            return subcat.items.map(item => (
-                                <option key={item.name} value={item.name}>
-                                    {item.name}
+                        if (subcategoryList.length === 0) {
+                            return (
+                                <option key={category} value={category}>
+                                    {category}
                                 </option>
-                            ))
-                        })
+                            );
+                        } else {
+                            return subcategoryList.map((subcat) => {
+                                return (
+                                    <optgroup key={subcat.name} label={subcat.name}>
+                                        {subcat.items.map((item) => (
+                                            <option key={item.name} value={item.name}>
+                                                {item.name}
+                                            </option>
+                                        ))}
+                                    </optgroup>
+                                );
+                            });
+                        }
                     })}
                 </select>
                 <input className={"form-control"} type="file" name="image" onChange={handleImageChange} multiple/>
@@ -173,6 +172,7 @@ const AddProduct = () => {
                     Add Product
                 </button>
             </form>
+            <AddCategory fetchCategories={fetchCategories} />
         </div>
     );
 };

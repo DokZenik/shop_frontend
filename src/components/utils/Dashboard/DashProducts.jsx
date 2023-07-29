@@ -11,21 +11,19 @@ import {useFetching} from "../CustomHooks/useFetching";
 const DashProducts = () => {
     const [isItemsLoading, setIsItemsLoading] = useState(false);
     const [products, setProducts] = useState([]);
-    const [image, setImage] = useState([]);
-    const [categories, setCategories] = useState([]); // Added categories state
-    const [subcategories, setSubcategories] = useState({})
+    const [categories, setCategories] = useState([]);
+    const [subcategories, setSubcategories] = useState({});
 
-    let objectForDisplay = {}
+    let objectForDisplay = {};
     const [formData, setFormData] = useState({
         name: "",
         description: "",
         price: 0,
-        image: "", // Added image field for editing
+        images: [], // Updated field name from "image" to "images"
         category: "", // Added category field
         countInStock: 0,
         editProductId: null, // Track the product ID being edited
     });
-
 
     const formCategories = (data, title) => {
         const buff = data.filter(elem => elem.title === title)
@@ -36,11 +34,11 @@ const DashProducts = () => {
             Object.entries(objectForDisplay).forEach(([category, subcategoryList]) => {
 
                 objectForDisplay[category] = data.filter(elem => elem.title === category).map(elem => {
-                    return {name: elem.value, items: []}
+                    return { name: elem.value, items: [] }
                 })
 
                 objectForDisplay[category].forEach(elem => elem.items = data.filter(item => item.title === elem.name).map(elem => {
-                    return {name: elem.value}
+                    return { name: elem.value }
                 }))
 
             })
@@ -57,7 +55,6 @@ const DashProducts = () => {
         })
     })
 
-
     useEffect(() => {
         fetchData();
         fetchCategories(); // Fetch categories when component mounts
@@ -71,27 +68,12 @@ const DashProducts = () => {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`
                 }
             });
-            setImage(response.data);
             setProducts(response.data);
-            // console.log(response.data)
             setIsItemsLoading(false);
         } catch (error) {
             console.log(error);
         }
     };
-
-    // const fetchCategories = async () => {
-    //     try {
-    //         const response = await axios.get("https://platz-shop-api.onrender.com/api/categories/", {
-    //             headers: {
-    //                 "Authorization": `Bearer ${localStorage.getItem("token")}`
-    //             }
-    //         });
-    //         setCategories(response.data);
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // };
 
     const handleChange = (e) => {
         if (e.target.name === "images") {
@@ -115,32 +97,30 @@ const DashProducts = () => {
         }
     };
 
-
     const handleEdit = (productId) => {
         const product = products.find(prod => prod._id === productId)
-        // console.log(product)
         setFormData({
             ...formData,
-            name: product.name, // Clear the form fields when starting the edit
+            name: product.name,
             description: product.description,
             price: product.price,
-            image: product.images, // Clear the image field when starting the edit
+            images: product.images, // Updated to use the "images" field
             category: product.categories[0], // Clear the category field when starting the edit
             countInStock: product.countInStock,
-            editProductId: productId, // Set the ID of the product being edited
+            editProductId: productId,
         });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const {editProductId, name, description, price, images, category, countInStock} = formData; // Updated field name from "image" to "images"
+        const { editProductId, name, description, price, images, category, countInStock } = formData;
 
         const updatedFormData = new FormData();
         updatedFormData.append("name", name);
         updatedFormData.append("description", description);
         updatedFormData.append("price", price);
-        updatedFormData.append("category", category);
+        updatedFormData.append("categories", category); // Updated field name from "category" to "categories"
         updatedFormData.append('countInStock', countInStock);
 
         // Append each image file to the form data
@@ -150,9 +130,7 @@ const DashProducts = () => {
             }
         }
 
-
         try {
-
             // Make the POST request with the updatedFormData
             await axios.post(`https://platz-shop-api.onrender.com/api/products/${editProductId}/edit`, updatedFormData, {
                 headers: {
@@ -170,6 +148,7 @@ const DashProducts = () => {
                         description: description,
                         price: price,
                         countInStock: countInStock,
+                        categories: [category]
                     };
                 }
                 return product;
@@ -214,6 +193,9 @@ const DashProducts = () => {
                         </div>
                         <div className="item__rating">
                             <Rating value={product.rating / product.numReviews} text={`${product.numReviews} reviews`}/>
+                        </div>
+                        <div>
+                            <p> {product.categories}</p>
                         </div>
 
                         {/* Render the form only if the product is being edited */}
@@ -265,9 +247,6 @@ const DashProducts = () => {
                                     required
                                 >
                                     <option value="">Select Category</option>
-                                    {/*{categories.map((category) => (*/}
-                                    {/*    <option key={category._id} value={category.title}>{category.value}</option>*/}
-                                    {/*))}*/}
                                     {Object.entries(subcategories).map(([category, subcategoryList]) => {
                                         return subcategoryList.map(subcat => {
                                             return subcat.items.map(item => (
@@ -304,7 +283,6 @@ const DashProducts = () => {
                             }} className={'btn btn-dark'}>Remove
                             </button>
                         </div>
-
                     </div>
                 ))}
             </div>

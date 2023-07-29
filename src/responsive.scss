@@ -170,13 +170,9 @@
   .search-small{
     display: block !important;
   }
-  //.mobile-top{
-  //  display: flex;
-  //  justify-content: space-between;
-  //}
-  //.search-adaptive{
-  //  display: none !important;
-  //}
+  .static-banners-mobile{
+    flex-direction: column;
+  }
   .cart__item-name{
     text-align: center;
   }

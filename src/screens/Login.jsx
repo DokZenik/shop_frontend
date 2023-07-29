@@ -33,10 +33,17 @@ const Login = ({match}) => {
             localStorage.setItem("email", email)
             localStorage.setItem("username", resJson.username)
             localStorage.setItem("roles", JSON.stringify(resJson.roles))
-            if (resJson.roles.includes("ADMIN") || resJson.roles.includes("SELLER"))
-                history.push("/dashboard")
-            else
-                history.push("/")
+            if (resJson.roles.includes("ADMIN")) {
+                history.push("/dashboard");
+            } else if (resJson.roles.includes("SELLER")) {
+                // Extract the seller ID from the response, assuming it's available in resJson.id
+                const sellerId = resJson.id;
+                // Construct the dynamic URL with the seller's ID
+                const sellerDashboardUrl = `/dashboard/${sellerId}`;
+                history.push(sellerDashboardUrl);
+            } else {
+                history.push("/");
+            }
         } else {
             setChangeMessage(false)
         }
