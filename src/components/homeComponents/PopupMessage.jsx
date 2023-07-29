@@ -7,12 +7,13 @@ const PopupMessage = () => {
     useEffect(() => {
         const popupTimer = setInterval(() => {
             setShowPopup(true);
-        }, 10000);
+        }, 100000);
 
         return () => {
             clearInterval(popupTimer);
         };
     }, []);
+
 
     const handleClosePopup = () => {
         setShowPopup(false);
