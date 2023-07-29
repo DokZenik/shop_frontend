@@ -9,6 +9,7 @@ const AddProduct = () => {
     let objectForDisplay = {}
     const [formData, setFormData] = useState({
         name: "",
+        ownerEmail: localStorage.getItem("email"),
         description: "",
         price: 0,
         images: [],
@@ -71,6 +72,7 @@ const AddProduct = () => {
         e.preventDefault();
         const newProductData = new FormData();
         newProductData.append("name", formData.name);
+        newProductData.append("ownerEmail", formData.ownerEmail);
         newProductData.append("description", formData.description);
         newProductData.append("price", formData.price);
         newProductData.append("categories", formData.category);
@@ -81,6 +83,7 @@ const AddProduct = () => {
 
         axios
             .post("https://platz-shop-api.onrender.com/api/products/", newProductData, {
+            // .post("http://localhost:5000/api/products/", newProductData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
@@ -89,6 +92,7 @@ const AddProduct = () => {
                 console.log("Product added successfully");
                 setFormData({
                     name: "",
+                    ownerEmail: localStorage.getItem("email"),
                     description: "",
                     price: 0,
                     images: [],

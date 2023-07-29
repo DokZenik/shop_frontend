@@ -17,6 +17,7 @@ const DashProducts = () => {
     let objectForDisplay = {};
     const [formData, setFormData] = useState({
         name: "",
+        ownerEmail: localStorage.getItem("email"),
         description: "",
         price: 0,
         images: [], // Updated field name from "image" to "images"
@@ -123,6 +124,7 @@ const DashProducts = () => {
 
         const updatedFormData = new FormData();
         updatedFormData.append("name", name);
+        updatedFormData.append("ownerEmail", formData.ownerEmail);
         updatedFormData.append("description", description);
         updatedFormData.append("price", price);
         updatedFormData.append("categories", category); // Updated field name from "category" to "categories"
@@ -162,6 +164,7 @@ const DashProducts = () => {
             setProducts(updatedProducts);
             setFormData({
                 name: "",
+                ownerEmail: localStorage.getItem("email"),
                 description: "",
                 price: 0,
                 images: [], // Clear the images field when submitting
