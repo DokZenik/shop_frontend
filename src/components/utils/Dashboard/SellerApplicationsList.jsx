@@ -43,7 +43,7 @@ const SellerApplicationsList = () => {
 
     const handleApprove = async () => {
         try {
-            await axios.post(`/api/seller/application/approve/${selectedApplication._id}`);
+            await axios.post(`https://platz-shop-api.onrender.com/api/seller/application/approve/${selectedApplication._id}`);
             console.log("Application Approved Successfully!");
             handleCloseModal();
             setRefresh(!refresh);
@@ -54,7 +54,7 @@ const SellerApplicationsList = () => {
 
     const handleDecline = async () => {
         try {
-            await axios.post(`/api/seller/application/decline/${selectedApplication._id}`);
+            await axios.post(`https://platz-shop-api.onrender.com/api/seller/application/decline/${selectedApplication._id}`);
             console.log("Application Declined Successfully!");
             handleCloseModal();
             setRefresh(!refresh);
