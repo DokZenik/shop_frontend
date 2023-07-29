@@ -59,8 +59,8 @@ const Dashboard = () => {
             {selectedComponent === "products" && <DashProducts />}
             {selectedComponent === "addProduct" && <AddProduct />}
             {selectedComponent === "banners" && <DashBanner />}
-            {selectedComponent === "historyOrder" && <HistoryOrders />}
-            {selectedComponent === "customers" && <SellerApplicationsList />}
+            {selectedComponent === "historyOrder" && <HistoryOrders/>}
+            {selectedComponent === "customers" && localStorage.getItem("roles").includes("ADMIN") && <SellerApplicationsList/>}
         </div>
     );
 };
