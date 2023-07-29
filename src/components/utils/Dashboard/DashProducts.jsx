@@ -63,8 +63,8 @@ const DashProducts = () => {
     const fetchData = async () => {
         setIsItemsLoading(true);
         try {
-            // const response = await axios.get("https://platz-shop-api.onrender.com/api/products/", {
-            const response = await axios.get("http://localhost:5000/api/products/", {
+            const response = await axios.get("https://platz-shop-api.onrender.com/api/products/", {
+            // const response = await axios.get("http://localhost:5000/api/products/", {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`
                 }
