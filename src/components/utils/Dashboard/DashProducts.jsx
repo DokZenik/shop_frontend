@@ -108,6 +108,7 @@ const DashProducts = () => {
         setFormData({
             ...formData,
             name: product.name,
+            ownerEmail: product.ownerEmail,
             description: product.description,
             price: product.price,
             images: product.images, // Updated to use the "images" field
@@ -120,11 +121,11 @@ const DashProducts = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const { editProductId, name, description, price, images, category, countInStock } = formData;
+        const { editProductId, name, description, price, images, category, countInStock, ownerEmail } = formData;
 
         const updatedFormData = new FormData();
         updatedFormData.append("name", name);
-        updatedFormData.append("ownerEmail", formData.ownerEmail);
+        updatedFormData.append("ownerEmail", ownerEmail);
         updatedFormData.append("description", description);
         updatedFormData.append("price", price);
         updatedFormData.append("categories", category); // Updated field name from "category" to "categories"
