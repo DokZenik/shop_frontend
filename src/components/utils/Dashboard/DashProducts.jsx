@@ -63,12 +63,17 @@ const DashProducts = () => {
     const fetchData = async () => {
         setIsItemsLoading(true);
         try {
-            const response = await axios.get("https://platz-shop-api.onrender.com/api/products/", {
+            // const response = await axios.get("https://platz-shop-api.onrender.com/api/products/", {
+            const response = await axios.get("http://localhost:5000/api/products/", {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`
                 }
             });
-            setProducts(response.data);
+            if(localStorage.getItem("roles").includes("ADMIN"))
+                setProducts(response.data);
+            else
+                setProducts(response.data.filter(item => item.ownerEmail === localStorage.getItem("email")))
+            // console.log(response.data)
             setIsItemsLoading(false);
         } catch (error) {
             console.log(error);
