@@ -22,7 +22,7 @@ const SellerApplicationsList = () => {
     useEffect(() => {
         const fetchApplications = async () => {
             try {
-                const response = await axios.get("/api/seller/applications");
+                const response = await axios.get("https://platz-shop-api.onrender.com/api/seller/applications");
                 setApplications(response.data);
             } catch (error) {
                 console.error("Error fetching applications:", error);
