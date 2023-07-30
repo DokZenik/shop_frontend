@@ -34,6 +34,7 @@ const StaticDashBanners = () => {
             formData.append('altText', altText);
 
             await axios.post('https://platz-shop-api.onrender.com/api/staticBanners', formData);
+            //req
 
             // Clear the form
             setSelectedImage(null);
