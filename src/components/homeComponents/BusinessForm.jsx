@@ -74,7 +74,7 @@ const BusinessForm = () => {
     const formHandler = (e) => {
         e.preventDefault()
         axios.post("https://platz-shop-api.onrender.com/api/seller/application/save", {formDate})
-            // axios.post("http://localhost:5000/api/seller/application/save", {formDate})
+        //     axios.post("http://localhost:5000/api/seller/application/save", {formDate})
             .then(res => {
                 if (res.status === 200)
                     setFormDate({
