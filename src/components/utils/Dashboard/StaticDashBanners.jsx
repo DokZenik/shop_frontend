@@ -12,7 +12,7 @@ const StaticDashBanners = () => {
 
     const fetchBanners = async () => {
         try {
-            const response = await axios.get('https://platz-shop-api.onrender.com/api/static-banners');
+            const response = await axios.get('https://platz-shop-api.onrender.com/api/staticBanners');
             setBanners(response.data);
         } catch (error) {
             console.error('Error fetching banners:', error);
@@ -33,7 +33,7 @@ const StaticDashBanners = () => {
             formData.append('image', selectedImage);
             formData.append('altText', altText);
 
-            await axios.post('https://platz-shop-api.onrender.com/api/static-banners', formData);
+            await axios.post('https://platz-shop-api.onrender.com/api/staticBanners', formData);
 
             // Clear the form
             setSelectedImage(null);
@@ -48,7 +48,7 @@ const StaticDashBanners = () => {
 
     const deleteBanner = async (id) => {
         try {
-            await axios.delete(`https://platz-shop-api.onrender.com/api/static-banners/${id}`);
+            await axios.delete(`https://platz-shop-api.onrender.com/api/staticBanners/${id}`);
 
             // Refresh the banners
             fetchBanners();

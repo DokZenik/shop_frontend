@@ -76,9 +76,9 @@ const BusinessForm = () => {
     const handleCheckboxChange = (e) => {
         setNoLinks(e.target.checked);
     };
-    const formHandler = async (e) => {
+    const formHandler = (e) => {
         e.preventDefault()
-         await axios.post("https://platz-shop-api.onrender.com/api/seller/application/save", {formDate})
+        axios.post("https://platz-shop-api.onrender.com/api/seller/application/save", {formDate})
             // axios.post("http://localhost:5000/api/seller/application/save", {formDate})
             .then(res => {
                 if (res.status === 200)
