@@ -7,6 +7,11 @@ import {Link} from "react-router-dom";
 
 const BusinessForm = () => {
     const [noLinks, setNoLinks] = useState(false);
+
+    const [messageVisible, setMessageVisible] = useState(false)
+    const [messageStatus, setMessageStatus] = useState(200)
+    const [message, setMessage] = useState("Something was wrong. Please try later")
+
     const [categories, setCategories] = useState([]);
     const [subcategories, setSubcategories] = useState([]);
     let objectForDisplay = {}
@@ -71,9 +76,9 @@ const BusinessForm = () => {
     const handleCheckboxChange = (e) => {
         setNoLinks(e.target.checked);
     };
-    const formHandler = (e) => {
+    const formHandler = async (e) => {
         e.preventDefault()
-        axios.post("https://platz-shop-api.onrender.com/api/seller/application/save", {formDate})
+         await axios.post("https://platz-shop-api.onrender.com/api/seller/application/save", {formDate})
             // axios.post("http://localhost:5000/api/seller/application/save", {formDate})
             .then(res => {
                 if (res.status === 200)
@@ -90,16 +95,28 @@ const BusinessForm = () => {
                     })
                 else
                     console.log("something was wrong")
+                setMessageStatus(200)
+                setMessage(res.data.message)
             })
             .catch(e => {
-
+                setMessageStatus(400)
+                setMessage(e.response.data.message)
             })
+        setMessageVisible(true)
     }
     return (
         <>
 
-            <div className={'container-sm mt-5 d-flex justify-content-center'}>
-                <Form className={'w-50 d-flex flex-wrap gap-5 justify-content-start businessForm'} onSubmit={formHandler}
+            <div className={'container-sm mt-5 d-flex justify-content-center align-items-center flex-column gap-5'}>
+                {messageVisible
+                    ? messageStatus === 200
+                        ? <div className="login__message message-success">{message}</div>
+                        : <div className="login__message message-alert">{message}</div>
+
+                    : null}
+
+                <Form className={'w-50 d-flex flex-wrap gap-5 justify-content-start businessForm'}
+                      onSubmit={formHandler}
                       action={"#"}>
                     <Form.Group>
                         <Form.Label>Name</Form.Label>
