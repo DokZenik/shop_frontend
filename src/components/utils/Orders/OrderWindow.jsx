@@ -4,9 +4,9 @@ import {CurrencyContext} from "../Currency/CurrensyContext";
 
 const OrderWindow = ({orderItems, setVisible, baseCurrency}) => {
     const [conversionRate, setConversionRate] = useState({
-        CZK: 21.50,
-        EUR: 1.00,
-        PLN: 4.55
+        CZK: 1,
+        EUR: 0.0465,
+        PLN: 0.2198
     });
     let sum = 0;
     return (

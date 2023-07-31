@@ -38,6 +38,9 @@ const AddCategory = ({ fetchCategories }) => {
             })
             .catch((e) => console.log(e));
     };
+    if (!localStorage.getItem("roles").includes("ADMIN")) {
+        return null;
+    }
 
     return (
         <form onSubmit={handleCategorySubmit} className={"d-flex gap-3 flex-column w-25"}>

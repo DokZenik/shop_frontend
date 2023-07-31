@@ -11,7 +11,7 @@ const StaticBanners = () => {
 
     const fetchStaticBanners = async () => {
         try {
-            const response = await axios.get('https://platz-shop-api.onrender.com/api/static-banners');
+            const response = await axios.get('https://platz-shop-api.onrender.com/api/staticBanners');
             setStaticBanners(response.data);
         } catch (error) {
             console.error('Error fetching static banners:', error);
